@@ -1,16 +1,16 @@
 ---
 name: Bug report
-about: Create a report to help me improve
+about: Create a report to improve the software
 title: "[BUG]"
 labels: bug
 assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Description:**
+A description of what the bug is.
 
-**To Reproduce**
+**To Reproduce:**
 Steps to reproduce the behavior:
 
 1. Go to '...'
@@ -18,16 +18,12 @@ Steps to reproduce the behavior:
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Expected behavior:**
+A description of what you expected to happen.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Screenshots:**
+If applicable, add screenshots to help explain your problem. Not necessary, but very helpful.
 
-**Desktop (please complete the following information):**
-
-* OS: [e.g. Windows]
-* Version [e.g. 10]
-
-**Additional context**
-Add any other context about the problem here.
+**Additional info:**
+* OS: [e.g. Windows 10]
+* Commit: [e.g. c9f16fe]

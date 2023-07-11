@@ -1,0 +1,39 @@
+table.memberdecls:has(a[name=pro-slots]) tr {
+  display: none;
+}
+
+table.memberdecls:has(a[name=pro-static-methods]) tr {
+  display: none;
+}
+
+table.memberdecls:has(a[name=pro-methods]) tr {
+  display: none;
+}
+
+table.memberdecls:has(a[name=pro-static-attribs]) tr {
+  display: none;
+}
+
+table.memberdecls:has(a[name=pro-attribs]) tr {
+  display: none;
+}
+
+table.memberdecls:has(a#pro-slots) tr {
+  display: none;
+}
+
+table.memberdecls:has(a#pro-static-methods) tr {
+  display: none;
+}
+
+table.memberdecls:has(a#pro-methods) tr {
+  display: none;
+}
+
+table.memberdecls:has(a#pro-static-attribs) tr {
+  display: none;
+}
+
+table.memberdecls:has(a#pro-attribs) tr {
+  display: none;
+}

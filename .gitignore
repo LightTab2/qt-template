@@ -1,5 +1,6 @@
 [Bb]uild/*
-[Dd]ocs/*
+[Cc]onan/*
+![Cc]onan/conanfile.txt
 CMakeCache.*
 CMakeFiles/*
 [Tt]esting/*
@@ -240,6 +241,7 @@ _pkginfo.txt
 ClientBin/
 ~$*
 *~
+*.swp
 *.dbmdl
 *.dbproj.schemaview
 *.jfm
@@ -366,3 +368,6 @@ healthchecksdb
 
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 MigrationBackup/
+
+# Vim backups
+*~

@@ -1,55 +1,93 @@
 name: Ubuntu
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: 
+      - master
+  workflow_run:
+    workflows: 
+      - AutoTag
+    types:
+      - completed
 
 env:
   BUILD_TYPE: Release
-  INSTALL_LOCATION: .local
+  CMAKE_BUILD_TYPE: Release
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
-
+  build_and_deploy:
+    runs-on: ubuntu-20.04
+    if: "${{ github.event.workflow_run.conclusion == 'success' }} && !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
     steps:
-    - uses: actions/checkout@v2
+      - name: Extract repository name
+        id: repoName
+        run: |
+          REPO_NAME=$(echo ${GITHUB_REPOSITORY} | cut -d '/' -f 2)
+          echo "name=$REPO_NAME" >> $GITHUB_OUTPUT
+
+      - name: Checkout 
+        uses: actions/checkout@v3
+
+      - name: Get tags
+        run: git fetch --tags origin
+
+      - name: Get Version Name
+        id: versionTag
+        run: |
+          LAST_TAGGED_COMMIT=$(git rev-list --tags --max-count=1)
+          TAG=$(git describe --tags $LAST_TAGGED_COMMIT)
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip' # caching pip dependencies
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Conan 
+        run: |
+          conan profile detect
+          conan install --build=missing conan/
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '6.5.*'
+          cache: 'true'
+          cache-key-prefix: 'install-qt-action'
+
+      - name: Configure
+        run: cmake -Bbuild -DCMAKE_TOOLCHAIN_FILE="conan/conan_toolchain.cmake"
+        
+      - name: Build
+        run: cmake --build build --config Release --target install -j4
+
+      - name: Download and run LinuxDeployQt
+        run: |
+          sudo apt-get install -y libxcb-cursor-dev
+          wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+          wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
+          chmod +x linuxdeploy-x86_64.AppImage
+          chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
+          #export QML_SOURCES_PATHS=./src
+          export OUTPUT=${{ steps.repoName.outputs.name }}.AppImage
+          mkdir ./AppDir
+          cp ./icon/icon_32x32.png ./AppDir/icon_32x32.png
+          ./linuxdeploy-x86_64.AppImage --appdir ./AppDir --executable ./build/${{ steps.repoName.outputs.name }} --desktop-file ./config.desktop -i ./icon/icon_16x16.png -i ./icon/icon_32x32.png -i ./icon/icon_48x48.png -i ./icon/icon_64x64.png -i ./icon/icon_128x128.png -i ./icon/icon_256x256.png --plugin qt --output appimage
+          
+      - name: Run tests
+        run: |
+          cd ./build/
+          QT_QPA_PLATFORM=offscreen ctest -C release -VV
       
-    - name: cache dependencies
-      uses: actions/cache@v2
-      id: cache
-      with:
-        path: ${{ github.workspace }}/${{ env.INSTALL_LOCATION }}
-        key: ${{ runner.os }}-dependencies
-
-    - name: install GoogleTest
-      if: ${{ steps.cache.output.cache-hit != 'true' }}
-      run: |
-        cd ..
-        git clone https://github.com/google/googletest.git --branch release-1.10.0
-        cd googletest
-        cmake -Bbuild -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/$INSTALL_LOCATION
-        cmake --build build --config Release
-        cmake --build build --target install --config Release
-
-    - name: configure
-      run: cmake -Bbuild -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/$INSTALL_LOCATION -DProject_ENABLE_CODE_COVERAGE=1
-      
-    - name: build
-      run: cmake --build build --config $BUILD_TYPE -j4
-
-    - name: run tests
-      run: |
-        cd build
-        ctest -C $BUILD_TYPE -VV
-
-    - name: Code coverage using Codecov 
-      run: bash <(curl -s https://codecov.io/bash) 
-
-    - name: install project
-      run: cmake --build build --target install --config Release 
-
+      - name: Create release artifact
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./${{ steps.repoName.outputs.name }}.AppImage
+          prerelease: true
+          draft: false
+          tag_name: ${{ steps.versionTag.outputs.tag }}
+          token: ${{ secrets.GITHUB_TOKEN }}

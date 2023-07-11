@@ -1,206 +1,311 @@
-[![Actions Status](https://github.com/filipdutescu/modern-cpp-template/workflows/MacOS/badge.svg)](https://github.com/filipdutescu/modern-cpp-template/actions)
-[![Actions Status](https://github.com/filipdutescu/modern-cpp-template/workflows/Windows/badge.svg)](https://github.com/filipdutescu/modern-cpp-template/actions)
-[![Actions Status](https://github.com/filipdutescu/modern-cpp-template/workflows/Ubuntu/badge.svg)](https://github.com/filipdutescu/modern-cpp-template/actions)
-[![codecov](https://codecov.io/gh/filipdutescu/modern-cpp-template/branch/master/graph/badge.svg)](https://codecov.io/gh/filipdutescu/modern-cpp-template)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/filipdutescu/modern-cpp-template)](https://github.com/filipdutescu/modern-cpp-template/releases)
+[![Actions Status](https://github.com/lighttab2/qt-template/workflows/MacOS/badge.svg)](https://github.com/lighttab2/qt-template/actions)
+[![Actions Status](https://github.com/lighttab2/qt-template/workflows/Windows/badge.svg)](https://github.com/lighttab2/qt-template/actions)
+[![Actions Status](https://github.com/lighttab2/qt-template/workflows/Ubuntu/badge.svg)](https://github.com/lighttab2/qt-template/actions)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/lighttab2/qt-template)](https://github.com/lighttab2/qt-template/releases)
 
-# Modern C++ Template
+# [Project name]
+[Project logo]
 
-A quick C++ template for modern CMake projects, aimed to be an easy to use
-starting point.
+[Cool PNGs to attract people]
 
-This is my personal take on such a type of template, thus I might not use the
-best practices or you might disagree with how I do things. Any and all feedback
-is greatly appreciated!
+<p align="center">
+  <img src="pages/doxygen_dark.png" alt="Doxygen example" width="49.5%" title="Doxygen Dark Theme"/>
+  <img src="pages/doxygen_dark2.png" alt="Doxygen example 2" width="49.5%" title="Doxygen Dark Theme"/>
+</p>
+
+[Project short info]
+
+[Project usage example GIFs]
+
+## Prerequisites
+
+* **CMake v3.21+** &ndash; found at [https://cmake.org/](https://cmake.org/)
+
+* **Python 3** &ndash; found at [https://www.python.org/](https://www.python.org/)
+    * **Conan** &ndash; `pip install conan`
+
+* **Qt 6** &ndash; found at [https://www.qt.io/](https://www.qt.io/)
+
+* **C++ compiler that can compile Qt** &ndash; needs to support the **C++17** standard:
+    * [Linux](https://doc.qt.io/qt-6/linux.html)
+    * [Windows](https://doc.qt.io/qt-6/windows.html)
+    * [macOS](https://doc.qt.io/qt-6/macos.html)
+
+## Install
+
+### Install packages using *Conan*:
+
+```bash
+conan install conan/ --build=missing
+```
+
+### [Simply run *CMake*:](https://cmake.org/runningcmake/)
+
+```bash
+cmake . -G [generator] -T [toolset] --build [PathToBuiltProject]
+```
+
+Example:
+
+```bash
+cmake . -G "Visual Studio 16 2019" -T v143 -Bbuild
+```
+
+### Build the project
+
+You can use your local *IDE* or *CMake* again:
+
+```bash
+cmake --build [pathToBuiltProject] --config [configuration] -j4 -DCMAKE_TOOLCHAIN_FILE=[pathToConanToolchainFile]
+```
+
+Example:
+
+```bash
+cmake --build build --config release -j4 -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake
+```
 
 ## Features
+[List of features]
 
-* Modern **CMake** configuration and project, which, to the best of my
-knowledge, uses the best practices,
+## Troubleshooting
 
-* An example of a **Clang-Format** config, inspired from the base *Google* model,
-with minor tweaks. This is aimed only as a starting point, as coding style
-is a subjective matter, everyone is free to either delete it (for the *LLVM*
-default) or supply their own alternative,
+<details><summary>Need to add a new library</summary>
 
-* **Static analyzers** integration, with *Clang-Tidy* and *Cppcheck*, the former
-being the default option,
+If this is not a *Qt* library, modify _conan/conanfile.txt_:
 
-* **Doxygen** support, through the `ENABLE_DOXYGEN` option, which you can enable
-if you wish to use it,
+```ini
+[requires]
+{...Other libraries...}
+{Your Library Name Here Taken From https://conan.io/center/}
 
-* **Unit testing** support, through *GoogleTest* (with an option to enable
-*GoogleMock*) or *Catch2*,
-
-* **Code coverage**, enabled by using the `ENABLE_CODE_COVERAGE` option, through
-*Codecov* CI integration,
-
-* **Package manager support**, with *Conan* and *Vcpkg*, through their respective
-options
-
-* **CI workflows for Windows, Linux and MacOS** using *GitHub Actions*, making
-use of the caching features, to ensure minimum run time,
-
-* **.md templates** for: *README*, *Contributing Guideliness*,
-*Issues* and *Pull Requests*,
-
-* **Permissive license** to allow you to integrate it as easily as possible. The
-template is licensed under the [Unlicense](https://unlicense.org/),
-
-* Options to build as a header-only library or executable, not just a static or
-shared library.
-
-* **Ccache** integration, for speeding up rebuild times
-
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local
-machine for development and testing purposes.
-
-### Prerequisites
-
-This project is meant to be only a template, thus versions of the software used
-can be change to better suit the needs of the developer(s). If you wish to use the
-template *as-is*, meaning using the versions recommended here, then you will need:
-
-* **CMake v3.15+** - found at [https://cmake.org/](https://cmake.org/)
-
-* **C++ Compiler** - needs to support at least the **C++17** standard, i.e. *MSVC*,
-*GCC*, *Clang*
-
-> ***Note:*** *You also need to be able to provide ***CMake*** a supported
-[generator](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html).*
-
-### Installing
-
-It is fairly easy to install the project, all you need to do is clone if from
-[GitHub](https://github.com/filipdutescu/modern-cpp-template) or
-[generate a new repository from it](https://github.com/filipdutescu/modern-cpp-template/generate)
-(also on **GitHub**).
-
-If you wish to clone the repository, rather than generate from it, you simply need
-to run:
-
-```bash
-git clone https://github.com/filipdutescu/modern-cpp-template/
+[generators]
+CMakeDeps
+CMakeToolchain
 ```
 
-After finishing getting a copy of the project, with any of the methods above, create
-a new folder in the `include/` folder, with the name of your project.  Edit
-`cmake/SourcesAndHeaders.cmake` to add your files.
+Example:
 
-You will also need to rename the `cmake/ProjectConfig.cmake.in` file to start with
-the ***exact name of your project***. Such as `cmake/MyNewProjectConfig.cmake.in`.
-You should also make the same changes in the GitHub workflows provided, notably
-[`.github/workflows/ubuntu.yml`](.github/workflows/ubuntu.yml), in which you should
-replace the CMake option `-DProject_ENABLE_CODE_COVERAGE=1` to
-`-DMyNewProject_ENABLE_CODE_COVERAGE=1`.
+```ini
+[requires]
+zlib/1.2.11
+libcurl
 
-Finally, change `"Project"` from `CMakeLists.txt`, from
+[generators]
+CMakeDeps
+CMakeToolchain
+```
+
+Remember to run *Conan* after the changes:
+
+```bash
+conan install conan/ --build=missing
+```
+
+Now they are available but not added to the *CMake* project itself. To do that, **modify** _cmake/Modules.cmake_:
 
 ```cmake
-project(
-  "Project"
-  VERSION 0.1.0
-  LANGUAGES CXX
-)
+set(Modules {Libraries From Conan})
+set(QtModules {Qt Modules})
 ```
 
-to the ***exact name of your project***, i.e. using the previous name it will become:
+Example:
 
 ```cmake
-project(
-  MyNewProject
-  VERSION 0.1.0
-  LANGUAGES CXX
-)
+set(Modules ZLIB libcurl)
+set(QtModules Widgets Network)
 ```
 
-To install an already built project, you need to run the `install` target with CMake.
-For example:
+If your library cannot be found on *ConanCenter*, you could try going for [Artifactory](https://docs.conan.io/2/), but this requires some effort. You can always use plain *CMake* and modify `CMakeLists.txt`, preferably including another *CMake* file in `cmake` directory.
+
+</details>
+
+<details><summary>Qt is not found, despite being installed</summary>
+
+Ensure that these **environment variables** are set properly:
+
+* **Qt6_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6`<br/>example: `C:/Qt/6.5.1/msvc2019_64/lib/cmake/Qt6`
+
+* **Qt6GuiTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6GuiTools`<br/>example: `/usr/lib/x86_64-linux-gnu/6.5.1/clang_64/lib/cmake/Qt6GuiTools`
+
+* **Qt6CoreTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6CoreTools`<br/>example: `D:/Qt/6.3/msvc2019_64/lib/cmake/Qt6CoreTools`
+</details>
+
+<details><summary>Missing or wrong libraries | Profile errors</summary>
+
+Ensure `conan/conanfile.txt` has listed all the needed libraries under `[requires]` section.
+Run:
 
 ```bash
-cmake --build build --target install --config Release
-
-# a more general syntax for that command is:
-cmake --build <build_directory> --target install --config <desired_config>
+conan install conan/ --build=missing
 ```
 
-## Building the project
-
-To build the project, all you need to do, ***after correctly
-[installing the project](README.md#Installing)***, is run a similar **CMake** routine
-to the the one below:
+In case of a **wrong architecture** of the libraries and other possible **profile errors**, read: [https://docs.conan.io/2.0/reference/config_files/profiles.html](https://docs.conan.io/2.0/reference/config_files/profiles.html)<br/>
+If you don't have a profile, create one:
 
 ```bash
-mkdir build/ && cd build/
-cmake .. -DCMAKE_INSTALL_PREFIX=/absolute/path/to/custom/install/directory
-cmake --build . --target install
+conan profile new default --detect
 ```
 
-> ***Note:*** *The custom ``CMAKE_INSTALL_PREFIX`` can be omitted if you wish to
-install in [the default install location](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html).*
+</details>
 
-More options that you can set for the project can be found in the
-[`cmake/StandardSettings.cmake` file](cmake/StandardSettings.cmake). For certain
-options additional configuration may be needed in their respective `*.cmake` files
-(i.e. Conan needs the `CONAN_REQUIRES` and might need the `CONAN_OPTIONS` to be setup
-for it work correctly; the two are set in the [`cmake/Conan.cmake` file](cmake/Conan.cmake)).
+<details><summary>Changing the name of the project</summary>
 
-## Generating the documentation
+To change the name of the project, you must correct a few entries:
+ 
+<ul style="list-style-type:none;">
+<li><details><summary><code>CMakeLists.txt</code></summary>
+By default, the file starts with:
 
-In order to generate documentation for the project, you need to configure the build
-to use Doxygen. This is easily done, by modifying the workflow shown above as follows:
+```cmake
+cmake_minimum_required(VERSION 3.21)
+
+project("qt-template"
+        LANGUAGES CXX)
+```
+
+Change `"qt-template"` to the name of your project.
+        
+Example:
+
+```cmake
+cmake_minimum_required(VERSION 3.21)
+
+project("myproject"
+        LANGUAGES CXX)
+```
+    
+If you host your project on a *GitHub* repository and wish to use *GitHub Actions* for automatic deployment, you must provide a name that matches the **repository name**. It has to be **lowercase**. Otherwise, you need to change `${{ steps.repoName.outputs.name }}` to your **project's executable/library name** (it is the **CMake project name**, unless you tinkered with `CMakeLists.txt`) in these files:
+* `.github/workflows/macos.yml`
+* `.github/workflows/ubuntu.yml`
+* `.github/workflows/windows.yml`
+
+If the name contains *whitespace characters*, you will need to enclose the entire entry in either `"` or `'`. Example:
+
+```yaml
+files: build/install/${{ steps.repoName.outputs.name }}_macOS_${{ steps.versionTag.outputs.tag }}.tar.gz
+```
+
+Becomes:
+
+```yaml
+files: "build/install/Parrots and Cats_macOS_${{ steps.versionTag.outputs.tag }}.tar.gz"
+```
+
+</details>
+</li>
+<li><details><summary><code>config.desktop</code></summary>
+
+The `Exec` option should contain the **project's executable/library name** (it is **CMake project name**, unless you tinkered with `CMakeLists.txt`), while the `Name` is up to your choice. 
+
+Change these entries:
+
+```ini
+Name=Qt Template
+Exec=qt-template
+```
+
+Example:
+
+```ini
+Name=Parrots That Sing
+Exec=birds-and-stuff
+```
+
+</details>
+</li>
+</ul>
+</details>
+
+<details><summary>Changing the icon of the project</summary>
+
+Put your **icon image** in **PNG** format into a folder `icon/` and **rename** it, so it matches this convention:
+
+```ini
+icon_[width]x[height].png
+```
+
+Example:
+
+```
+icon_256x256.png
+```
+
+The resolution should be one of these:
+* 16x16
+* 32x32
+* 48x48
+* 64x64
+* 128x128
+* 256x256
+
+Further below, I will mention some *scripts* that use [ImageMagick](https://imagemagick.org/index.php), so you need to install it, if you want to use them. On *Ubuntu*, it can be done by:
+```bash
+sudo apt install imagemagick
+```
+
+Beware that depending on your **OS version**, you can get either *ImageMagick 6* or *ImageMagick 7*. *Unix scripts* contain `[script]_ImageMagick7.sh` versions, in case you did not obtain *ImageMagick 6*, but *ImageMagick 7*.
+
+You can provide an icon with **any** resolution, and it will be **rescaled** to the other **valid resolutions**, if you use the script:
+<ul style="list-style-type:none;">
+<li><details><summary>Windows</summary><code>/icon/WinScripts/rescale.bat</code></details></li>
+<li><details><summary>Unix</summary><code>/icon/UnixScripts/rescale.sh</code> or <code>/icon/UnixScripts/rescale_ImageMagick7.sh</code> </details></li>
+</ul>
+
+If there are multiple icons with **different resolutions**, the **highest resolution** will be used to create other **valid** icons. They will **overwrite** any already existing ones! If you want to use **different icons** for **different resolutions**, provide them manually and do not use the script.
+
+This is sufficient for *Linux*, but there are two other scripts, so the *Windows* and *macOS* applications will have icons too.
+
+To generate an icon for *Windows*, use:
+<ul style="list-style-type:none;">
+<li><details><summary>Windows</summary><code>/icon/WinScripts/createIco.bat</code></details></li>
+<li><details><summary>Unix</summary><code>/icon/UnixScripts/createIco.sh</code> or <code>/icon/UnixScripts/createIco_ImageMagick7.sh</code></details></li>
+</ul>
+
+*macOS* icon is slightly tricky on *Windows*, as we do not have a ready script. I recommend using [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) or another form of virtualization (i.e.: [VirtualBox](https://www.virtualbox.org/) or [Docker](https://www.docker.com/)) and running the *Unix script* `/icon/UnixScripts/createIcns.sh`.\
+If you are on *macOS*, you can do this the **native way**, using [iconutil](https://stackoverflow.com/questions/12306223/how-to-manually-create-icns-files-using-iconutil). Otherwise, run `/icon/UnixScripts/createIcns.sh`, which requires `png2icns` library. On *Ubuntu* you can install it by:
 
 ```bash
-mkdir build/ && cd build/
-cmake .. -D<project_name>_ENABLE_DOXYGEN=1 -DCMAKE_INSTALL_PREFIX=/absolute/path/to/custom/install/directory
-cmake --build . --target doxygen-docs
+sudo apt install icnsutils
+```
+    
+</details>
+
+<details><summary>Docs shouldn't contain private members</summary>
+
+If your project is a library, you might not want to add the private and protected members to your documentation. Editing one line in `.github/workflows/doxygen.yml` can change this behaviour. Find this step:
+
+```yaml
+- name: Generate documents and deploy
+    uses: DenverCoder1/doxygen-github-pages-action@v1.3.0
+    with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: docs
+        config_file: doxygen/Doxyfile_dev
 ```
 
-> ***Note:*** *This will generate a `docs/` directory in the **project's root directory**.*
+And change it to:
 
-## Running the tests
-
-By default, the template uses [Google Test](https://github.com/google/googletest/)
-for unit testing. Unit testing can be disabled in the options, by setting the
-`ENABLE_UNIT_TESTING` (from
-[cmake/StandardSettings.cmake](cmake/StandardSettings.cmake)) to be false. To run
-the tests, simply use CTest, from the build directory, passing the desire
-configuration for which to run tests for. An example of this procedure is:
-
-```bash
-cd build          # if not in the build directory already
-ctest -C Release  # or `ctest -C Debug` or any other configuration you wish to test
-
-# you can also run tests with the `-VV` flag for a more verbose output (i.e.
-#GoogleTest output as well)
+```yaml
+- name: Generate documents and deploy
+    uses: DenverCoder1/doxygen-github-pages-action@v1.3.0
+    with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: docs
+        config_file: doxygen/Doxyfile
 ```
 
-### End to end tests
+ If you want to further customize output and its display, all files related to documentation are stored in `/doxygen` folder. 
 
-If applicable, should be presented here.
 
-### Coding style tests
-
-If applicable, should be presented here.
+</details>
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our how you can
-become a contributor and the process for submitting pull requests to us.
-
-## Versioning
-
-This project makes use of [SemVer](http://semver.org/) for versioning. A list of
-existing versions can be found in the
-[project's releases](https://github.com/filipdutescu/modern-cpp-template/releases).
-
-## Authors
-
-* **Filip-Ioan Dutescu** - [@filipdutescu](https://github.com/filipdutescu)
+This project follows these [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines), and it would be fun if you followed them too. If you don't, someone will correct your code. An ugly contribution is better than no contribution. **Thanks**!
 
 ## License
 
-This project is licensed under the [Unlicense](https://unlicense.org/) - see the
-[LICENSE](LICENSE) file for details
+This project is licensed under the [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/); see the
+[LICENSE](LICENSE) file for details.
+It also uses the [Qt](https://www.qt.io/) library and possibly some of its additional modules that are licensed under the [LGPL](https://www.gnu.org/licenses/lgpl-3.0.en.html), but **none** of its code is present in this repository. Also note that *Qt* itself uses [other third-party libraries](https://doc.qt.io/qt-6/licenses-used-in-qt.html) under **different** license terms.

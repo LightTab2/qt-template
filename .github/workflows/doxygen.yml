@@ -1,0 +1,60 @@
+name: Doxygen
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  create_docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout docs branch 
+        uses: actions/checkout@v3
+        with:
+          ref: docs
+
+      - name: Rite of Purification
+        run: |
+          rm -R ./* --force
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Remove all files"
+
+      - name: Checkout master branch
+        uses: actions/checkout@v3
+        with:
+          ref: master
+
+      - name: Add Doxygen Awesome CSS as submodule
+        run: git submodule add https://github.com/jothepro/doxygen-awesome-css.git
+
+      - name: Generate documents and deploy
+        uses: DenverCoder1/doxygen-github-pages-action@v1.3.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: docs
+          config_file: doxygen/Doxyfile_dev
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: docs
+
+      - name: Copy font
+        run: |
+          git fetch origin master:master
+          git checkout master -- doxygen/font
+          mv doxygen/font font
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Add Doxygen Awesome CSS"
+
+      - name: Push changes to docs branch
+        run: git push origin HEAD:docs

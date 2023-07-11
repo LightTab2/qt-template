@@ -1,0 +1,591 @@
+html {
+  --font-family: Noto Sans, Helvetica, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Neue, sans-serif;
+  --font-family-monospace: Fantasque Sans Mono, ui-monospace, SFMono-Regular, SF Mono,Menlo, Consolas, Liberation Mono, monospace;
+  --page-font-size: 12.8px;
+  --navigation-font-size: 13.8px;
+  --top-height: 110px;
+  --toc-font-size: 13.4px;
+  --code-font-size: 14px;
+  --title-font-size: 26px;
+  --content-line-height: 19px;
+  --content-maxwidth: 98%;
+  --content-maxwidth: 98%;
+  --table-line-height: 22px;
+  --border-radius-small: 0;
+  --spacing-small: 3px;
+  --spacing-medium: 5px;
+  --spacing-large: 12px;
+  --side-nav-fixed-width: 300px;
+  --tree-item-height: 19.5px;
+  --fragment-lineheight: 17.4px;
+  --searchbar-height: 27px;
+  --foreground: rgb(0, 0, 0);
+  --header-foreground: var(--foreground);
+  --separator-color: rgb(73, 86, 111);
+  --side-nav-foreground: var(--foreground);
+  --side-nav-background: rgb(230, 230, 230);
+  --page-foreground-color: var(--foreground);
+  --page-secondary-foreground-color: rgb(121, 121, 121);
+  --memitem-color: rgb(240, 240, 240);
+  --header-background: rgb(235, 235, 235);
+  --code-background: rgb(220, 220, 220);
+  --indifferent-color: var(--code-background);
+  --public-color: rgb(0, 255, 0);
+  --protected-color: rgb(155, 94, 3);
+  --private-color: rgb(211, 0, 0);
+  --fragment-background: var(--code-background);
+  --friends-color: rgb(209, 145, 103);
+  --types-color: rgb(199, 58, 199);
+  --slots-color: rgb(0, 204, 41);
+  --signals-color: rgb(161, 13, 13);
+  --static-methods-color: rgb(78, 253, 189);
+  --methods-color: rgb(117, 187, 128);
+  --static-attribs-color: rgb(164, 176, 231);
+  --attribs-color: rgb(175, 179, 201);
+  --friends-memproto-color: var(--friends-color);
+  --types-memproto-color: var(--types-color);
+  --slots-memproto-color: var(--foreground);
+  --signals-memproto-color: var(--foreground);
+  --static-memproto-color: var(--foreground);
+  --public-memproto-color: var(--public-color);
+  --protected-memproto-color: var(--protected-color);
+  --private-memproto-color: var(--private-color);
+  --friends-mlabel-color: rgb(182, 108, 0);
+  --types-mlabel-color: rgb(35, 21, 35);
+  --slots-mlabel-color: rgb(147, 48, 16);
+  --signals-mlabel-color: rgb(10, 171, 43);
+  --static-mlabel-color: rgb(46, 171, 180);
+  --protected-mlabel-color: rgb(247, 152, 10);
+  --private-mlabel-color: rgb(133, 7, 7);
+  --const-color: rgb(78, 78, 13);
+  --const-mlabel-color: rgb(151, 151, 32);
+  --noexcept-mlabel-color: rgb(85, 85, 85);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not(.light-mode) {
+    --foreground: rgb(221, 221, 221);
+    --header-foreground: var(--foreground);
+    --separator-color: rgb(73, 86, 111);
+    --side-nav-foreground: var(--foreground);
+    --side-nav-background: rgb(23, 23, 23);
+    --page-foreground-color: var(--foreground);
+    --page-secondary-foreground-color: rgb(156, 156, 156);
+    --page-background-color: rgb(6, 6, 6);
+    --memitem-color: rgb(12, 12, 12);
+    --header-background: rgb(18, 18, 18);
+    --even-color: rgb(0, 0, 57);
+    --odd-color: rgb(6, 7, 30);
+    --levels-color: rgb(11, 0, 81);
+    --code-background: rgb(28, 28, 28);
+    --indifferent-color: var(--code-background);
+    --public-color: rgb(11, 47, 11);
+    --protected-color: rgb(65, 43, 11);
+    --private-color: rgb(63, 11, 11);
+    --fragment-background: var(--code-background);
+    --friends-color: rgb(16, 10, 6);
+    --types-color: rgb(15, 7, 15);
+    --slots-color: rgb(9, 24, 12);
+    --signals-color: rgb(28, 8, 8);
+    --static-methods-color: rgb(12, 20, 17);
+    --methods-color: rgb(6, 13, 7);
+    --static-attribs-color: rgb(15, 18, 32);
+    --attribs-color: rgb(8, 10, 20);
+    --friends-memproto-color: rgb(36, 26, 22);
+    --types-memproto-color: rgb(35, 21, 35);
+    --slots-memproto-color: rgb(213, 48, 48);
+    --signals-memproto-color: rgb(67, 209, 96);
+    --static-memproto-color: rgb(41, 221, 231);
+    --public-memproto-color: rgb(11, 27, 11);
+    --protected-memproto-color: rgb(30, 19, 7);
+    --private-memproto-color: rgb(32, 7, 7);
+    --friends-mlabel-color: rgb(182, 108, 0);
+    --types-mlabel-color: rgb(35, 21, 35);
+    --slots-mlabel-color: rgb(250, 60, 0);
+    --signals-mlabel-color: rgb(10, 171, 43);
+    --static-mlabel-color: rgb(46, 171, 180);
+    --protected-mlabel-color: rgb(129, 106, 82);
+    --private-mlabel-color: rgb(165, 23, 23);
+    --const-color: rgb(221, 221, 27);
+    --const-mlabel-color: rgb(151, 151, 32);
+    --noexcept-mlabel-color: rgb(85, 85, 85);
+  }
+}
+
+@media screen and (max-width: 767px)
+{
+  div .memdoc div.fragment {
+    margin: 0 calc(0px - var(--spacing-medium));
+  } 
+}
+
+@media screen and (min-width: 768px)
+{
+  div#doc-content {
+    height: 100vh !important;
+  }
+}
+
+code {
+  padding: 1px 6px;
+}
+
+div#nav-sync
+{
+  display: none;
+}
+
+div.memitem, div.memdoc
+{
+  background-color: var(--memitem-color);
+}
+
+table.mlabels > tbody > tr:first-child {
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+div.contents hr {
+  height: 6px;
+  margin-bottom: calc(2.5 * var(--spacing-large));
+}
+
+div.memproto::-webkit-scrollbar, div.fragment::-webkit-scrollbar, tbody::-webkit-scrollbar {
+    border-top: 1px solid var(--separator-color);
+}
+
+div.memitem {
+  margin-bottom: 18.4px;
+}
+
+div#nav-tree-contents {
+  margin: 0;
+}
+
+div.fragment, div.memdoc table.fieldtable {
+  margin: 0 calc(0px - var(--spacing-medium));
+  padding: 0;
+  border: 0;
+}
+
+div.memdoc table.fieldtable {
+  width: calc(100% + 2 * var(--spacing-medium));
+}
+
+div.fragment{
+  border-top: 1px solid var(--separator-color);
+}
+
+div.memproto {
+  padding: 2px 5px;
+}
+
+p.definition, p.reference {
+  color: var(page-secondary-foreground-color);
+  padding: 0;
+}
+
+div.memitem p.reference, div.memitem p.definition {
+  font-size: 10.4px;
+  margin: 5.2px 5.5px;
+  text-align: right;
+}
+
+div.directory {
+  border: 1px solid var(--separator-color);
+  background-color: var(--levels-color);
+}
+ 
+table.directory tr td {
+  border-top: 1px solid var(--separator-color);
+}
+
+table.directory tr td.desc {
+  border-left: 1px solid var(--separator-color);
+}
+
+.directory .levels {
+  width: calc(100% - 6px);
+  background-color: var(--levels-color);
+}
+
+div.header .summary, h2.memtitle {
+  display: none;
+}
+
+table {
+  line-height: 15px;
+}
+
+span.mlabel {
+  font-size: 16.5px;
+  padding: 2px 9px;
+}
+
+td.mlabels-left {
+  margin: 3px 0;
+}
+
+td.mlabels-right {
+  margin: 0;
+}
+
+h2.groupheader {
+  margin-top: 4px;
+}
+
+div.contents, div.header .title { 
+  margin: 0 0 0 1em;
+}
+
+table.directory tr.even {
+  background-color: var(--even-color);
+}
+
+table.directory tr.odd {
+  background-color: var(--odd-color);
+}
+
+table.memberdecls h2.groupheader {
+  font-size: 77%;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0 0;
+}
+
+table.memberdecls .memSeparator {
+  height: 6px;
+}
+
+table.memberdecls:has(a#inherited) h2.groupheader {
+  font-size: 150%;
+  margin-bottom: 4px;
+  padding-top: 8px;
+  padding-bottom: 6px;
+  box-shadow: 100px 0 var(--page-background-color), -100px 0 var(--page-background-color), 100px 0.75px var(--separator-color), -100px 0.75px var(--separator-color), 500px 0 var(--page-background-color), -500px 0 var(--page-background-color), 500px 0.75px var(--separator-color), -500px 0.75px var(--separator-color), 900px 0 var(--page-background-color), -900px 0 var(--page-background-color), 900px 0.75px var(--separator-color), -900px 0.75px var(--separator-color), 1400px 0 var(--page-background-color), -1400px 0 var(--page-background-color), 1400px 0.75px var(--separator-color), -1400px 0.75px var(--separator-color), 1900px 0 var(--page-background-color), -1900px 0 var(--page-background-color), 1900px 0.75px var(--separator-color), -1900px 0.75px var(--separator-color);
+}
+
+table.memberdecls:has(a[name=inherited]) h2.groupheader {
+  font-size: 150%;
+  margin-bottom: 4px;
+  padding-top: 8px;
+  padding-bottom: 6px;
+  box-shadow: 100px 0 var(--page-background-color), -100px 0 var(--page-background-color), 100px 0.75px var(--separator-color), -100px 0.75px var(--separator-color), 500px 0 var(--page-background-color), -500px 0 var(--page-background-color), 500px 0.75px var(--separator-color), -500px 0.75px var(--separator-color), 900px 0 var(--page-background-color), -900px 0 var(--page-background-color), 900px 0.75px var(--separator-color), -900px 0.75px var(--separator-color), 1400px 0 var(--page-background-color), -1400px 0 var(--page-background-color), 1400px 0.75px var(--separator-color), -1400px 0.75px var(--separator-color), 1900px 0 var(--page-background-color), -1900px 0 var(--page-background-color), 1900px 0.75px var(--separator-color), -1900px 0.75px var(--separator-color);
+}
+
+td.paramname {
+  font-weight: 400;
+}
+
+table.memberdecls {
+  border-collapse: collapse;
+}
+
+table.memberdecls td.memItemRight {
+  background-color: var(--memitem-color);
+}
+
+table.memberdecls td.memItemLeft, table.memberdecls td.memItemRight {
+  border: 1px solid var(--separator-color);
+}
+
+table.memberdecls td.memItemRight {
+  padding-left: 0.4em;
+}
+
+table.memberdecls td.mdescRight {
+  padding-left: calc(0.4em + 1px);
+}
+
+table.memberdecls:has(a[name=friends]) td.memItemLeft {
+  background-color: var(--indifferent-color);
+}
+table.memberdecls:has(a[name=friends]) td.memItemRight {
+  background-color: var(--friends-color);
+}
+
+table.memberdecls:has(a[name=pub-types]) td.memItemLeft {
+  background-color: var(--public-color);
+}
+table.memberdecls:has(a[name=pub-types]) td.memItemRight {
+  background-color: var(--types-color);
+}
+
+table.memberdecls:has(a[name=pro-types]) td.memItemLeft {
+  background-color: var(--protected-color);
+}
+table.memberdecls:has(a[name=pro-types]) td.memItemRight {
+  background-color: var(--types-color);
+}
+
+table.memberdecls:has(a[name=pri-types]) td.memItemLeft {
+  background-color: var(--private-color);
+}
+table.memberdecls:has(a[name=pri-types]) td.memItemRight {
+  background-color: var(--types-color);
+}
+
+table.memberdecls:has(a[name=pub-slots]) td.memItemLeft {
+  background-color: var(--public-color);
+}
+table.memberdecls:has(a[name=pub-slots]) td.memItemRight {
+  background-color: var(--slots-color);
+}
+
+table.memberdecls:has(a[name=pro-slots]) td.memItemLeft {
+  background-color: var(--protected-color);
+}
+table.memberdecls:has(a[name=pro-slots]) td.memItemRight {
+  background-color: var(--slots-color);
+}
+
+table.memberdecls:has(a[name=pri-slots]) td.memItemLeft {
+  background-color: var(--private-color);
+}
+table.memberdecls:has(a[name=pri-slots]) td.memItemRight {
+  background-color: var(--slots-color);
+}
+
+table.memberdecls:has(a[name=signals]) td.memItemLeft {
+  background-color: var(--public-color);
+}
+table.memberdecls:has(a[name=signals]) td.memItemRight {
+  background-color: var(--signals-color);
+}
+
+table.memberdecls:has(a[name=pub-static-methods]) td.memItemLeft {
+  background-color: var(--public-color);
+}
+table.memberdecls:has(a[name=pub-static-methods]) td.memItemRight {
+  background-color: var(--static-methods-color);
+}
+
+table.memberdecls:has(a[name=pro-static-methods]) td.memItemLeft {
+  background-color: var(--protected-color);
+}
+table.memberdecls:has(a[name=pro-static-methods]) td.memItemRight {
+  background-color: var(--static-methods-color);
+}
+
+table.memberdecls:has(a[name=pri-static-methods]) td.memItemLeft {
+  background-color: var(--private-color);
+}
+table.memberdecls:has(a[name=pri-static-methods]) td.memItemRight {
+  background-color: var(--static-methods-color);
+}
+
+table.memberdecls:has(a[name=pub-methods]) td.memItemLeft, table.memberdecls:has(a[name=func-members]) td.memItemLeft {
+  background-color: var(--public-color);
+}
+table.memberdecls:has(a[name=pub-methods]) td.memItemRight, table.memberdecls:has(a[name=func-members]) td.memItemRight {
+  background-color: var(--methods-color);
+}
+
+table.memberdecls:has(a[name=pro-methods]) td.memItemLeft {
+  background-color: var(--protected-color);
+}
+table.memberdecls:has(a[name=pro-methods]) td.memItemRight {
+  background-color: var(--methods-color);
+}
+
+table.memberdecls:has(a[name=pri-methods]) td.memItemLeft {
+  background-color: var(--private-color);
+}
+table.memberdecls:has(a[name=pri-methods]) td.memItemRight {
+  background-color: var(--methods-color);
+}
+
+table.memberdecls:has(a[name=pub-static-attribs]) td.memItemLeft {
+  background-color: var(--public-color);
+}
+table.memberdecls:has(a[name=pub-static-attribs]) td.memItemRight {
+  background-color: var(--static-attribs-color);
+}
+
+table.memberdecls:has(a[name=pro-static-attribs]) td.memItemLeft {
+  background-color: var(--protected-color);
+}
+table.memberdecls:has(a[name=pro-static-attribs]) td.memItemRight {
+  background-color: var(--static-attribs-color);
+}
+
+table.memberdecls:has(a[name=pri-static-attribs]) td.memItemLeft {
+  background-color: var(--private-color);
+}
+table.memberdecls:has(a[name=pri-static-attribs]) td.memItemRight {
+  background-color: var(--static-attribs-color);
+}
+
+table.memberdecls:has(a[name=pub-attribs]) td.memItemLeft, table.memberdecls:has(a[name=var-members]) td.memItemLeft {
+  background-color: var(--public-color);
+}
+table.memberdecls:has(a[name=pub-attribs]) td.memItemRight, table.memberdecls:has(a[name=var-members]) td.memItemRight {
+  background-color: var(--attribs-color);
+}
+
+table.memberdecls:has(a[name=pro-attribs]) td.memItemLeft {
+  background-color: var(--protected-color);
+}
+table.memberdecls:has(a[name=pro-attribs]) td.memItemRight {
+  background-color: var(--attribs-color);
+}
+
+table.memberdecls:has(a[name=pri-attribs]) td.memItemLeft {
+  background-color: var(--private-color);
+}
+table.memberdecls:has(a[name=pri-attribs]) td.memItemRight {
+  background-color: var(--attribs-color);
+}
+
+table.memberdecls:has(a#friends) td.memItemLeft {
+  background-color: var(--indifferent-color);
+}
+table.memberdecls:has(a#friends) td.memItemRight {
+  background-color: var(--friends-color);
+}
+
+table.memberdecls:has(a#pub-types) td.memItemLeft {
+  background-color: var(--public-color);
+}
+table.memberdecls:has(a#pub-types) td.memItemRight {
+  background-color: var(--types-color);
+}
+
+table.memberdecls:has(a#pro-types) td.memItemLeft {
+  background-color: var(--protected-color);
+}
+table.memberdecls:has(a#pro-types) td.memItemRight {
+  background-color: var(--types-color);
+}
+
+table.memberdecls:has(a#pri-types) td.memItemLeft {
+  background-color: var(--private-color);
+}
+table.memberdecls:has(a#pri-types) td.memItemRight {
+  background-color: var(--types-color);
+}
+
+table.memberdecls:has(a#pub-slots) td.memItemLeft {
+  background-color: var(--public-color);
+}
+table.memberdecls:has(a#pub-slots) td.memItemRight {
+  background-color: var(--slots-color);
+}
+
+table.memberdecls:has(a#pro-slots) td.memItemLeft {
+  background-color: var(--protected-color);
+}
+table.memberdecls:has(a#pro-slots) td.memItemRight {
+  background-color: var(--slots-color);
+}
+
+table.memberdecls:has(a#pri-slots) td.memItemLeft {
+  background-color: var(--private-color);
+}
+table.memberdecls:has(a#pri-slots) td.memItemRight {
+  background-color: var(--slots-color);
+}
+
+table.memberdecls:has(a#signals) td.memItemLeft {
+  background-color: var(--public-color);
+}
+table.memberdecls:has(a#signals) td.memItemRight {
+  background-color: var(--signals-color);
+}
+
+table.memberdecls:has(a#pub-static-methods) td.memItemLeft {
+  background-color: var(--public-color);
+}
+table.memberdecls:has(a#pub-static-methods) td.memItemRight {
+  background-color: var(--static-methods-color);
+}
+
+table.memberdecls:has(a#pro-static-methods) td.memItemLeft {
+  background-color: var(--protected-color);
+}
+table.memberdecls:has(a#pro-static-methods) td.memItemRight {
+  background-color: var(--static-methods-color);
+}
+
+table.memberdecls:has(a#pri-static-methods) td.memItemLeft {
+  background-color: var(--private-color);
+}
+table.memberdecls:has(a#pri-static-methods) td.memItemRight {
+  background-color: var(--static-methods-color);
+}
+
+table.memberdecls:has(a#pub-methods) td.memItemLeft, table.memberdecls:has(a#func-members) td.memItemLeft {
+  background-color: var(--public-color);
+}
+table.memberdecls:has(a#pub-methods) td.memItemRight, table.memberdecls:has(a#func-members) td.memItemRight {
+  background-color: var(--methods-color);
+}
+
+table.memberdecls:has(a#pro-methods) td.memItemLeft {
+  background-color: var(--protected-color);
+}
+table.memberdecls:has(a#pro-methods) td.memItemRight {
+  background-color: var(--methods-color);
+}
+
+table.memberdecls:has(a#pri-methods) td.memItemLeft {
+  background-color: var(--private-color);
+}
+table.memberdecls:has(a#pri-methods) td.memItemRight {
+  background-color: var(--methods-color);
+}
+
+table.memberdecls:has(a#pub-static-attribs) td.memItemLeft {
+  background-color: var(--public-color);
+}
+table.memberdecls:has(a#pub-static-attribs) td.memItemRight {
+  background-color: var(--static-attribs-color);
+}
+
+table.memberdecls:has(a#pro-static-attribs) td.memItemLeft {
+  background-color: var(--protected-color);
+}
+table.memberdecls:has(a#pro-static-attribs) td.memItemRight {
+  background-color: var(--static-attribs-color);
+}
+
+table.memberdecls:has(a#pri-static-attribs) td.memItemLeft {
+  background-color: var(--private-color);
+}
+table.memberdecls:has(a#pri-static-attribs) td.memItemRight {
+  background-color: var(--static-attribs-color);
+}
+
+table.memberdecls:has(a#pub-attribs) td.memItemLeft, table.memberdecls:has(a#var-members) td.memItemLeft {
+  background-color: var(--public-color);
+}
+table.memberdecls:has(a#pub-attribs) td.memItemRight, table.memberdecls:has(a#var-members) td.memItemRight {
+  background-color: var(--attribs-color);
+}
+
+table.memberdecls:has(a#pro-attribs) td.memItemLeft {
+  background-color: var(--protected-color);
+}
+table.memberdecls:has(a#pro-attribs) td.memItemRight {
+  background-color: var(--attribs-color);
+}
+
+table.memberdecls:has(a#pri-attribs) td.memItemLeft {
+  background-color: var(--private-color);
+}
+table.memberdecls:has(a#pri-attribs) td.memItemRight {
+  background-color: var(--attribs-color);
+}
+
+h2.memtitle, div.memitem {
+  border-radius: 0;
+}
+
+h2.memtitle
+{
+  margin-top: 0.5em;
+}
+
+div.line {
+  text-indent: -47px;
+}

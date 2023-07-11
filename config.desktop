@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Terminal=false
+Name=Qt Template
+GenericName= Qt Template
+Exec=qt-template
+Icon=icon_32x32
+Categories=Utility;
