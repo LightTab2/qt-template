@@ -1,6 +1,6 @@
-[![Actions Status](https://github.com/lighttab2/qt-template/workflows/MacOS/badge.svg)](https://github.com/lighttab2/qt-template/actions)
-[![Actions Status](https://github.com/lighttab2/qt-template/workflows/Windows/badge.svg)](https://github.com/lighttab2/qt-template/actions)
-[![Actions Status](https://github.com/lighttab2/qt-template/workflows/Ubuntu/badge.svg)](https://github.com/lighttab2/qt-template/actions)
+[![Actions Status](https://github.com/lighttab2/qt-template/workflows/macOS/badge.svg)](https://github.com/lighttab2/qt-template/actions/workflows/macos.yml)
+[![Actions Status](https://github.com/lighttab2/qt-template/workflows/Windows/badge.svg)](https://github.com/lighttab2/qt-template/actions/workflows/windows.yml)
+[![Actions Status](https://github.com/lighttab2/qt-template/workflows/Ubuntu/badge.svg)](https://github.com/lighttab2/qt-template/actions/workflows/ubuntu.yml)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/lighttab2/qt-template)](https://github.com/lighttab2/qt-template/releases)
 
 # [Project name]
