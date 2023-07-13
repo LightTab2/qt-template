@@ -67,19 +67,19 @@ if(${PROJECT_NAME}_BUILD_EXECUTABLE)
         # Icons added at deployment
         qt_add_executable(${PROJECT_NAME} ${sources})
     endif()
-    target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
+    target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
     qt_add_library(${PROJECT_NAME}_LIB ${headers} ${sources})
     set_target_properties(${PROJECT_NAME}_LIB
                           PROPERTIES
                           ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE}"
                           LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE}"
                           OUTPUT_NAME ${PROJECT_NAME})
-    target_compile_features(${PROJECT_NAME}_LIB PUBLIC cxx_std_20)
+    target_compile_features(${PROJECT_NAME}_LIB PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
 else()
     qt_add_library(${PROJECT_NAME}
                 ${headers}
                 ${sources})
-    target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
+    target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
 endif()
 
 if (NOT ${PROJECT_NAME}_BUILD_EXECUTABLE)
