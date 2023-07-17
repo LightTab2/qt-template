@@ -1,2 +1,4 @@
-set(Modules)
-set(QtModules Core Gui Widgets)
+set(MODULES)
+set(MODULES_WITH_COMPONENTS Qt6 Boost)
+set(BOOST_COMPONENTS filesystem)
+set(QT_COMPONENTS Core Gui Widgets)

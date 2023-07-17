@@ -5,12 +5,23 @@ project("qt-template"
 
 # Find all needed libraries
 include(cmake/Modules.cmake)
-foreach(library IN LISTS Modules)
+foreach(library IN LISTS MODULES)
     find_package(${library} REQUIRED)
 endforeach()
 
-foreach(library IN LISTS QtModules)
-    find_package(Qt6 REQUIRED COMPONENTS ${library})
+foreach(library IN LISTS MODULES_WITH_COMPONENTS)
+    find_package(${library} REQUIRED)
+endforeach()
+
+foreach(library IN LISTS QT_COMPONENTS)
+    find_package(Qt6 COMPONENTS ${library} REQUIRED)
+endforeach()
+
+set(Boost_USE_STATIC_LIBS OFF) 
+set(Boost_USE_MULTITHREADED ON)  
+set(Boost_USE_STATIC_RUNTIME OFF) 
+foreach(library IN LISTS BOOST_COMPONENTS)
+    find_package(Boost COMPONENTS ${library} REQUIRED)
 endforeach()
 
 # Setup
@@ -20,6 +31,9 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
 qt_standard_project_setup()
+
+# Model project dependencies
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 
 include(cmake/StandardSettings.cmake)
 if(NOT CMAKE_BUILD_TYPE)
@@ -45,30 +59,30 @@ if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
 endif()
 
 # Find all headers and implementation files
-include(cmake/SourcesAndHeaders.cmake)
+include(cmake/Sources.cmake)
 
-# Create library, setup header and source files
+# Create library/application, setup header and source files
 if(${PROJECT_NAME}_BUILD_EXECUTABLE)
     if (APPLE)
         # Check for icon
         if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/icon/icon.icns")
-            qt_add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${sources} "${CMAKE_CURRENT_SOURCE_DIR}/icon/icon.icns")
+            qt_add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${SOURCE_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/icon/icon.icns")
         else()
-            qt_add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${sources})
+            qt_add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${SOURCE_FILES})
         endif()
     elseif(WIN32)
         # Check for icon
         if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/icon/icon.rc" AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/icon/icon.ico")
-            qt_add_executable(${PROJECT_NAME} WIN32 ${sources} "${CMAKE_CURRENT_SOURCE_DIR}/icon/icon.rc")
+            qt_add_executable(${PROJECT_NAME} WIN32 ${SOURCE_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/icon/icon.rc")
         else()
-            qt_add_executable(${PROJECT_NAME} WIN32 ${sources})
+            qt_add_executable(${PROJECT_NAME} WIN32 ${SOURCE_FILES})
         endif()
     else()
         # Icons added at deployment
-        qt_add_executable(${PROJECT_NAME} ${sources})
+        qt_add_executable(${PROJECT_NAME} ${SOURCE_FILES})
     endif()
     target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
-    qt_add_library(${PROJECT_NAME}_LIB ${headers} ${sources})
+    qt_add_library(${PROJECT_NAME}_LIB STATIC ${SOURCE_FILES})
     set_target_properties(${PROJECT_NAME}_LIB
                           PROPERTIES
                           ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE}"
@@ -76,9 +90,7 @@ if(${PROJECT_NAME}_BUILD_EXECUTABLE)
                           OUTPUT_NAME ${PROJECT_NAME})
     target_compile_features(${PROJECT_NAME}_LIB PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
 else()
-    qt_add_library(${PROJECT_NAME}
-                ${headers}
-                ${sources})
+    qt_add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
     target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
 endif()
 
@@ -93,9 +105,6 @@ endif()
 # Set the project standard and warnings
 include(cmake/CompilerWarnings.cmake)
 set_project_warnings(${PROJECT_NAME})
-
-# Model project dependencies
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 
 # Allow usage of header files in the `src` directory, but only for utilities
 target_include_directories(${PROJECT_NAME}
@@ -115,7 +124,6 @@ if(${PROJECT_NAME}_BUILD_EXECUTABLE)
                                $<INSTALL_INTERFACE:include>
                                $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
                                ${CMAKE_INCLUDE_PATH} 
-                               PRIVATE
                                ${CMAKE_CURRENT_SOURCE_DIR}/src)
     target_link_directories(${PROJECT_NAME}_LIB
                             PRIVATE
@@ -123,7 +131,7 @@ if(${PROJECT_NAME}_BUILD_EXECUTABLE)
 endif()
 
 # Link libraries
-foreach(library IN LISTS Modules)
+foreach(library IN LISTS MODULES)
     target_link_libraries(${PROJECT_NAME} PRIVATE ${library})
     if(${PROJECT_NAME}_BUILD_EXECUTABLE)
         target_link_libraries(${PROJECT_NAME}_LIB PRIVATE ${library})
@@ -131,30 +139,39 @@ foreach(library IN LISTS Modules)
 endforeach()
 
 # Link Qt libraries
-foreach(library IN LISTS QtModules)
+foreach(library IN LISTS QT_COMPONENTS)
     target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::${library})
     if(${PROJECT_NAME}_BUILD_EXECUTABLE)
         target_link_libraries(${PROJECT_NAME}_LIB PRIVATE Qt6::${library})
     endif()
 endforeach()
 
+foreach(library IN LISTS BOOST_COMPONENTS)
+    target_link_libraries(${PROJECT_NAME} PRIVATE Boost::${library})
+    if(${PROJECT_NAME}_BUILD_EXECUTABLE)
+        target_link_libraries(${PROJECT_NAME}_LIB PRIVATE Boost::${library})
+    endif()
+endforeach()
+
 # Resources
 include(cmake/Resources.cmake)
-qt_add_resources(${PROJECT_NAME} "resources"
+if (${PROJECT_NAME}_QT_QUICK)
+    qt_add_qml_module(${PROJECT_NAME}
+                      URI ${PROJECT_NAME} 
+                      RESOURCE_PREFIX "/qt/qml/"
+                      QML_FILES ${QML_FILES}
+                      RESOURCES ${RESOURCES})
+else()
+    qt_add_resources(${PROJECT_NAME} "resources"
     PREFIX "/resource"
-    FILES ${Resources})
+    FILES ${RESOURCES})
+endif()
 
 # Provide alias to library for
 if(${PROJECT_NAME}_BUILD_EXECUTABLE)
     add_executable(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 else()
     add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
-endif()
-
-# Generate export header if specified
-if(${PROJECT_NAME}_GENERATE_EXPORT_HEADER)
-    include(GenerateExportHeader)
-    generate_export_header(${PROJECT_NAME})
 endif()
 
 # Deployment
@@ -178,7 +195,6 @@ if(APPLE)
             BUNDLE DESTINATION .)
     set(EXECUTABLE_PATH "./$<TARGET_FILE_NAME:${PROJECT_NAME}>.app")
     set(CMAKE_INSTALL_PREFIX "./install")
-    message("exe path: ${EXECUTABLE_PATH}")
 else()
     install(TARGETS ${PROJECT_NAME}
             CONFIGURATIONS Release

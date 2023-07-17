@@ -2,6 +2,7 @@
 # Project settings
 #
 
+option(${PROJECT_NAME}_QT_QUICK "Whether this project uses Qt Quick and its QML system." OFF)
 option(${PROJECT_NAME}_BUILD_EXECUTABLE "Build the project as an executable, rather than a library." ON)
 option(${PROJECT_NAME}_USE_ALT_NAMES "Use alternative names for the project, such as naming the include directory all lowercase." ON)
 
@@ -17,8 +18,6 @@ option(${PROJECT_NAME}_WARNINGS_AS_ERRORS "Treat compiler warnings as errors." O
 
 # Generate compile_commands.json for clang based tools
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-option(${PROJECT_NAME}_GENERATE_EXPORT_HEADER "Create a `project_export.h` file containing all exported symbols." OFF)
 
 # Export all symbols when building a shared library
 if(BUILD_SHARED_LIBS)
