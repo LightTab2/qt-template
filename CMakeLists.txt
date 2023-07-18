@@ -157,7 +157,7 @@ endforeach()
 include(cmake/Resources.cmake)
 if (${PROJECT_NAME}_QT_QUICK)
     qt_add_qml_module(${PROJECT_NAME}
-                      URI ${PROJECT_NAME} 
+                      URI ${PROJECT_NAME}-qml
                       RESOURCE_PREFIX "/qt/qml/"
                       QML_FILES ${QML_FILES}
                       RESOURCES ${RESOURCES})
