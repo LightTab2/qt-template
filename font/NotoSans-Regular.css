@@ -1,9 +1,0 @@
-@font-face {
-  font-family: 'Noto Sans';
-  src: url('font/NotoSans-Regular.eot'); /* IE 9 Compatibility Mode */
-  src: url('font/NotoSans-Regular.eot?#iefix') format('embedded-opentype'), /* IE < 9 */
-       url('font/NotoSans-Regular.woff2') format('woff2'),
-       url('font/NotoSans-Regular.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
-       url('font/NotoSans-Regular.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('font/NotoSans-Regular.svg#FantasqueSansMono-Regular') format('svg'); /* Chrome < 4, Legacy iOS */
-}
