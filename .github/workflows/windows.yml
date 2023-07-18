@@ -78,6 +78,7 @@ jobs:
           ctest -C release -VV
 
       - name: Create release artifact
+        if: "${{ github.event_name != 'pull_request' }}"
         uses: softprops/action-gh-release@v1
         with:
           files: build/${{ steps.repoName.outputs.name }}_Win_${{ steps.versionTag.outputs.tag }}.zip 

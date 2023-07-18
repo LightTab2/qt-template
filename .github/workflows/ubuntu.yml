@@ -84,6 +84,7 @@ jobs:
           QT_QPA_PLATFORM=offscreen ctest -C release -VV
       
       - name: Create release artifact
+        if: "${{ github.event_name != 'pull_request' }}"
         uses: softprops/action-gh-release@v1
         with:
           files: ./${{ steps.repoName.outputs.name }}.AppImage

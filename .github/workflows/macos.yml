@@ -76,6 +76,7 @@ jobs:
           ctest -C release -VV
 
       - name: Create release artifact
+        if: "${{ github.event_name != 'pull_request' }}"
         uses: softprops/action-gh-release@v1
         with:
           files: build/install/${{ steps.repoName.outputs.name }}_macOS_${{ steps.versionTag.outputs.tag }}.tar.gz
