@@ -160,7 +160,8 @@ if (${PROJECT_NAME}_QT_QUICK)
                       URI ${PROJECT_NAME}-qml
                       RESOURCE_PREFIX "/qt/qml/"
                       QML_FILES ${QML_FILES}
-                      RESOURCES ${RESOURCES})
+                      RESOURCES ${RESOURCES}
+                      NO_PLUGIN)
 else()
     qt_add_resources(${PROJECT_NAME} "resources"
     PREFIX "/resource"

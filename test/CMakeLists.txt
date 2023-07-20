@@ -35,7 +35,8 @@ foreach(file ${TEST_FILES})
                           RESOURCE_PREFIX "/qt/qml/"
                           QML_FILES ${QML_FILES}
                           RESOURCES ${TEST_RESOURCES}
-                          NO_CACHEGEN)
+                          NO_CACHEGEN
+                          NO_PLUGIN)
     else()
         qt_add_resources(${test_name}_Tests "resources"
         PREFIX "/resource"
