@@ -1,4 +1,4 @@
-file(GLOB QML_FILES
+file(GLOB_RECURSE QML_FILES
      src/*.qml)
 
 # Fix directories to be relative in qrc system
