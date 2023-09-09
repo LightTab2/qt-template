@@ -9,12 +9,12 @@ foreach(library IN LISTS MODULES)
     find_package(${library} REQUIRED)
 endforeach()
 
-foreach(library IN LISTS MODULES_WITH_COMPONENTS)
-    find_package(${library} REQUIRED)
-endforeach()
-
 foreach(library IN LISTS QT_COMPONENTS)
     find_package(Qt6 COMPONENTS ${library} REQUIRED)
+    string(TOLOWER "${library}" library_lower)
+    if (library_lower STREQUAL "quick")
+        set(${PROJECT_NAME}_QT_QUICK ON)
+    endif()
 endforeach()
 
 set(Boost_USE_STATIC_LIBS OFF) 
@@ -113,7 +113,8 @@ target_include_directories(${PROJECT_NAME}
                            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
                            ${CMAKE_INCLUDE_PATH} 
                            PRIVATE
-                           ${CMAKE_CURRENT_SOURCE_DIR}/src)
+                           ${CMAKE_CURRENT_SOURCE_DIR}/src
+                           ${CMAKE_CURRENT_SOURCE_DIR}/src/qml)
 target_link_directories(${PROJECT_NAME}
                         PRIVATE
                         ${CMAKE_LIBRARY_PATH})
@@ -124,7 +125,8 @@ if(${PROJECT_NAME}_BUILD_EXECUTABLE)
                                $<INSTALL_INTERFACE:include>
                                $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
                                ${CMAKE_INCLUDE_PATH} 
-                               ${CMAKE_CURRENT_SOURCE_DIR}/src)
+                               ${CMAKE_CURRENT_SOURCE_DIR}/src
+                               ${CMAKE_CURRENT_SOURCE_DIR}/src/qml)
     target_link_directories(${PROJECT_NAME}_LIB
                             PRIVATE
                             ${CMAKE_LIBRARY_PATH})
@@ -155,9 +157,10 @@ endforeach()
 
 # Resources
 include(cmake/Resources.cmake)
+string(REPLACE "-" "_" QML_URI "${PROJECT_NAME}")
 if (${PROJECT_NAME}_QT_QUICK)
     qt_add_qml_module(${PROJECT_NAME}
-                      URI ${PROJECT_NAME}-qml
+                      URI ${QML_URI} 
                       RESOURCE_PREFIX "/qt/qml/"
                       QML_FILES ${QML_FILES}
                       RESOURCES ${RESOURCES}

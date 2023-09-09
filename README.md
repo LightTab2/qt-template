@@ -66,19 +66,19 @@ The procedure is the standard one, but there are three things to be way of.
 
 **In-source** builds are not allowed so these directories must differ:
 <p align="center">
-<img src="pages/cmake.png" alt="Cmake screenshot" width="55%"/>
+<img src="pages/cmake.png" alt="CMake screenshot" width="55%"/>
 </p>
 
 You need to provide **architecture** and **toolkit**. If you leave them blank, project **generation** will likely fail. Also select option to specify the **toolchain file**:
 
 <p align="center">
-<img src="pages/cmake2.png" alt="Cmake settings screenshot" width="55%"/>
+<img src="pages/cmake2.png" alt="CMake settings screenshot" width="55%"/>
 </p>
 
 If you did not tinker with *Conan*, the **toolchain file** should be found at `conan/conan_toolchain.cmake`. 
 
 <p align="center">
-<img src="pages/cmake3.png" alt="Cmake settings screenshot" width="35%"/>
+<img src="pages/cmake3.png" alt="CMake settings screenshot" width="35%"/>
 </p>
 
 <hr>
@@ -103,7 +103,7 @@ cmake --build build --config release -j4 -DCMAKE_TOOLCHAIN_FILE=conan/conan_tool
 
 ## Troubleshooting
 
-<details><summary>Need to add a new library</summary>
+<details><summary>Add a new <b>library</b></summary>
 
 ### Qt6 library
 Simply modify `cmake/Modules.cmake`:
@@ -112,18 +112,20 @@ Simply modify `cmake/Modules.cmake`:
 set(QT_COMPONENTS Core {Other Qt6 libraries you want})
 ```
 
-### Other libraries
+Example:
 
+```cmake
+set(QT_COMPONENTS Core Gui Widgets)
+```
+
+### Other libraries
+#### Step 1.
 Modify `conan/conanfile.txt`:
 
 ```ini
 [requires]
-{...Other libraries...}
-{Your Library Name Here Taken From https://conan.io/center/}
-
-[generators]
-CMakeDeps
-CMakeToolchain
+{Other libraries}
+{New library's name from https://conan.io/center/}
 ```
 
 Example:
@@ -132,10 +134,6 @@ Example:
 [requires]
 zlib/1.2.11
 libcurl
-
-[generators]
-CMakeDeps
-CMakeToolchain
 ```
 
 Remember to run *Conan* after the changes:
@@ -145,11 +143,22 @@ conan install conan/ --build=missing --settings=build_type=Debug
 conan install conan/ --build=missing --settings=build_type=Release
 ```
 
-If the library cannot be found on *ConanCenter*, you could try going for [Artifactory](https://docs.conan.io/2/), but this requires some effort. You can always use plain *CMake* and modify `CMakeLists.txt`, [ChatGPT](https://chat.openai.com/) might help with such quick fixes.
+If the library cannot be found on [ConanCenter](https://conan.io/center/), you could try going for [Artifactory](https://docs.conan.io/2/), but this requires some effort. You can always use plain *CMake* and modify `CMakeLists.txt`, [ChatGPT](https://chat.openai.com/) might help with such quick fixes.
 
-Now the library should be available but not added to the *CMake* project itself. Check if the library has **components**. Libraries with **components** are libraries like *Qt6* or *Boost*, in which you can choose to use a few of their all features. Because of technical reasons, the **header-only** libraries should also be added as "libraries with components".
+#### Step 2.
+
+Now the library should be available but **might not be linked to the *CMake* project**. \
+Check if the library has **components**. Libraries with **components** are libraries like *Qt6* or *Boost*, in which you can choose to use **a few of their all features**.
 
 <ul style="list-style-type:none;">
+<li><details><summary>Header-only library</summary>
+
+Nothing needs to be done. Header-only libraries are already added in *Conan* toolchain file.
+
+<hr>
+</details>
+</li>
+
 <li><details><summary>Library w/o components</summary>
 
 Modify `cmake/Modules.cmake`:
@@ -167,40 +176,20 @@ set(MODULES ZLIB libcurl)
 That's it!
 <hr>
 </details>
-
-<details><summary>Header-only library</summary>
-
-Modify `cmake/Modules.cmake`:
-
-```cmake
-set(MODULES_WITH_COMPONENTS Qt6 {libraries with components} {header-only libraries})
-```
-
-Example:
-
-```cmake
-set(MODULES_WITH_COMPONENTS Qt6 imgui)
-```
-
-That's it!
-
-<hr>
-</details>
 </li>
 
 <li><details><summary>Library with components</summary>
+This is quite some work :<
 
-Modify `cmake/Modules.cmake`:
+Add to `cmake/Modules.cmake`:
 
 ```cmake
-set(MODULES_WITH_COMPONENTS Qt6 {libraries with components} {header-only libraries})
 set({NEW_VARIABLE_WITH_COMPONENTS} {COMPONENTS})
 ```
 
 Example:
 
 ```cmake
-set(MODULES_WITH_COMPONENTS Qt6 Boost)
 set(BOOST_COMPONENTS filesystem)
 ```
 
@@ -265,42 +254,9 @@ Example:
 <hr>
 </details>
 
-<details><summary><i>Qt6</i> is not found, despite being installed</summary>
+<details><summary>Change the project's <b>name</b></summary>
 
-Ensure that these **environment variables** are set properly:
-
-* **Qt6_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6`<br/>Example: `C:/Qt/6.5.1/msvc2019_64/lib/cmake/Qt6`
-
-* **Qt6GuiTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6GuiTools`<br/>Example: `/usr/lib/x86_64-linux-gnu/6.5.1/clang_64/lib/cmake/Qt6GuiTools`
-
-* **Qt6CoreTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6CoreTools`<br/>Example: `D:/Qt/6.3/msvc2019_64/lib/cmake/Qt6CoreTools`
-
-<hr>
-</details>
-
-<details><summary>Missing or wrong libraries | Profile errors</summary>
-
-Ensure `conan/conanfile.txt` has listed all the needed libraries under `[requires]` section.
-Run:
-
-```bash
-conan install conan/ --build=missing --settings=build_type=Debug
-conan install conan/ --build=missing --settings=build_type=Release
-```
-
-In case of a **wrong architecture** of the libraries and other possible **profile errors**, read: [https://docs.conan.io/2.0/reference/config_files/profiles.html](https://docs.conan.io/2.0/reference/config_files/profiles.html)<br/>
-If you don't have a profile, create one:
-
-```bash
-conan profile new default --detect
-```
-
-<hr>
-</details>
-
-<details><summary>Changing the name of the project</summary>
-
-To change the name of the project, you must correct a few entries:
+To change the project's name, you must correct a few entries:
  
 <ul style="list-style-type:none;">
 <li><details><summary><code>CMakeLists.txt</code></summary>
@@ -329,7 +285,8 @@ If you host your project on a *GitHub* repository and wish to use *GitHub Action
 * `.github/workflows/ubuntu.yml`
 * `.github/workflows/windows.yml`
 
-If the name contains *whitespace characters*, you will need to enclose the entire entry in either `"` or `'`. Example:
+If the name contains *whitespace characters*, you will need to enclose the entire entry in either `"` or `'`. \
+Example:
 
 ```yaml
 files: build/install/${{ steps.repoName.outputs.name }}_macOS_${{ steps.versionTag.outputs.tag }}.tar.gz
@@ -370,7 +327,58 @@ Exec=birds-and-stuff
 <hr>
 </details>
 
-<details><summary>Changing the icon of the project</summary>
+<details><summary>Setup a <b>Qt Quick</b> project</summary>
+
+Adding the "Quick" module to `cmake/Modules.cmake` will activate additional *CMake* steps for QML processing:
+
+```cmake
+set(QT_COMPONENTS Core [...] Quick)
+```
+
+The `.qml` files should be placed in `src/qml` (creating subdirectories is possible) and they can be accessed from `qrc:/qt/qml/{project_name}/{relativePathToFile}`.
+
+Example for a file `src/qml/birds/Bird1.qml` and project name `parrot_songs`: \
+`qrc:/qt/qml/parrot_songs/birds/Bird1.qml`.
+
+There is a commented snippet in `src/main.cpp` with `int main(int argc, char* argv[])` definition for **Qt Quick**, which contains example of accessing a QML file.
+
+<hr>
+</details>
+
+<details><summary><i>Qt6</i> is <b>not found</b>, despite being installed</summary>
+
+Ensure that these **environment variables** are set properly:
+
+* **Qt6_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6`<br/>Example: `C:/Qt/6.5.1/msvc2019_64/lib/cmake/Qt6`
+
+* **Qt6GuiTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6GuiTools`<br/>Example: `/usr/lib/x86_64-linux-gnu/6.5.1/clang_64/lib/cmake/Qt6GuiTools`
+
+* **Qt6CoreTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6CoreTools`<br/>Example: `D:/Qt/6.3/msvc2019_64/lib/cmake/Qt6CoreTools`
+
+<hr>
+</details>
+
+<details><summary><b>Missing</b> or <b>wrong architecture</b> libraries | <i>Conan</i> profile errors</summary>
+
+Ensure `conan/conanfile.txt` has listed all the needed libraries under `[requires]` section.
+Run:
+
+```bash
+conan install conan/ --build=missing --settings=build_type=Debug
+conan install conan/ --build=missing --settings=build_type=Release
+```
+
+In case of a **wrong architecture** of the libraries and other possible **profile errors**, read: [https://docs.conan.io/2.0/reference/config_files/profiles.html](https://docs.conan.io/2.0/reference/config_files/profiles.html)<br/>
+If you don't have a profile, create one:
+
+```bash
+conan profile new default --detect
+```
+
+<hr>
+</details>
+
+<details><summary>Change the <b>icon</b> of the project</summary>
 
 Put your **icon image** in **PNG** format into a folder `icon/` and **rename** it, so it matches this convention:
 
@@ -415,7 +423,7 @@ To generate an icon for *Windows*, use:
 <li><details><summary>Unix</summary><code>/icon/UnixScripts/createIco.sh</code> or <code>/icon/UnixScripts/createIco_ImageMagick7.sh</code></details></li>
 </ul>
 
-*macOS* icon is slightly tricky on *Windows*, as we do not have a ready script. I recommend using [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) or another form of virtualization (i.e.: [VirtualBox](https://www.virtualbox.org/) or [Docker](https://www.docker.com/)) and running the *Unix script* `/icon/UnixScripts/createIcns.sh`.\
+*macOS* icon is slightly tricky to create on *Windows*, as we do not have a ready script. I recommend using [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) or another form of virtualization (i.e.: [VirtualBox](https://www.virtualbox.org/) or [Docker](https://www.docker.com/)) and running the *Unix script* `/icon/UnixScripts/createIcns.sh`.\
 If you are on *macOS*, you can do this the **native way**, using [iconutil](https://stackoverflow.com/questions/12306223/how-to-manually-create-icns-files-using-iconutil). Otherwise, run `/icon/UnixScripts/createIcns.sh`, which requires `png2icns` library. On *Ubuntu* you can install it by:
 
 ```bash
@@ -425,9 +433,9 @@ sudo apt install icnsutils
 <hr>
 </details>
 
-<details><summary>Docs shouldn't contain private members</summary>
+<details><summary>Docs shouldn't contain <b>private</b> members</summary>
 
-If your project is a library, you might not want to add the private and protected members to your documentation. Editing one line in `.github/workflows/doxygen.yml` can change this behaviour. Find this step:
+If your project is a library, you might not want to add the **private** and **protected** members to your documentation. Editing one line in `.github/workflows/doxygen.yml` can change this behaviour. Find this step:
 
 ```yaml
 - name: Generate documents and deploy

@@ -26,12 +26,13 @@ foreach(file ${TEST_FILES})
                                $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
                                ${CMAKE_INCLUDE_PATH} 
                                PRIVATE
-                               ${CMAKE_SOURCE_DIR}/src)
+                               ${CMAKE_SOURCE_DIR}/src
+                               ${CMAKE_SOURCE_DIR}/src/qml)
 
 
     if (${CMAKE_PROJECT_NAME}_QT_QUICK)
         qt_add_qml_module(${test_name}_Tests
-                          URI ${CMAKE_PROJECT_NAME} 
+                          URI ${QML_URI}
                           RESOURCE_PREFIX "/qt/qml/"
                           QML_FILES ${QML_FILES}
                           RESOURCES ${TEST_RESOURCES}
@@ -47,9 +48,6 @@ foreach(file ${TEST_FILES})
                             PRIVATE
                             ${CMAKE_LIBRARY_PATH})
 
-    target_include_directories(${test_name}_Tests
-                               PRIVATE
-                               ${CMAKE_SOURCE_DIR}/src)
     target_link_libraries(${test_name}_Tests PRIVATE Qt6::Test)
 
     # Link libraries
