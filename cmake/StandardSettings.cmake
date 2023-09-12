@@ -2,7 +2,6 @@
 # Project settings
 #
 
-option(${PROJECT_NAME}_QT_QUICK "Whether this project uses Qt Quick and its QML system." OFF)
 option(${PROJECT_NAME}_BUILD_EXECUTABLE "Build the project as an executable, rather than a library." ON)
 option(${PROJECT_NAME}_USE_ALT_NAMES "Use alternative names for the project, such as naming the include directory all lowercase." ON)
 

@@ -39,7 +39,7 @@ public:
     };
     /// Just an int.
     typedef int someType;
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget* parent = nullptr);
     /// \param param some param
     /// \returns Always `false`.
     bool func1(int param) const
@@ -95,10 +95,10 @@ private:
     }
     static int static_var3;
     int var3;
-    Ui::MainWindow  *ui;
+    Ui::MainWindow* ui;
 };
 
-class DifferentWindow : MainWindow
+class DifferentWindow : public MainWindow
 {
     int somethingNew;
 };

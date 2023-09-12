@@ -1,9 +1,9 @@
-file(GLOB QML_FILES
-     src/*.qml)
+file(GLOB_RECURSE QML_FILES
+     src/qml/*.qml)
 
 # Fix directories to be relative in qrc system
 foreach(QML_FILE ${QML_FILES})
-    file(RELATIVE_PATH QML_FILE_PATH ${CMAKE_SOURCE_DIR}/src ${QML_FILE})
+    file(RELATIVE_PATH QML_FILE_PATH ${CMAKE_SOURCE_DIR}/src/qml ${QML_FILE})
     set_source_files_properties(${QML_FILE} PROPERTIES
                                 QT_RESOURCE_ALIAS ${QML_FILE_PATH})
 endforeach()
