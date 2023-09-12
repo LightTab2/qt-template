@@ -19,7 +19,7 @@ AppException* AppException::clone() const
 	return new AppException(*this);
 }
 
-const char* AppException::what() const
+const char* AppException::what() const noexcept
 {
     return msg_.c_str();
 }

@@ -47,12 +47,12 @@ public:
 
 	void raise() const override;
 	AppException* clone() const override;
-	const char* what() const override;
+	const char* what() const noexcept override;
 
 	//QML
 	//static QObject* exceptionMessage;
 	
-	const ErrorType errorType;
+	ErrorType errorType;
 private:
 	std::string msg_;
 };
