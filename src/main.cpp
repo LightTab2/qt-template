@@ -1,54 +1,74 @@
 #include "mainwindow.h"
 
-#include <iostream>
-
 #include <QApplication>
-#include <QException>
 #include <boost/filesystem.hpp>
+
+#include "Exceptions.h"
 
 int main(int argc, char *argv[])
 {
-    boost::filesystem::recursive_directory_iterator it;
+    auto showExceptionMessageBox = [](const QString& message)
+    {
+        QMessageBox::critical(nullptr, "Critical", message);
+    };
     int returnCode = -1;
+    std::unique_ptr<QApplication> app = nullptr;
     try
     {
-        QApplication a(argc, argv);
-        MainWindow w;
-        w.show();
-        returnCode = a.exec();
+        app = std::make_unique<QApplication>(argc, argv);
     }
-    /*catch (AppException& ex)
-    {
-        std::cerr << ex.what();
-#ifdef WIN32
-        ERROR_MESSAGE(ex.what());
-#endif
-    }*/
     catch (QException& ex)
     {
-        std::cerr << "Unidentified \"QException\" has occurred: " << ex.what();
-#ifdef WIN32
-        std::string msg = "Unidentified \"QException\" has occurred:\n";
-        msg += ex.what();
-        //ERROR_MESSAGE(msg.c_str());
-#endif
+        std::cerr << "[Critical] Couldn't create QApplication:\n" << ex.what();
+        throw;
     }
     catch (std::exception& ex)
     {
-        std::cerr << "Unidentified \"std::exception\" has occurred: " << ex.what();
-#ifdef WIN32
-        std::string msg = "Unidentified \"std::exception\" has occurred:\n";
-        msg += ex.what();
-        //ERROR_MESSAGE(msg.c_str());
-#endif
+        std::cerr << "[Critical] Couldn't create QApplication:\n" << ex.what();
+        throw;
     }
     catch (...)
     {
-        std::cerr << "Unidentified exception has occurred\n";
-#ifdef WIN32
-        //ERROR_MESSAGE("Unidentified exception has occurred\n");
-#endif
+        std::cerr << "[Critical] Couldn't create QApplication:\nUnknown error!";
+        throw;
     }
+
+    try
+    {
+        qInstallMessageHandler(errorMessageHandler);
+        MainWindow window;
+        window.show();
+        returnCode = app->exec();
+    }
+    catch (AppException& ex)
+    {
+        std::cerr << "[Critical] " << ex.what();
+        showExceptionMessageBox(ex.what());
+        throw;
+    }
+    catch (QException& ex)
+    {
+        std::cerr << "[Critical] Unidentified \"QException\" has occurred: " << ex.what();
+        QString msg = "Unidentified \"QException\" has occurred:\n";
+        msg += ex.what();
+        showExceptionMessageBox(msg);
+        throw;
+    }
+    catch (std::exception& ex)
+    {
+        std::cerr << "[Critical] Unidentified \"std::exception\" has occurred: " << ex.what();
+        QString msg = "Unidentified \"std::exception\" has occurred:\n";
+        msg += ex.what();
+        showExceptionMessageBox(msg);
+        throw;
+    }
+    catch (...)
+    {
+        std::cerr << "[Critical] Unidentified exception has occurred\n";
+        showExceptionMessageBox("Unidentified \"std::exception\" has occurred");
+        throw;
+    }
+    boost::filesystem::recursive_directory_iterator it;
     return returnCode;
 }
 
@@ -83,35 +103,31 @@ int main(int argc, char* argv[])
     }
     catch (AppException& ex)
     {
-        std::cerr << ex.what();
-#ifdef WIN32
+        std::cerr << "[Critical] " << ex.what();
         ERROR_MESSAGE(ex.what());
-#endif
+        throw;
     }
     catch (QException& ex)
     {
-        std::cerr << "Unidentified \"QException\" has occurred: " << ex.what();
-#ifdef WIN32
+        std::cerr << "[Critical] Unidentified \"QException\" has occurred: " << ex.what();
         std::string msg = "Unidentified \"QException\" has occurred:\n";
         msg += ex.what();
         ERROR_MESSAGE(msg.c_str());
-#endif
+        throw;
     }
     catch (std::exception& ex)
     {
-        std::cerr << "Unidentified \"std::exception\" has occurred: " << ex.what();
-#ifdef WIN32
+        std::cerr << "[Critical] Unidentified \"std::exception\" has occurred: " << ex.what();
         std::string msg = "Unidentified \"std::exception\" has occurred:\n";
         msg += ex.what();
         ERROR_MESSAGE(msg.c_str());
-#endif
+        throw;
     }
     catch (...)
     {
-        std::cerr << "Unidentified exception has occurred\n";
-#ifdef WIN32
-        ERROR_MESSAGE("Unidentified exception has occurred\n");
-#endif
+        std::cerr << "[Critical] Unidentified exception has occurred\n";
+        ERROR_MESSAGE("Unidentified exception has occurred");
+        throw;
     }
     return returnCode;
 }
