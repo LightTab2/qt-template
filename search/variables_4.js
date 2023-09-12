@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['x_77',['x',['../mainwindow_8h.html#a6150e0515f7202e2fb518f7206ed97dc',1,'someStruct::x()'],['../classMainWindow_1_1Point.html#a6150e0515f7202e2fb518f7206ed97dc',1,'MainWindow::Point::x()']]]
+  ['ui_103',['ui',['../classMainWindow.html#ab198739b5cb12650ec2a6027f574184a',1,'MainWindow']]]
 ];

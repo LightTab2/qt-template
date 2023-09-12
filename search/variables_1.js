@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['somethingnew_69',['somethingNew',['../classDifferentWindow.html#a2c98afae16640b922c0187105c2379d6',1,'DifferentWindow']]],
-  ['static_5fvar1_70',['static_var1',['../classMainWindow.html#af90902943b212f55501dcca40be4d4d7',1,'MainWindow']]],
-  ['static_5fvar2_71',['static_var2',['../classMainWindow.html#a4bf7e6ef9e25503d5358c4d82b52dfd7',1,'MainWindow']]],
-  ['static_5fvar3_72',['static_var3',['../classMainWindow.html#a3a9084c285e4dfd3b84482e686d7ed1b',1,'MainWindow']]]
+  ['errortype_96',['errorType',['../classAppException.html#a490c2f6f0d3372c9c6a98c68967cfecf',1,'AppException']]],
+  ['errortypestr_97',['ErrorTypeStr',['../Exceptions_8h.html#a8c37dc7bc7264390860c31628898c165',1,'Exceptions.h']]]
 ];

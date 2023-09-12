@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['constant_1',['constant',['../namespacemyOwnNamespace.html#ab75f4112f045088f596a35a6cf7a8e6d',1,'myOwnNamespace']]],
-  ['constant2_2',['constant2',['../namespacemyOwnNamespace2.html#a7686e11f59af89051e63c4ff72b67796',1,'myOwnNamespace2']]]
+  ['befriendedfunction_1',['befriendedFunction',['../classMainWindow.html#acfd23b07b320a15f8d2e5571f9917212',1,'MainWindow::befriendedFunction()'],['../main_8cpp.html#acfd23b07b320a15f8d2e5571f9917212',1,'befriendedFunction():&#160;main.cpp']]]
 ];

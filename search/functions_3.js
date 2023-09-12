@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['privateslot_59',['privateSlot',['../classMainWindow.html#a83a866c7e1a82f0ecf44ef483596edad',1,'MainWindow']]]
+  ['errormessagehandler_75',['errorMessageHandler',['../Exceptions_8cpp.html#ac7bf13b2fdf00a009004572637abc288',1,'errorMessageHandler(QtMsgType type, const QMessageLogContext &amp;context, const QString &amp;msg):&#160;Exceptions.cpp'],['../Exceptions_8h.html#ac7bf13b2fdf00a009004572637abc288',1,'errorMessageHandler(QtMsgType type, const QMessageLogContext &amp;context, const QString &amp;msg):&#160;Exceptions.cpp']]]
 ];

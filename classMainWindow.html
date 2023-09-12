@@ -295,10 +295,10 @@ Private Members:</h2></td></tr>
 
 <p>Not really important. </p>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00014">14</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    win.<a class="code" href="classMainWindow.html#a50c3d8b54c28650205c8b58b154f95af">func2</a>(12);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00136">136</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;{</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    win.<a class="code" href="classMainWindow.html#a50c3d8b54c28650205c8b58b154f95af">func2</a>(12);</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -343,14 +343,15 @@ Private Members:</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="mainwindow_8cpp_source.html#l00005">5</a> of file <a class="el" href="mainwindow_8cpp_source.html">mainwindow.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                      : QMainWindow(parent), <a class="code" href="classMainWindow.html#ab198739b5cb12650ec2a6027f574184a">ui</a>(<span class="keyword">new</span> Ui::MainWindow)</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;{</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    boost::multiprecision::int1024_t bigInt;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <a class="code" href="classMainWindow.html#ab198739b5cb12650ec2a6027f574184a">ui</a>-&gt;setupUi(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    this-&gt;setWindowIcon(QIcon(<span class="stringliteral">&quot;:/resource/icon/icon_32x32.png&quot;</span>));</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    this-&gt;setWindowTitle(<span class="stringliteral">&quot;Qt Template&quot;</span>);</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="mainwindow_8cpp_source.html#l00008">8</a> of file <a class="el" href="mainwindow_8cpp_source.html">mainwindow.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    : QMainWindow(parent), </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;      <a class="code" href="classMainWindow.html#ab198739b5cb12650ec2a6027f574184a">ui</a>{ <span class="keyword">new</span> Ui::MainWindow }</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    boost::multiprecision::int1024_t bigInt;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="classMainWindow.html#ab198739b5cb12650ec2a6027f574184a">ui</a>-&gt;setupUi(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    this-&gt;setWindowIcon(QIcon(<span class="stringliteral">&quot;:/resource/icon/icon_32x32.png&quot;</span>));</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    this-&gt;setWindowTitle(<span class="stringliteral">&quot;Qt Template&quot;</span>);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -369,10 +370,10 @@ Private Members:</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="mainwindow_8cpp_source.html#l00013">13</a> of file <a class="el" href="mainwindow_8cpp_source.html">mainwindow.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;{</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">delete</span> <a class="code" href="classMainWindow.html#ab198739b5cb12650ec2a6027f574184a">ui</a>;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="mainwindow_8cpp_source.html#l00018">18</a> of file <a class="el" href="mainwindow_8cpp_source.html">mainwindow.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">delete</span> <a class="code" href="classMainWindow.html#ab198739b5cb12650ec2a6027f574184a">ui</a>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['differentwindow_41',['DifferentWindow',['../classDifferentWindow.html',1,'']]]
+  ['appexception_57',['AppException',['../classAppException.html',1,'']]]
 ];

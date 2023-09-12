@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ui_73',['ui',['../classMainWindow.html#ab198739b5cb12650ec2a6027f574184a',1,'MainWindow']]]
+  ['msg_5f_98',['msg_',['../classAppException.html#a1da24fcb3b81cddc8a32815f13997437',1,'AppException']]]
 ];

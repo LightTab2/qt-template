@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['var1_74',['var1',['../classMainWindow.html#a799f44203647e4c53bdb0386aa95680f',1,'MainWindow']]],
-  ['var2_75',['var2',['../classMainWindow.html#ac0da06d47d79ad4b9fb1c0eaf1118c3f',1,'MainWindow']]],
-  ['var3_76',['var3',['../classMainWindow.html#a62f41ad9aebd5f87bb97e889fceba4e9',1,'MainWindow']]]
+  ['somethingnew_99',['somethingNew',['../classDifferentWindow.html#a2c98afae16640b922c0187105c2379d6',1,'DifferentWindow']]],
+  ['static_5fvar1_100',['static_var1',['../classMainWindow.html#af90902943b212f55501dcca40be4d4d7',1,'MainWindow']]],
+  ['static_5fvar2_101',['static_var2',['../classMainWindow.html#a4bf7e6ef9e25503d5358c4d82b52dfd7',1,'MainWindow']]],
+  ['static_5fvar3_102',['static_var3',['../classMainWindow.html#a3a9084c285e4dfd3b84482e686d7ed1b',1,'MainWindow']]]
 ];

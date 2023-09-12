@@ -1,9 +1,6 @@
 var searchData=
 [
-  ['signal_60',['signal',['../classMainWindow.html#a6e324ad86f3b0327be547206b88e0e64',1,'MainWindow']]],
-  ['slot_61',['slot',['../classMainWindow.html#a111e05f870d16851bbbc296e3fe3d07f',1,'MainWindow']]],
-  ['somefunc_62',['someFunc',['../namespacemyOwnNamespace.html#a75cbd777d265daa38f96b791bd3f5375',1,'myOwnNamespace']]],
-  ['static_5ffunc1_63',['static_func1',['../classMainWindow.html#a63d31238a25eb8da43f59a27fb79f01d',1,'MainWindow']]],
-  ['static_5ffunc2_64',['static_func2',['../classMainWindow.html#abb71cfedfe367cd86d5740da9e6685cc',1,'MainWindow']]],
-  ['static_5ffunc3_65',['static_func3',['../classMainWindow.html#a7b3f4ecc67a44c08b4bb7c9dea7d7029',1,'MainWindow']]]
+  ['func1_76',['func1',['../classMainWindow.html#a8882349d4e182130977f5e9e8a874d34',1,'MainWindow']]],
+  ['func2_77',['func2',['../classMainWindow.html#a50c3d8b54c28650205c8b58b154f95af',1,'MainWindow']]],
+  ['func3_78',['func3',['../classMainWindow.html#aee9013d9c6de7a665eced3531d49b205',1,'MainWindow']]]
 ];

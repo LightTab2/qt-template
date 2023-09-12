@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['point_15',['Point',['../classMainWindow_1_1Point.html',1,'MainWindow']]],
-  ['privateslot_16',['privateSlot',['../classMainWindow.html#a83a866c7e1a82f0ecf44ef483596edad',1,'MainWindow']]]
+  ['general_15',['General',['../Exceptions_8h.html#ab0df38968e4f03a3f1f6d6df0f31f45aa0db377921f4ce762c62526131097968f',1,'Exceptions.h']]]
 ];
