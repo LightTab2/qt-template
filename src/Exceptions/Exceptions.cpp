@@ -1,4 +1,4 @@
-﻿#include "Exceptions.h"
+#include "Exceptions.h"
 
 //QML
 //QObject* AppException::exceptionMessage = nullptr;

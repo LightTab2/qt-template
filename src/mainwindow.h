@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE

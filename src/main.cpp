@@ -3,7 +3,7 @@
 #include <QApplication>
 #include <boost/filesystem.hpp>
 
-#include "Exceptions.h"
+#include "Exceptions/Exceptions.h"
 
 int main(int argc, char* argv[])
 {
