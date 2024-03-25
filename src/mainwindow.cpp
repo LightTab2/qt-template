@@ -3,7 +3,7 @@
 
 #include <boost/multiprecision/integer.hpp>
 
-#include "Exceptions.h"
+#include "Exceptions/Exceptions.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), 

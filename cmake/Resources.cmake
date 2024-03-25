@@ -8,7 +8,9 @@ foreach(QML_FILE ${QML_FILES})
                                 QT_RESOURCE_ALIAS ${QML_FILE_PATH})
 endforeach()
 
-set(RESOURCES icon/icon_32x32.png)
+set(RESOURCES 
+    icon/icon_32x32.png
+    icon/icon_64x64.png)
 
 # Prepend "../" to each path
 foreach(Resource ${RESOURCES})
