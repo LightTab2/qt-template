@@ -63,7 +63,7 @@ private:
 /// Instead of throwing exceptions use:
 /// - `qDebug() << [ErrorType] << [message]` for information that should be written in a log only when debugging is enabled
 /// - `qInfo() << [ErrorType] << [message]` for information that should be written in a log
-/// - `qWarn() << [ErrorType] << [message]` for information that should be displayed as a warning to the user
+/// - `qWarning() << [ErrorType] << [message]` for information that should be displayed as a warning to the user
 /// - `qCritical() << [ErrorType] << [message]` for exceptions
 /// - `qFatal() << [ErrorType] << [message]` for exceptions that cannot be recovered from
 QDebug operator<<(QDebug logger, const ErrorType& errorType);
@@ -73,7 +73,7 @@ QDebug operator<<(QDebug logger, const ErrorType& errorType);
 /// Instead of throwing exceptions use:
 /// - `qDebug() << [ErrorType] << [message]` for information that should be written in a log only when debugging is enabled
 /// - `qInfo() << [ErrorType] << [message]` for information that should be written in a log
-/// - `qWarn() << [ErrorType] << [message]` for information that should be displayed as a warning to the user
+/// - `qWarning() << [ErrorType] << [message]` for information that should be displayed as a warning to the user
 /// - `qCritical() << [ErrorType] << [message]` for exceptions
 /// - `qFatal() << [ErrorType] << [message]` for exceptions that cannot be recovered from
 void errorMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg);

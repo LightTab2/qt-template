@@ -48,6 +48,16 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Cache Conan
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ github.workspace }}/conan/
+            ~/.conan2
+          key: conan2-${{ runner.os }}-${{ hashFiles('conan/conanfile.txt') }}
+          restore-keys: |
+            conan2-${{ runner.os }}-
+
       - name: Run Conan 
         run: |
           conan profile detect
@@ -58,7 +68,7 @@ jobs:
         with:
           version: '6.5.*'
           cache: 'true'
-          cache-key-prefix: 'install-qt-action'
+          cache-key-prefix: 'install-qt-action-${{ runner.os }}'
 
       - name: Configure
         run: cmake -Bbuild -DCMAKE_TOOLCHAIN_FILE="conan/conan_toolchain.cmake"

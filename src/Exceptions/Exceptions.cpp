@@ -98,6 +98,7 @@ void errorMessageHandler(QtMsgType type, const QMessageLogContext& context, cons
     {
     case QtInfoMsg:
     case QtWarningMsg:
+        //QMessageBoxes won't display when used with Qt Quick, so you can remove this line, if you use it
         showMessage();
     break;
 

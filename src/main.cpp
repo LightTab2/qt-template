@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
     catch (...)
     {
         std::cerr << "[Critical] Unidentified exception has occurred\n";
-        showExceptionMessageBox("Unidentified \"std::exception\" has occurred");
+        showExceptionMessageBox("Unidentified exception has occurred");
         throw;
     }
     boost::filesystem::recursive_directory_iterator it;
