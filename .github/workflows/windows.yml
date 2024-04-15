@@ -51,7 +51,7 @@ jobs:
       - name: Cache Conan
         uses: actions/cache@v3
         with:
-          path: /conan/
+          path: ${{ github.workspace }}/conan/
           key: conan-${{ runner.os }}-${{ hashFiles('conan/conanfile.txt') }}
           restore-keys: |
             conan-${{ runner.os }}-
