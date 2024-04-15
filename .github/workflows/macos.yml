@@ -52,7 +52,7 @@ jobs:
         with:
           path: |
             ${{ github.workspace }}/conan/
-            ${{ runner.home }}/.conan2
+            ~/.conan2
           key: conan2-${{ runner.os }}-${{ hashFiles('conan/conanfile.txt') }}
           restore-keys: |
             conan2-${{ runner.os }}-
