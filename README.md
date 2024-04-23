@@ -38,6 +38,8 @@
 
 ### Install packages using *Conan*:
 
+Run `conanLibrariesInstall.sh` or `conanLibrariesInstall.bat`, or simply execute these commands in the cloned repository's directory:
+
 ```bash
 conan install conan/ --build=missing --settings=build_type=Debug
 conan install conan/ --build=missing --settings=build_type=Release
