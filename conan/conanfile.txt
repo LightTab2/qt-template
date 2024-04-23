@@ -1,7 +1,0 @@
-[requires]
-boost/1.82.0
-ms-gsl/4.0.0
-
-[generators]
-CMakeDeps
-CMakeToolchain
