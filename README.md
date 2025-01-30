@@ -374,6 +374,11 @@ In case of a **wrong architecture** of the libraries and other possible **profil
 If you don't have a profile, create one:
 
 ```bash
+conan profile detect
+```
+
+or:
+```bash
 conan profile new default --detect
 ```
 
@@ -463,6 +468,23 @@ And change it to:
 
 <hr>
 </details>
+
+<details><summary>"conan is not recognized as an internal or external command"</summary>
+
+Problem that usually occurs on *Windows*.
+
+*Conan* needs to be added to the **PATH** enviromental variable. It is usually found alongside other *Python* scripts:
+```
+C:/Users/[user_name]/AppData/Roaming/Python/Python[python_version]/Scripts
+```
+Example:
+```
+C:/Users/Owl/AppData/Roaming/Python/Python313/Scripts
+```
+
+<hr>
+</details>
+
 
 <details><summary>"/bin/bash^M: bad interpreter: No such file or directory"</summary>
 
