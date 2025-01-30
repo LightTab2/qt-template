@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['_7eappexception_55',['~AppException',['../classAppException.html#a23aa34109c69f0dd10d5ae0fd22c29a5',1,'AppException']]],
-  ['_7emainwindow_56',['~MainWindow',['../classMainWindow.html#aa33fa7d45aa34b9ede5cb69ab574a1b2',1,'MainWindow']]]
+  ['y_0',['y',['../mainwindow_8h.html#a0a2f84ed7838f07779ae24c5a9086d33',1,'someStruct::y'],['../classMainWindow_1_1Point.html#a0a2f84ed7838f07779ae24c5a9086d33',1,'MainWindow::Point::y']]]
 ];

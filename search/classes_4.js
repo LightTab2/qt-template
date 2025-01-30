@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['somestruct_61',['someStruct',['../mainwindow_8h.html#structsomeStruct',1,'']]]
+  ['somestruct_0',['someStruct',['../mainwindow_8h.html#structsomeStruct',1,'']]]
 ];

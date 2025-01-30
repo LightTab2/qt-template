@@ -1,6 +1,6 @@
 var hierarchy =
 [
-    [ "MainWindow::Point", "classMainWindow_1_1Point.html", null ],
+    [ "Point", "classMainWindow_1_1Point.html", null ],
     [ "QException", null, [
       [ "AppException", "classAppException.html", null ]
     ] ],

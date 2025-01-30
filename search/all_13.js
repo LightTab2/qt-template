@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['y_53',['y',['../mainwindow_8h.html#a0a2f84ed7838f07779ae24c5a9086d33',1,'someStruct::y()'],['../classMainWindow_1_1Point.html#a0a2f84ed7838f07779ae24c5a9086d33',1,'MainWindow::Point::y()']]]
+  ['what_0',['what',['../classAppException.html#abf843cbb29dec939d0731e491bab6f70',1,'AppException']]]
 ];

@@ -1,5 +1,11 @@
 var searchData=
 [
-  ['operator_3c_3c_25',['operator&lt;&lt;',['../Exceptions_8cpp.html#a70ea616286be45db2b894b182e49d283',1,'operator&lt;&lt;(QDebug d, const ErrorType &amp;errorType):&#160;Exceptions.cpp'],['../Exceptions_8h.html#af9b1bb3fe570e52bbe65076506ecbfb9',1,'operator&lt;&lt;(QDebug logger, const ErrorType &amp;errorType):&#160;Exceptions.cpp']]],
-  ['operator_3d_26',['operator=',['../classAppException.html#a5de98f3cc22822f5d2945002f4bdd932',1,'AppException::operator=(const AppException &amp;)=default'],['../classAppException.html#a884ef654e3e9e1bab1b986a91a094ecb',1,'AppException::operator=(AppException &amp;&amp;) noexcept=default']]]
+  ['main_0',['main',['../main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main.cpp']]],
+  ['main_2ecpp_1',['main.cpp',['../main_8cpp.html',1,'']]],
+  ['mainwindow_2',['mainwindow',['../classMainWindow.html',1,'MainWindow'],['../classMainWindow.html#ac3df08a4bc0438931d73601110c9267e',1,'MainWindow::MainWindow()']]],
+  ['mainwindow_2ecpp_3',['mainwindow.cpp',['../mainwindow_8cpp.html',1,'']]],
+  ['mainwindow_2eh_4',['mainwindow.h',['../mainwindow_8h.html',1,'']]],
+  ['msg_5f_5',['msg_',['../classAppException.html#a1da24fcb3b81cddc8a32815f13997437',1,'AppException']]],
+  ['myownnamespace_6',['myOwnNamespace',['../namespacemyOwnNamespace.html',1,'']]],
+  ['myownnamespace2_7',['myOwnNamespace2',['../namespacemyOwnNamespace2.html',1,'']]]
 ];

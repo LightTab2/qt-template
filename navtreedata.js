@@ -26,19 +26,19 @@ var NAVTREE =
 [
   [ "Qt Template", "index.html", [
     [ "Docs", "usergroup0.html", [
-      [ "Test", "md_pages_Test.html", [
-        [ "[Project name]", "md_pages_Test.html#autotoc_md0", [
-          [ "Prerequisites", "md_pages_Test.html#autotoc_md1", null ],
-          [ "Install", "md_pages_Test.html#autotoc_md2", [
-            [ "Install packages using", "md_pages_Test.html#autotoc_md3", null ],
-            [ "Build the project", "md_pages_Test.html#autotoc_md4", null ]
+      [ "Test", "md_pages_2Test.html", [
+        [ "[Project name]", "md_pages_2Test.html#autotoc_md0", [
+          [ "Prerequisites", "md_pages_2Test.html#autotoc_md1", null ],
+          [ "Install", "md_pages_2Test.html#autotoc_md2", [
+            [ "Install packages using", "md_pages_2Test.html#autotoc_md3", null ],
+            [ "Build the project", "md_pages_2Test.html#autotoc_md4", null ]
           ] ]
         ] ],
-        [ "Second", "md_pages_Test.html#autotoc_md5", [
-          [ "Features", "md_pages_Test.html#autotoc_md6", null ],
-          [ "Troubleshooting", "md_pages_Test.html#autotoc_md7", null ],
-          [ "Contributing", "md_pages_Test.html#autotoc_md8", null ],
-          [ "License", "md_pages_Test.html#autotoc_md9", null ]
+        [ "Second", "md_pages_2Test.html#autotoc_md5", [
+          [ "Features", "md_pages_2Test.html#autotoc_md6", null ],
+          [ "Troubleshooting", "md_pages_2Test.html#autotoc_md7", null ],
+          [ "Contributing", "md_pages_2Test.html#autotoc_md8", null ],
+          [ "License", "md_pages_2Test.html#autotoc_md9", null ]
         ] ]
       ] ]
     ] ],
