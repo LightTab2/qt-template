@@ -16,7 +16,7 @@ env:
 
 jobs:
   build_and_deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: "${{ github.event.workflow_run.conclusion == 'success' }} && !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
     steps:
       - name: Extract repository name
