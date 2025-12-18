@@ -24,7 +24,7 @@
 * **[CMake v3.21+](https://cmake.org/)**
 
 * **[Python 3](https://www.python.org/)**
-    * **Conan** &ndash; `pip install conan`
+    * **Conan** &ndash; `python3 -m venv venv && source ./venv/bin/activate && pip3 install conan` OR `pip install conan`
 
 * **[Qt 6](https://www.qt.io/)**
 
@@ -38,7 +38,13 @@
 
 ### Install packages using *Conan*:
 
-Run `conanLibrariesInstall.sh` or `conanLibrariesInstall.bat`, or simply execute these commands in the cloned repository's directory:
+You might want to create a profile first before proceeding:
+```
+source ./venv/bin/activate # if venv is used
+conan profile detect
+```
+
+Run `conanLibrariesInstall.sh` or `conanLibrariesInstall.ps1`, or simply execute these commands in the cloned repository's directory:
 
 ```bash
 conan install conan/ --build=missing --settings=build_type=Debug
@@ -49,14 +55,14 @@ conan install conan/ --build=missing --settings=build_type=Release
 
 <details><summary>Bash</summary>
 
+Examples:
+
 ```bash
-cmake . -G [generator] -T [toolset] --build [PathToBuiltProject]
+cmake . -G Ninja -B build -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
 ```
 
-Example:
-
 ```bash
-cmake . -G "Visual Studio 16 2019" -T v143 -Bbuild
+cmake . -G "Visual Studio 18 2026" -T v145 -B build -A x64 -DCMAKE_TOOLCHAIN_FILE=.
 ```
 
 <hr>
