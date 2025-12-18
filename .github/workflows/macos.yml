@@ -17,7 +17,7 @@ env:
 jobs:
   build_and_deploy:
     runs-on: macos-latest
-    if: "${{ github.event.workflow_run.conclusion == 'success' }} && !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && !contains(github.event.workflow_run.head_commit.message, '[skip ci]') && !contains(github.event.workflow_run.head_commit.message, '[ci skip]') }}
     steps:
       - name: Extract repository name
         id: repoName
@@ -86,7 +86,7 @@ jobs:
           ctest -C release -VV
 
       - name: Create release artifact
-        if: "${{ github.event_name != 'pull_request' }}"
+        if: ${{ github.event_name != 'pull_request' }}
         uses: softprops/action-gh-release@v1
         with:
           files: build/install/${{ steps.repoName.outputs.name }}_macOS_${{ steps.versionTag.outputs.tag }}.tar.gz
