@@ -383,11 +383,6 @@ If you don't have a profile, create one:
 conan profile detect
 ```
 
-or:
-```bash
-conan profile new default --detect
-```
-
 <hr>
 </details>
 

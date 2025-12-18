@@ -60,7 +60,7 @@ jobs:
 
       - name: Run Conan 
         run: |
-          conan profile detect
+          conan profile detect --force
           conan install conan/ --build=missing
 
       - name: Install Qt
