@@ -3,9 +3,9 @@
 //QML
 //QObject* AppException::exceptionMessage = nullptr;
 
-AppException::AppException(const char* msg__, ErrorType errorType__)
-	: errorType(errorType__),
-      msg_(msg__)
+AppException::AppException(const char* msg, ErrorType errorType)
+	: errorType(errorType),
+      msg_(msg)
 {
 }
 
@@ -24,10 +24,18 @@ const char* AppException::what() const noexcept
     return msg_.c_str();
 }
 
-QDebug operator<<(QDebug d, const ErrorType& errorType)
+QDebug operator<<(QDebug logger, const ErrorType& errorType)
 {
-	d << ErrorTypeStr[static_cast<int>(errorType)];
-	return d;
+    switch (errorType)
+    {
+    case ErrorType::General:
+        logger << "[General] ";
+        break;
+    default:
+        logger << "[Unknown Error: " << static_cast<int>(errorType) << "] ";
+        break;
+    }
+	return logger;
 }
 
 void errorMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
