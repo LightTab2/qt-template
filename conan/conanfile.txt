@@ -1,5 +1,5 @@
 [requires]
-boost/1.89.0
+boost/1.90.0
 ms-gsl/4.2.0
 
 [generators]
