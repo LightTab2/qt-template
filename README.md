@@ -62,7 +62,7 @@ cmake . -G Ninja -B build -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DC
 ```
 
 ```bash
-cmake . -G "Visual Studio 17 2022" -T v143 -B build -A x64 -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake
+cmake . -G "Visual Studio 17 2022" -T v143 -B build -A x64 -DCMAKE_TOOLCHAIN_FILE="conan/conan_toolchain.cmake"
 ```
 
 <hr>
