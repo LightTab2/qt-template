@@ -69,7 +69,7 @@ void errorMessageHandler(QtMsgType type, const QMessageLogContext& context, cons
     std::cerr << messageWithCategory.toLocal8Bit().data() << std::endl;
 #else
     if (category != QStringLiteral("Debug"))
-        std::cerr << message.toLocal8Bit().data() << std::endl;
+        std::cerr << messageWithCategory.toLocal8Bit().data() << std::endl;
 #endif
     auto showMessage = [&type, &category, &messageContent]()
     {
