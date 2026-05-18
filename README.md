@@ -355,13 +355,25 @@ There is a commented snippet in `src/main.cpp` with `int main(int argc, char* ar
 
 <details><summary><i>Qt6</i> is <b>not found</b>, despite being installed</summary>
 
-Ensure that these **environment variables** are set properly:
+It is possible to pass **Qt Cmake files** to **Cmake**, by adding `-DCMAKE_PREFIX_PATH=~/Qt/6.11.1/gcc_64`. 
+
+Examples:
+
+```bash
+cmake . -G Ninja -B build -DCMAKE_TOOLCHAIN_FILE="conan/conan_toolchain.cmake" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=~/Qt/6.11.1/gcc_64
+```
+
+```bash
+cmake . -G "Visual Studio 17 2022" -T v143 -B build -A x64 -DCMAKE_TOOLCHAIN_FILE="conan/conan_toolchain.cmake" -DCMAKE_PREFIX_PATH=~/Qt/6.11.1/gcc_64
+```
+
+**OR** provide these **environment variables**:
 
 * **Qt6_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6`<br/>Example: `C:/Qt/6.5.1/msvc2019_64/lib/cmake/Qt6`
 
-* **Qt6GuiTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6GuiTools`<br/>Example: `/usr/lib/x86_64-linux-gnu/6.5.1/clang_64/lib/cmake/Qt6GuiTools`
+* **Qt6GuiTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6GuiTools`<br/>Example: `/usr/lib/x86_64-linux-gnu/6.11.1/clang_64/lib/cmake/Qt6GuiTools`
 
-* **Qt6CoreTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6CoreTools`<br/>Example: `D:/Qt/6.3/msvc2019_64/lib/cmake/Qt6CoreTools`
+* **Qt6CoreTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6CoreTools`<br/>Example: `~/Qt/6.11.1/gcc_64/lib/cmake/Qt6CoreTools`
 
 <hr>
 </details>
