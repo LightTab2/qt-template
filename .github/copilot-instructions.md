@@ -2,11 +2,6 @@
 
 This is a **Qt6 desktop application** built with CMake and C++17. The project generates both an executable (UI application) and a static library from the same source, enabling code reuse in tests.
 
-**Key structural decisions:**
-- **Dual-target build**: Each source file compiles into both the executable and library to allow tests to link against core logic
-- **Modular dependency management**: Uses Conan for external libraries (boost, GSL) and Qt's built-in CMake integration for Qt6 components
-- **Test isolation**: Tests live in `test/` and run as separate executables that use the library, not the main app
-
 # Build and Development Workflow
 
 ## Initial Setup
@@ -29,17 +24,7 @@ cmake --build build --config Release
 
 When adding dependencies: modify `conan/conanfile.txt` for external libraries or `cmake/Modules.cmake` for Qt components, then re-run Conan.
 
-# Code Organization and Patterns
-
-## Directory Structure
-- `src/`: Application source code
-  - `main.cpp`: Entry point with comprehensive exception handling
-  - `mainwindow.{h,cpp,ui}`: Qt Designer UI and main window class
-  - `Exceptions/`: Custom exception types and error handling utilities
-  - `qml/`: Placeholder for QML files (if Qt Quick is used)
-- `test/`: Unit tests—each `test/*.cpp` generates a separate executable via CMake's loop
-- `pages/`: Documentation markdown (e.g., `index.md`)
-- `doxygen/`: Doxygen configuration and custom theming
+# Code Patterns
 
 ## Exception Handling Pattern
 The template enforces exception safety at multiple levels:
@@ -63,24 +48,5 @@ Tests are executable-based, not linked into the app. Each test file becomes an i
 - **MSVC runtime**: Windows uses multithreaded DLL runtime (`MultiThreadedDLL` for Release, `MultiThreadedDebugDLL` for Debug)
 
 ## External Dependencies
-- **Conan** (package manager)
 - **Qt6**
 - **Boost**
-
-Adding new Conan packages: edit `conan/conanfile.txt`, run install script, then reference in CMakeLists.txt with `find_package()` and `target_link_libraries()`.
-
-# Common AI Agent Tasks
-
-## Adding a new Qt component
-1. Edit `cmake/Modules.cmake`: add to `QT_COMPONENTS` list (e.g., `Quick` for QML)
-2. CMake regeneration auto-configures AUTOMOC/AUTOUIC for new MOC usage
-3. If using QML + Quick, test/CMakeLists.txt auto-enables `qt_add_qml_module()`
-
-## Adding a source file
-Files matching `src/**/*.{cpp,h,ui}` auto-discovered — no CMakeLists.txt edit needed. Rebuilding CMake triggers re-GLOB.
-
-## Adding a test
-Create `test/myTest.cpp`, rebuild CMake — automatically generates `myTest_Tests` executable.
-
-## Adding Libraries
-For detailed instructions on adding different types of libraries (Qt6 components, header-only libraries, Conan packages with and without components), see [`pages/adding-libraries.md`](./instructions/addLibrary.instructions.md).

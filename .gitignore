@@ -6,6 +6,7 @@ CMakeFiles/*
 [Tt]esting/*
 
 ### VisualStudioCode ###
+!.vscode/cmake-kits.json
 .vscode/*
 .vscode/settings.json
 .vscode/tasks.json
