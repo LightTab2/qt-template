@@ -1,47 +1,34 @@
-name: Autotag 
+name: Autotag
 
 on:
   push:
-    branches: 
-      - master
+    branches:
+      - main
 
 jobs:
-  createTag:
+  tag:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
-    outputs:
-          name: ${{ steps.version.outputs.name }}
     steps:
-      - name: Checkout 
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Get tags
-        run: git fetch --tags origin
-
-      - name: Set new tag
-        id: version
+      - name: Create and push tag
         run: |
-          LAST_TAGGED_COMMIT=$(git rev-list --tags --max-count=1)
-          TAG=$(git describe --tags $LAST_TAGGED_COMMIT)
-          TAG=${TAG%.*}.$((${TAG##*.} + 1))
-          if git describe --exact-match HEAD; then
-            echo "name=NO" >> $GITHUB_OUTPUT
-          else
-            echo "name=$TAG" >> $GITHUB_OUTPUT
+          if git describe --exact-match HEAD 2>/dev/null; then
+            echo "Commit already tagged, skipping"
+            exit 0
           fi
-
-  pushTag:
-    needs: createTag
-    runs-on: ubuntu-latest
-    if: ${{ needs.createTag.outputs.name != 'NO' }}
-    steps:
-      - name: Checkout 
-        uses: actions/checkout@v3
-
-      - name: Tag current commit
-        run: |
+          LAST_TAGGED_COMMIT=$(git rev-list --tags --max-count=1)
+          if [ -z "$LAST_TAGGED_COMMIT" ]; then
+            TAG="1.0.0"
+          else
+            TAG=$(git describe --tags "$LAST_TAGGED_COMMIT")
+            TAG=${TAG%.*}.$((${TAG##*.} + 1))
+          fi
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git tag -a ${{ needs.createTag.outputs.name }} -m "Auto-tagging the current commit"
+          git tag -a "$TAG" -m "Auto-tagging the current commit"
           git push --tags
-

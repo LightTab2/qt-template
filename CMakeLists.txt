@@ -3,11 +3,26 @@ cmake_minimum_required(VERSION 3.21)
 project("qt-template"
         LANGUAGES CXX)
 
+# Conan generates per-config imported targets (e.g. CONAN_LIB::zlib_z_RELEASE)
+# Single config generators (Ninja) display warnings about missing locations for other configurations that are invalid targets, so it's okay to ignore
+# If you wish to silence them uncomment following line
+# cmake_policy(SET CMP0111 OLD)
+
 # Find all needed libraries
 include(cmake/Modules.cmake)
 foreach(library IN LISTS MODULES)
-    find_package(${library} REQUIRED)
+    find_package(${library} CONFIG REQUIRED)
 endforeach()
+
+set(Boost_USE_STATIC_LIBS OFF) 
+set(Boost_USE_MULTITHREADED ON)  
+set(Boost_USE_STATIC_RUNTIME OFF) 
+foreach(boost_component IN LISTS BOOST_COMPONENTS)
+    find_package(Boost CONFIG COMPONENTS ${boost_component} REQUIRED)
+endforeach()
+
+# If you have had silenced CMP0111, you can re-enable it with the following line
+# cmake_policy(SET CMP0111 NEW)
 
 foreach(library IN LISTS QT_COMPONENTS)
     find_package(Qt6 COMPONENTS ${library} REQUIRED)
@@ -15,13 +30,6 @@ foreach(library IN LISTS QT_COMPONENTS)
     if (library_lower STREQUAL "quick")
         set(${PROJECT_NAME}_QT_QUICK ON)
     endif()
-endforeach()
-
-set(Boost_USE_STATIC_LIBS OFF) 
-set(Boost_USE_MULTITHREADED ON)  
-set(Boost_USE_STATIC_RUNTIME OFF) 
-foreach(library IN LISTS BOOST_COMPONENTS)
-    find_package(Boost COMPONENTS ${library} REQUIRED)
 endforeach()
 
 # Setup
