@@ -31,11 +31,11 @@ jobs:
       - name: Add font to docs branch
         run: |
           git fetch origin docs
-          git checkout docs
-          git checkout main -- doxygen/font
-          mv doxygen/font font
+          git checkout -B docs origin/docs
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add font
+          git checkout origin/main -- doxygen/font
+          git mv doxygen/font font
+          rmdir doxygen 2>/dev/null || true
           git diff --cached --quiet || git commit -m "Add font"
           git push origin HEAD:docs

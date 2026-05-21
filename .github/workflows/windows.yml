@@ -100,6 +100,6 @@ jobs:
         with:
           files: build/${{ steps.repoName.outputs.name }}_Win_${{ steps.versionTag.outputs.tag }}.zip
           prerelease: true
-          draft: false
+          draft: true
           tag_name: ${{ steps.versionTag.outputs.tag }}
           token: ${{ secrets.GITHUB_TOKEN }}
