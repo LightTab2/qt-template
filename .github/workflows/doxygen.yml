@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   create_docs:
     runs-on: ubuntu-latest
@@ -12,30 +15,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
 
-      - name: Add Doxygen Awesome CSS as submodule
+      - name: Install Doxygen and Graphviz
         run: |
-          if [ ! -d "doxygen-awesome-css" ]; then
-            git submodule add https://github.com/jothepro/doxygen-awesome-css.git
-          fi
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
 
-      - name: Generate and deploy docs
-        uses: DenverCoder1/doxygen-github-pages-action@v1.3.0
+      - name: Add Doxygen Awesome CSS
+        run: git clone --depth 1 https://github.com/jothepro/doxygen-awesome-css.git
+
+      - name: Generate docs
+        run: doxygen doxygen/Doxyfile_dev
+
+      - name: Copy fonts alongside generated CSS
+        run: cp -r doxygen/font docs/html/font
+
+      - name: Deploy to docs branch
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: docs
-          config_file: doxygen/Doxyfile_dev
-
-      - name: Add font to docs branch
-        run: |
-          git fetch origin docs
-          git checkout -B docs origin/docs
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git checkout main -- doxygen/font
-          git mv doxygen/font font
-          rmdir doxygen 2>/dev/null || true
-          git diff --cached --quiet || git commit -m "Add font"
-          git push origin HEAD:docs
+          folder: docs/html
+          token: ${{ secrets.GITHUB_TOKEN }}

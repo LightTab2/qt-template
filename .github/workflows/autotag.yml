@@ -21,12 +21,11 @@ jobs:
             echo "Commit already tagged, skipping"
             exit 0
           fi
-          LAST_TAGGED_COMMIT=$(git rev-list --tags --max-count=1)
-          if [ -z "$LAST_TAGGED_COMMIT" ]; then
-            TAG="1.0.0"
+          LAST_TAG=$(git tag --list 'v[0-9]*' --sort=-v:refname | head -n1)
+          if [ -z "$LAST_TAG" ]; then
+            TAG="v1.0.0"
           else
-            TAG=$(git describe --tags "$LAST_TAGGED_COMMIT")
-            TAG=${TAG%.*}.$((${TAG##*.} + 1))
+            TAG=${LAST_TAG%.*}.$((${LAST_TAG##*.} + 1))
           fi
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
