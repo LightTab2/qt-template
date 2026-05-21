@@ -9,7 +9,12 @@ project("qt-template"
 # cmake_policy(SET CMP0111 OLD)
 
 # Find all needed libraries
+
 include(cmake/Modules.cmake)
+foreach(sys_library IN LISTS SYS_MODULES)
+    find_package(${sys_library} REQUIRED)
+endforeach()
+
 foreach(library IN LISTS MODULES)
     find_package(${library} CONFIG REQUIRED)
 endforeach()

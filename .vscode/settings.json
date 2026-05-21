@@ -1,0 +1,8 @@
+{
+  "cmake.additionalKits": [
+    "${workspaceFolder}/.vscode/cmake-kits.json"
+  ],
+  "cmake.configureSettings": {
+    "CMAKE_PREFIX_PATH": "$env{HOME}/Qt/6.11.1/gcc_64"
+  }
+}

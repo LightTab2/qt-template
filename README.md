@@ -159,6 +159,29 @@ Now the library should be available but **might not be linked to the *CMake* pro
 Check if the library has **components**. Libraries with **components** are libraries like *Qt6* or *Boost*, in which you can choose to use **a few of their all features**.
 
 <ul style="list-style-type:none;">
+<li><details><summary>System library (Skipping Step 1.)</summary>
+
+Use `SYS_MODULES` for libraries that are **not** delivered through *Conan* and *CMake* is supposed to find them on the **local system** instead.
+
+Modify `cmake/Modules.cmake`:
+
+```cmake
+set(SYS_MODULES {Libraries})
+```
+
+Example:
+
+```cmake
+set(SYS_MODULES Threads OpenGL)
+```
+
+You still need to link the imported target manually further below in `CMakeLists.txt`. The imported target name is library-specific (e.g.: `Threads::Threads`, `OpenGL::GL`). You need to check the relevant `Find<Name>.cmake` documentation, so going with *Conan* is usually **easier** and more **portable**.
+
+<hr>
+</details>
+</li>
+
+
 <li><details><summary>Header-only library</summary>
 
 Nothing needs to be done. Header-only libraries are already added in *Conan* toolchain file.
@@ -166,7 +189,6 @@ Nothing needs to be done. Header-only libraries are already added in *Conan* too
 <hr>
 </details>
 </li>
-
 <li><details><summary>Library w/o components</summary>
 
 Modify `cmake/Modules.cmake`:
@@ -374,6 +396,10 @@ cmake . -G "Visual Studio 17 2022" -T v143 -B build -A x64 -DCMAKE_TOOLCHAIN_FIL
 * **Qt6GuiTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6GuiTools`<br/>Example: `/usr/lib/x86_64-linux-gnu/6.11.1/clang_64/lib/cmake/Qt6GuiTools`
 
 * **Qt6CoreTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6CoreTools`<br/>Example: `~/Qt/6.11.1/gcc_64/lib/cmake/Qt6CoreTools`
+
+<details><summary><b>Visual Studio Code</summary>
+
+If you are using <i>Visual Studio Code</i>, you might want to edit `DCMAKE_PREFIX_PATH` variables in `settings.json`.
 
 <hr>
 </details>

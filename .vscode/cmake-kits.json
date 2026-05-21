@@ -1,0 +1,6 @@
+[
+  {
+    "name": "Qt6 Release (Conan + Ninja)",
+    "toolchainFile": "${workspaceFolder}/conan/conan_toolchain.cmake"
+  }
+]
