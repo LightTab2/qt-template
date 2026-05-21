@@ -18,7 +18,7 @@ if (-not (Test-Path $pip)) {
     exit 1
 }
 
-& $pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
 & $pip install conan
 
 if (-not (Test-Path $conan)) {
