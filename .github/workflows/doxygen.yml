@@ -34,7 +34,7 @@ jobs:
           git checkout -B docs origin/docs
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git checkout origin/main -- doxygen/font
+          git checkout main -- doxygen/font
           git mv doxygen/font font
           rmdir doxygen 2>/dev/null || true
           git diff --cached --quiet || git commit -m "Add font"
