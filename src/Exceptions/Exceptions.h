@@ -17,21 +17,16 @@
 #define ERROR_MESSAGE(msg) showMessage()
 #include <QMessageBox>
 
+/// XXZZ: XX is category, ZZ is subcategory
 enum class ErrorType
 {
-	General,
-	Unidentified
-};
-
-constexpr char const* const ErrorTypeStr[]
-{
-	"[General]",
-	"[Unidentified]"
+	Invalid = 0000,
+	General = 0001
 };
 
 /// An exception class to distinguish between QExceptions thrown from Qt library and this project
 ///
-class AppException final : public QException
+class AppException : public QException
 {
 public:
 	// Constructor
@@ -43,16 +38,16 @@ public:
 	AppException(AppException&&)            noexcept = default;
 	AppException& operator=(AppException&&) noexcept = default; //cpp20
 	// Destructor
-	~AppException() = default;
+	virtual ~AppException() = default;
 
-	void raise() const override;
+	void raise()          const override;
 	AppException* clone() const override;
-	const char* what() const noexcept override;
+	const char* what()    const noexcept override;
 
 	//QML
 	//static QObject* exceptionMessage;
 	
-	ErrorType errorType;
+	const ErrorType errorType;
 private:
 	std::string msg_;
 };

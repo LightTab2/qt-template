@@ -3,9 +3,9 @@
 //QML
 //QObject* AppException::exceptionMessage = nullptr;
 
-AppException::AppException(const char* msg__, ErrorType errorType__)
-	: errorType(errorType__),
-      msg_(msg__)
+AppException::AppException(const char* msg, ErrorType errorType)
+	: errorType(errorType),
+      msg_(msg)
 {
 }
 
@@ -24,10 +24,18 @@ const char* AppException::what() const noexcept
     return msg_.c_str();
 }
 
-QDebug operator<<(QDebug d, const ErrorType& errorType)
+QDebug operator<<(QDebug logger, const ErrorType& errorType)
 {
-	d << ErrorTypeStr[static_cast<int>(errorType)];
-	return d;
+    switch (errorType)
+    {
+    case ErrorType::General:
+        logger << "[General] ";
+        break;
+    default:
+        logger << "[Unknown Error: " << static_cast<int>(errorType) << "] ";
+        break;
+    }
+	return logger;
 }
 
 void errorMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
@@ -54,14 +62,16 @@ void errorMessageHandler(QtMsgType type, const QMessageLogContext& context, cons
     }
     QString file{ context.file };
     file = file.mid(qMax(file.lastIndexOf('/'), file.lastIndexOf('\\')) + 1);
-    const QString message = '[' + category + "] [" + file + ':' + std::to_string(context.line).c_str() + "] [" + context.function + "]\n" + msg;
+    const QString messageContent = '[' + file + ':' + std::to_string(context.line).c_str() + "][" + context.function + "]\n" + msg;
+
+    const QString messageWithCategory = '[' + category + "] " + messageContent;
 #ifdef _DEBUG
-    std::cerr << message.toLocal8Bit().data() << std::endl;
+    std::cerr << messageWithCategory.toLocal8Bit().data() << std::endl;
 #else
     if (category != QStringLiteral("Debug"))
-        std::cerr << message.toLocal8Bit().data() << std::endl;
+        std::cerr << messageWithCategory.toLocal8Bit().data() << std::endl;
 #endif
-    auto showMessage = [&]()
+    auto showMessage = [&type, &category, &messageContent]()
     {
         //QML
         /* {
@@ -74,18 +84,17 @@ void errorMessageHandler(QtMsgType type, const QMessageLogContext& context, cons
         }*/
         //Widgets
         {
-            QString msg = message.mid(message.indexOf(']') + 2);
             switch (type)
             {
             case QtInfoMsg:
-                QMessageBox::information(nullptr, category, msg);
+                QMessageBox::information(nullptr, category, messageContent);
                 break;
             case QtWarningMsg:
-                QMessageBox::warning(nullptr, category, msg);
+                QMessageBox::warning(nullptr, category, messageContent);
                 break;
             case QtCriticalMsg:
             case QtFatalMsg:
-                QMessageBox::critical(nullptr, category, msg);
+                QMessageBox::critical(nullptr, category, messageContent);
                 break;
             case QtDebugMsg:
             default:
@@ -104,8 +113,8 @@ void errorMessageHandler(QtMsgType type, const QMessageLogContext& context, cons
 
     case QtCriticalMsg:
     case QtFatalMsg:
-        ERROR_MESSAGE(message.toLocal8Bit().data());
-        throw AppException(message.toLocal8Bit().data());
+        ERROR_MESSAGE(messageWithCategory.toLocal8Bit().data());
+        throw AppException(messageWithCategory.toLocal8Bit().data());
     break;
 
     case QtDebugMsg:

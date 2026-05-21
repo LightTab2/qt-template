@@ -3,58 +3,39 @@ name: Doxygen
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   create_docs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout docs branch 
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          ref: docs
-
-      - name: Rite of Purification
-        run: |
-          rm -R ./* --force
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "Remove all files"
-
-      - name: Checkout master branch
-        uses: actions/checkout@v3
-        with:
-          ref: master
+          fetch-depth: 0
 
       - name: Add Doxygen Awesome CSS as submodule
-        run: git submodule add https://github.com/jothepro/doxygen-awesome-css.git
+        run: |
+          if [ ! -d "doxygen-awesome-css" ]; then
+            git submodule add https://github.com/jothepro/doxygen-awesome-css.git
+          fi
 
-      - name: Generate documents and deploy
+      - name: Generate and deploy docs
         uses: DenverCoder1/doxygen-github-pages-action@v1.3.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: docs
           config_file: doxygen/Doxyfile_dev
 
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          ref: docs
-
-      - name: Copy font
+      - name: Add font to docs branch
         run: |
-          git fetch origin master:master
-          git checkout master -- doxygen/font
+          git fetch origin docs
+          git checkout docs
+          git checkout main -- doxygen/font
           mv doxygen/font font
-
-      - name: Commit changes
-        run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "Add Doxygen Awesome CSS"
-
-      - name: Push changes to docs branch
-        run: git push origin HEAD:docs
+          git add font
+          git diff --cached --quiet || git commit -m "Add font"
+          git push origin HEAD:docs

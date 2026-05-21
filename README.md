@@ -24,7 +24,6 @@
 * **[CMake v3.21+](https://cmake.org/)**
 
 * **[Python 3](https://www.python.org/)**
-    * **Conan** &ndash; `python3 -m venv venv && source ./venv/bin/activate && pip3 install conan` OR `pip install conan`
 
 * **[Qt 6](https://www.qt.io/)**
 
@@ -38,13 +37,8 @@
 
 ### Install packages using *Conan*:
 
-You might want to create a profile first before proceeding:
-```
-source ./venv/bin/activate # if venv is used
-conan profile detect
-```
 
-Run `conanLibrariesInstall.sh` or `conanLibrariesInstall.ps1`, or simply execute these commands in the cloned repository's directory:
+Run `conanLibrariesInstall.sh` or `conanLibrariesInstall.ps1`, or execute these commands after activating a *Python*'s **venv** with installed *Conan* :
 
 ```bash
 conan install conan/ --build=missing --settings=build_type=Debug
@@ -62,7 +56,7 @@ cmake . -G Ninja -B build -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DC
 ```
 
 ```bash
-cmake . -G "Visual Studio 17 2022" -T v143 -B build -A x64 -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake
+cmake . -G "Visual Studio 17 2022" -T v143 -B build -A x64 -DCMAKE_TOOLCHAIN_FILE="conan/conan_toolchain.cmake"
 ```
 
 <hr>
@@ -159,6 +153,29 @@ Now the library should be available but **might not be linked to the *CMake* pro
 Check if the library has **components**. Libraries with **components** are libraries like *Qt6* or *Boost*, in which you can choose to use **a few of their all features**.
 
 <ul style="list-style-type:none;">
+<li><details><summary>System library (Skipping Step 1.)</summary>
+
+Use `SYS_MODULES` for libraries that are **not** delivered through *Conan* and *CMake* is supposed to find them on the **local system** instead.
+
+Modify `cmake/Modules.cmake`:
+
+```cmake
+set(SYS_MODULES {Libraries})
+```
+
+Example:
+
+```cmake
+set(SYS_MODULES Threads OpenGL)
+```
+
+You still need to link the imported target manually further below in `CMakeLists.txt`. The imported target name is library-specific (e.g.: `Threads::Threads`, `OpenGL::GL`). You need to check the relevant `Find<Name>.cmake` documentation, so going with *Conan* is usually **easier** and more **portable**.
+
+<hr>
+</details>
+</li>
+
+
 <li><details><summary>Header-only library</summary>
 
 Nothing needs to be done. Header-only libraries are already added in *Conan* toolchain file.
@@ -166,7 +183,6 @@ Nothing needs to be done. Header-only libraries are already added in *Conan* too
 <hr>
 </details>
 </li>
-
 <li><details><summary>Library w/o components</summary>
 
 Modify `cmake/Modules.cmake`:
@@ -355,13 +371,32 @@ There is a commented snippet in `src/main.cpp` with `int main(int argc, char* ar
 
 <details><summary><i>Qt6</i> is <b>not found</b>, despite being installed</summary>
 
-Ensure that these **environment variables** are set properly:
+It is possible to pass **Qt Cmake files** to **Cmake**, by adding `-DCMAKE_PREFIX_PATH=~/Qt/6.11.1/gcc_64`. 
+
+Examples:
+
+```bash
+cmake . -G Ninja -B build -DCMAKE_TOOLCHAIN_FILE="conan/conan_toolchain.cmake" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=~/Qt/6.11.1/gcc_64
+```
+
+```bash
+cmake . -G "Visual Studio 17 2022" -T v143 -B build -A x64 -DCMAKE_TOOLCHAIN_FILE="conan/conan_toolchain.cmake" -DCMAKE_PREFIX_PATH=~/Qt/6.11.1/gcc_64
+```
+
+**OR** provide these **environment variables**:
 
 * **Qt6_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6`<br/>Example: `C:/Qt/6.5.1/msvc2019_64/lib/cmake/Qt6`
 
-* **Qt6GuiTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6GuiTools`<br/>Example: `/usr/lib/x86_64-linux-gnu/6.5.1/clang_64/lib/cmake/Qt6GuiTools`
+* **Qt6GuiTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6GuiTools`<br/>Example: `/usr/lib/x86_64-linux-gnu/6.11.1/clang_64/lib/cmake/Qt6GuiTools`
 
-* **Qt6CoreTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6CoreTools`<br/>Example: `D:/Qt/6.3/msvc2019_64/lib/cmake/Qt6CoreTools`
+* **Qt6CoreTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6CoreTools`<br/>Example: `~/Qt/6.11.1/gcc_64/lib/cmake/Qt6CoreTools`
+
+<details><summary><b>Visual Studio Code</b></summary>
+
+If you are using **Visual Studio Code** and building with **CMake**, you might want to edit `CMAKE_PREFIX_PATH` variable in `settings.json`.
+
+<hr>
+</details>
 
 <hr>
 </details>
@@ -470,15 +505,18 @@ And change it to:
 <hr>
 </details>
 
-<details><summary>"conan is not recognized as an internal or external command"</summary>
+<details><summary>"<b>conan</b> is not recognized as an internal or external command"</summary>
 
 Problem that usually occurs on *Windows*.
 
 *Conan* needs to be added to the **PATH** enviromental variable. It is usually found alongside other *Python* scripts:
+
 ```
 C:/Users/[user_name]/AppData/Roaming/Python/Python[python_version]/Scripts
 ```
+
 Example:
+
 ```
 C:/Users/Owl/AppData/Roaming/Python/Python313/Scripts
 ```
@@ -509,7 +547,7 @@ dos2unix ./icon/UnixScripts/*.sh
 <hr>
 </details>
 
-<details><summary>Add/change/remove custom filter </summary>
+<details><summary>Add/change/remove <b>custom source filter</b></summary>
 
 At line `174` of `CMakeLists.txt` you can modify following code for **filters** to change or remove them:
 

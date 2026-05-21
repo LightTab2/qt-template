@@ -2,44 +2,50 @@ name: macOS
 
 on:
   pull_request:
-    branches: 
-      - master
+    branches:
+      - main
   workflow_run:
-    workflows: 
-      - AutoTag
+    workflows:
+      - Autotag
     types:
       - completed
 
 env:
-  BUILD_TYPE: Release
   CMAKE_BUILD_TYPE: Release
 
 jobs:
   build_and_deploy:
     runs-on: macos-latest
-    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && !contains(github.event.workflow_run.head_commit.message, '[skip ci]') && !contains(github.event.workflow_run.head_commit.message, '[ci skip]') }}
+    if: >-
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       !contains(github.event.workflow_run.head_commit.message, '[skip ci]') &&
+       !contains(github.event.workflow_run.head_commit.message, '[ci skip]'))
     steps:
       - name: Extract repository name
         id: repoName
         run: |
-          REPO_NAME=$(echo ${GITHUB_REPOSITORY} | cut -d '/' -f 2)
+          REPO_NAME="${GITHUB_REPOSITORY##*/}"
           echo "name=$REPO_NAME" >> $GITHUB_OUTPUT
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get tags
+        if: ${{ github.event_name == 'workflow_run' }}
         run: git fetch --tags origin
 
       - name: Get version name
         id: versionTag
+        if: ${{ github.event_name == 'workflow_run' }}
         run: |
           LAST_TAGGED_COMMIT=$(git rev-list --tags --max-count=1)
-          TAG=$(git describe --tags $LAST_TAGGED_COMMIT)
+          TAG=$(git describe --tags "$LAST_TAGGED_COMMIT")
           echo "tag=$TAG" >> $GITHUB_OUTPUT
 
       - name: Install Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
           cache: 'pip'
@@ -48,22 +54,20 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Cache Conan
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
-          path: |
-            ${{ github.workspace }}/conan/
-            ~/.conan2
+          path: ~/.conan2
           key: conan2-${{ runner.os }}-${{ hashFiles('conan/conanfile.txt') }}
           restore-keys: |
             conan2-${{ runner.os }}-
 
-      - name: Run Conan 
+      - name: Run Conan
         run: |
           conan profile detect --force
           conan install conan/ --build=missing
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           version: '6.5.*'
           cache: 'true'
@@ -73,21 +77,24 @@ jobs:
         run: cmake -Bbuild -DCMAKE_TOOLCHAIN_FILE="conan/conan_toolchain.cmake"
 
       - name: Build
-        run: cmake --build build --config release --target install -j4
-
-      - name: Zip artifacts
-        run: |
-          cd build/install/
-          tar -czvf ${{ steps.repoName.outputs.name }}_macOS_${{ steps.versionTag.outputs.tag }}.tar.gz *
+        run: cmake --build build --config Release --target install -j4
 
       - name: Run tests
+        env:
+          QT_QPA_PLATFORM: offscreen
         run: |
           cd build/
-          ctest -C release -VV
+          ctest -C Release -VV
+
+      - name: Zip artifacts
+        if: ${{ github.event_name == 'workflow_run' }}
+        run: |
+          cd build/install/
+          tar -czvf "${{ steps.repoName.outputs.name }}_macOS_${{ steps.versionTag.outputs.tag }}.tar.gz" *
 
       - name: Create release artifact
-        if: ${{ github.event_name != 'pull_request' }}
-        uses: softprops/action-gh-release@v1
+        if: ${{ github.event_name == 'workflow_run' }}
+        uses: softprops/action-gh-release@v2
         with:
           files: build/install/${{ steps.repoName.outputs.name }}_macOS_${{ steps.versionTag.outputs.tag }}.tar.gz
           prerelease: true
