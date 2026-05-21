@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['packages_20using_0',['Install packages using',['../md_pages_2Test.html#autotoc_md3',1,'']]],
-  ['point_1',['Point',['../classMainWindow_1_1Point.html',1,'MainWindow']]],
-  ['prerequisites_2',['Prerequisites',['../md_pages_2Test.html#autotoc_md1',1,'']]],
-  ['privateslot_3',['privateSlot',['../classMainWindow.html#a83a866c7e1a82f0ecf44ef483596edad',1,'MainWindow']]],
-  ['project_4',['Build the project',['../md_pages_2Test.html#autotoc_md4',1,'']]],
-  ['project_20name_5',['[Project name]',['../md_pages_2Test.html#autotoc_md0',1,'']]]
+  ['operator_3c_3c_0',['operator&lt;&lt;',['../Exceptions_8cpp.html#af9b1bb3fe570e52bbe65076506ecbfb9',1,'operator&lt;&lt;(QDebug logger, const ErrorType &amp;errorType):&#160;Exceptions.cpp'],['../Exceptions_8h.html#af9b1bb3fe570e52bbe65076506ecbfb9',1,'operator&lt;&lt;(QDebug logger, const ErrorType &amp;errorType):&#160;Exceptions.cpp']]],
+  ['operator_3d_1',['operator=',['../classAppException.html#a6d01bac27e587579b4f793bd93f283f5',1,'AppException::operator=(const AppException &amp;)=default'],['../classAppException.html#a56632dc332f0b14bb4dc1e704d7a45d4',1,'AppException::operator=(AppException &amp;&amp;) noexcept=default']]]
 ];

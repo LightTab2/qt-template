@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['what_0',['what',['../classAppException.html#abf843cbb29dec939d0731e491bab6f70',1,'AppException']]]
+  ['var1_0',['var1',['../classMainWindow.html#a799f44203647e4c53bdb0386aa95680f',1,'MainWindow']]],
+  ['var2_1',['var2',['../classMainWindow.html#ac0da06d47d79ad4b9fb1c0eaf1118c3f',1,'MainWindow']]],
+  ['var3_2',['var3',['../classMainWindow.html#a62f41ad9aebd5f87bb97e889fceba4e9',1,'MainWindow']]]
 ];

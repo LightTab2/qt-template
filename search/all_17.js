@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['_7eappexception_0',['~AppException',['../classAppException.html#a23aa34109c69f0dd10d5ae0fd22c29a5',1,'AppException']]],
-  ['_7emainwindow_1',['~MainWindow',['../classMainWindow.html#aa33fa7d45aa34b9ede5cb69ab574a1b2',1,'MainWindow']]]
+  ['z_0',['z',['../mainwindow_8h.html#a14f94e529dff0b8bfba8e16fbe9755d6',1,'someStruct']]]
 ];

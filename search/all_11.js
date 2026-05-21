@@ -1,6 +1,10 @@
 var searchData=
 [
-  ['ui_0',['ui',['../namespaceUi.html',1,'Ui'],['../classMainWindow.html#ab198739b5cb12650ec2a6027f574184a',1,'MainWindow::ui']]],
-  ['unidentified_1',['Unidentified',['../Exceptions_8h.html#ab0df38968e4f03a3f1f6d6df0f31f45aaa6e13a2500c390483b7b0a46e01b40f4',1,'Exceptions.h']]],
-  ['using_2',['Install packages using',['../md_pages_2Test.html#autotoc_md3',1,'']]]
+  ['template_0',['Qt Template',['../index.html',1,'']]],
+  ['test_1',['Test',['../md_pages_2Test.html',1,'']]],
+  ['test_2emd_2',['Test.md',['../Test_8md.html',1,'']]],
+  ['testing_20pattern_3',['Testing Pattern',['../md_CLAUDE.html#autotoc_md5',1,'']]],
+  ['tests_4',['Run Tests',['../md_CLAUDE.html#autotoc_md2',1,'']]],
+  ['the_20project_5',['Build the project',['../md_pages_2Test.html#autotoc_md11',1,'']]],
+  ['troubleshooting_6',['Troubleshooting',['../md_pages_2Test.html#autotoc_md14',1,'']]]
 ];

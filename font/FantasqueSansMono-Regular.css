@@ -1,9 +1,0 @@
-@font-face {
-  font-family: 'Fantasque Sans Mono';
-  src: url('font/FantasqueSansMono-Regular.eot'); /* IE 9 Compatibility Mode */
-  src: url('font/FantasqueSansMono-Regular.eot?#iefix') format('embedded-opentype'), /* IE < 9 */
-       url('font/FantasqueSansMono-Regular.woff2') format('woff2'),
-       url('font/FantasqueSansMono-Regular.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
-       url('font/FantasqueSansMono-Regular.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('font/FantasqueSansMono-Regular.svg#FantasqueSansMono-Regular') format('svg'); /* Chrome < 4, Legacy iOS */
-}

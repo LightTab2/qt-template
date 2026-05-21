@@ -114,24 +114,24 @@ $(document).ready(function(){initNavTree('md_pages_2Test.html',''); initResizabl
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md0">[Project name]</a><ul><li class="level2"><a href="#autotoc_md1">Prerequisites</a></li>
-<li class="level2"><a href="#autotoc_md2">Install</a><ul><li class="level3"><a href="#autotoc_md3">Install packages using</a></li>
-<li class="level3"><a href="#autotoc_md4">Build the project</a></li>
+<ul><li class="level1"><a href="#autotoc_md7">[Project name]</a><ul><li class="level2"><a href="#autotoc_md8">Prerequisites</a></li>
+<li class="level2"><a href="#autotoc_md9">Install</a><ul><li class="level3"><a href="#autotoc_md10">Install packages using</a></li>
+<li class="level3"><a href="#autotoc_md11">Build the project</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="level1"><a href="#autotoc_md5">Second</a><ul><li class="level2"><a href="#autotoc_md6">Features</a></li>
-<li class="level2"><a href="#autotoc_md7">Troubleshooting</a></li>
-<li class="level2"><a href="#autotoc_md8">Contributing</a></li>
-<li class="level2"><a href="#autotoc_md9">License</a></li>
+<li class="level1"><a href="#autotoc_md12">Second</a><ul><li class="level2"><a href="#autotoc_md13">Features</a></li>
+<li class="level2"><a href="#autotoc_md14">Troubleshooting</a></li>
+<li class="level2"><a href="#autotoc_md15">Contributing</a></li>
+<li class="level2"><a href="#autotoc_md16">License</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="textblock"><h1><a class="anchor" id="autotoc_md0"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md7"></a>
 [Project name]</h1>
-<h2><a class="anchor" id="autotoc_md1"></a>
+<h2><a class="anchor" id="autotoc_md8"></a>
 Prerequisites</h2>
 <ul>
 <li><b>CMake v3.21+</b> &ndash; found at <a href="https://cmake.org/">https://cmake.org/</a></li>
@@ -147,26 +147,26 @@ Prerequisites</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md2"></a>
+<h2><a class="anchor" id="autotoc_md9"></a>
 Install</h2>
-<h3><a class="anchor" id="autotoc_md3"></a>
+<h3><a class="anchor" id="autotoc_md10"></a>
 Install packages using</h3>
 <div class="fragment"><div class="line">conan install conan/ --build=missing</div>
 </div><!-- fragment --><div class="fragment"><div class="line">cmake . -G [generator] -T [toolset] --build [PathToBuiltProject]</div>
 </div><!-- fragment --><p>Example:</p>
 <div class="fragment"><div class="line">cmake . -G &quot;Visual Studio 16 2019&quot; -T v143 -Bbuild</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md4"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md11"></a>
 Build the project</h3>
 <p>You can use your local <em>IDE</em> or <em>CMake</em> again:</p>
 <div class="fragment"><div class="line">cmake --build [pathToBuiltProject] --config [configuration] -j4 -DCMAKE_TOOLCHAIN_FILE=[pathToConanToolchainFile]</div>
 </div><!-- fragment --><p>Example:</p>
 <div class="fragment"><div class="line">cmake --build build --config release -j4 -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake</div>
-</div><!-- fragment --> <h1><a class="anchor" id="autotoc_md5"></a>
+</div><!-- fragment --> <h1><a class="anchor" id="autotoc_md12"></a>
 Second</h1>
-<h2><a class="anchor" id="autotoc_md6"></a>
+<h2><a class="anchor" id="autotoc_md13"></a>
 Features</h2>
 <p>[List of features]</p>
-<h2><a class="anchor" id="autotoc_md7"></a>
+<h2><a class="anchor" id="autotoc_md14"></a>
 Troubleshooting</h2>
 <p>If this is not a <em>Qt</em> library, modify <em>conan/conanfile.txt</em>:</p>
 <div class="fragment"><div class="line">[requires]</div>
@@ -215,10 +215,10 @@ example: <code>D:/Qt/6.3/msvc2019_64/lib/cmake/Qt6CoreTools</code></li>
 </div><!-- fragment --><p>Example:</p>
 <div class="fragment"><div class="line">Name=Parrots That Sing</div>
 <div class="line">Exec=birds-and-stuff</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md8"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md15"></a>
 Contributing</h2>
 <p>This project follows these <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">C++ Core Guidelines</a>, and it would be fun if you followed them too. If you don't, someone will correct your code. An ugly contribution is better than no contribution. <b>Thanks</b>!</p>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md16"></a>
 License</h2>
 <p>This project is licensed under the <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a>; see the [LICENSE](LICENSE) file for details. It also uses the <a href="https://www.qt.io/">Qt</a> library and possibly some of its additional modules that are licensed under the <a href="https://www.gnu.org/licenses/lgpl-3.0.en.html">LGPL</a>, but <b>none</b> of its code is present in this repository. Also note that <em>Qt</em> itself uses <a href="https://doc.qt.io/qt-6/licenses-used-in-qt.html">other third-party libraries</a> under <b>different</b> license terms. </p>
 </div></div><!-- contents -->
