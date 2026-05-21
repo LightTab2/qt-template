@@ -24,7 +24,6 @@
 * **[CMake v3.21+](https://cmake.org/)**
 
 * **[Python 3](https://www.python.org/)**
-    * **Conan** &ndash; `python3 -m venv venv && source ./venv/bin/activate && pip3 install conan` OR `pip install conan`
 
 * **[Qt 6](https://www.qt.io/)**
 
@@ -38,13 +37,8 @@
 
 ### Install packages using *Conan*:
 
-You might want to create a profile first before proceeding:
-```
-source ./venv/bin/activate # if venv is used
-conan profile detect
-```
 
-Run `conanLibrariesInstall.sh` or `conanLibrariesInstall.ps1`, or simply execute these commands in the cloned repository's directory:
+Run `conanLibrariesInstall.sh` or `conanLibrariesInstall.ps1`, or execute these commands after activating a *Python*'s **venv** with installed *Conan* :
 
 ```bash
 conan install conan/ --build=missing --settings=build_type=Debug
@@ -397,9 +391,12 @@ cmake . -G "Visual Studio 17 2022" -T v143 -B build -A x64 -DCMAKE_TOOLCHAIN_FIL
 
 * **Qt6CoreTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6CoreTools`<br/>Example: `~/Qt/6.11.1/gcc_64/lib/cmake/Qt6CoreTools`
 
-<details><summary><b>Visual Studio Code</summary>
+<details><summary><b>Visual Studio Code</b></summary>
 
-If you are using <i>Visual Studio Code</i>, you might want to edit `DCMAKE_PREFIX_PATH` variables in `settings.json`.
+If you are using **Visual Studio Code** and building with **CMake**, you might want to edit `CMAKE_PREFIX_PATH` variable in `settings.json`.
+
+<hr>
+</details>
 
 <hr>
 </details>
@@ -508,15 +505,18 @@ And change it to:
 <hr>
 </details>
 
-<details><summary>"conan is not recognized as an internal or external command"</summary>
+<details><summary>"<b>conan</b> is not recognized as an internal or external command"</summary>
 
 Problem that usually occurs on *Windows*.
 
 *Conan* needs to be added to the **PATH** enviromental variable. It is usually found alongside other *Python* scripts:
+
 ```
 C:/Users/[user_name]/AppData/Roaming/Python/Python[python_version]/Scripts
 ```
+
 Example:
+
 ```
 C:/Users/Owl/AppData/Roaming/Python/Python313/Scripts
 ```
@@ -547,7 +547,7 @@ dos2unix ./icon/UnixScripts/*.sh
 <hr>
 </details>
 
-<details><summary>Add/change/remove custom filter </summary>
+<details><summary>Add/change/remove <b>custom source filter</b></summary>
 
 At line `174` of `CMakeLists.txt` you can modify following code for **filters** to change or remove them:
 
