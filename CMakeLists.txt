@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 
-project("qt-template"
+project("qt6-template"
         LANGUAGES CXX)
 
 # Conan generates per-config imported targets (e.g. CONAN_LIB::zlib_z_RELEASE)
