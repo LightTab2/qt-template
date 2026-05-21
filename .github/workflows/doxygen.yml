@@ -3,7 +3,7 @@ name: Doxygen
 on:
   push:
     branches:
-      - doxygen
+      - main
 
 permissions:
   contents: write
