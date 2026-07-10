@@ -1,9 +1,49 @@
+[Bb]uild/
 [Bb]uild/*
 [Cc]onan/*
 ![Cc]onan/conanfile.txt
 CMakeCache.*
 CMakeFiles/*
 [Tt]esting/*
+
+### Qt ###
+# MOC / UIC / RCC generated sources
+moc_*.cpp
+moc_*.h
+moc_predefs.h
+ui_*.h
+qrc_*.cpp
+*.moc
+# Compiled translations
+*.qm
+# qmake artifacts
+.qmake.stash
+.qmake.cache
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+CMakeLists.txt.user
+CMakeLists.txt.user.*
+# Qt Creator
+*.autosave
+*.qmlproject.user
+*.qmlproject.user.*
+qmlcache_loader.cpp
+# QML disk cache
+*.qmlc
+*.jsc
+
+### JetBrains / CLion ###
+.idea/
+cmake-build-*/
+
+### Sublime / others ###
+*.sublime-workspace
+*.sublime-project
+
+### Vim/Emacs swap ###
+*.swo
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
@@ -368,3 +408,17 @@ MigrationBackup/
 # Venv
 .venv
 venv
+
+# Track the shared local settings (build/test permissions) despite the global ignore
+!.claude/settings.local.json
+# Downloaded lint tooling (fetched into the worktree root by the actionlint step)
+/actionlint
+/actionlint.tar.gz
+
+# Generated documentation and Doxygen toolchain caches
+docs/
+.doxygen-bin/
+doxygen/qt-tags/
+
+# Sanitizer/coverage/multi-config scratch build dirs
+build-*/

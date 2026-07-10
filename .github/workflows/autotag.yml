@@ -5,6 +5,12 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false   # FC04.1 exemption: serialize tag pushes; never cancel a mid-flight tag
+permissions:
+  contents: write
+
 jobs:
   tag:
     runs-on: ubuntu-latest

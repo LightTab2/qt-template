@@ -1,0 +1,294 @@
+span.mlabel
+{
+	display: inline-block;
+	margin-right: 0;
+	padding: 2px 9px;
+	border: none;
+	border-radius: 10px;
+	font-size: 16.5px;
+	font-weight: 500;
+	line-height: 1.5;
+	color: #fff;
+	background: var(--theme-accent);
+}
+
+span.mlabel.mlabel-public
+{
+	background: var(--public-mlabel-color);
+}
+
+span.mlabel.mlabel-const
+{
+	background: var(--const-mlabel-color);
+}
+
+span.mlabel.mlabel-static
+{
+	background: var(--static-mlabel-color);
+}
+
+span.mlabel.mlabel-protected
+{
+	background: var(--protected-mlabel-color);
+}
+
+span.mlabel.mlabel-private
+{
+	background: var(--private-mlabel-color);
+}
+
+span.mlabel.mlabel-signal
+{
+	background: var(--signals-mlabel-color);
+}
+
+span.mlabel.mlabel-slot
+{
+	background: var(--slots-mlabel-color);
+}
+
+span.mlabel.mlabel-noexcept
+{
+	background: var(--noexcept-mlabel-color);
+}
+
+span.mlabel.mlabel-constexpr
+{
+	background: var(--const-mlabel-color);
+}
+
+span.mlabel.mlabel-friend
+{
+	background: var(--friends-mlabel-color);
+}
+
+span.mlabel.mlabel-inline
+{
+	display: none;
+}
+
+a.el sup.fx-badge
+{
+	margin-left: 1px;
+	font-family: var(--theme-font-mono);
+	font-size: 0.62em;
+	font-weight: 700;
+	line-height: 0;
+	color: var(--theme-fg);
+	vertical-align: super;
+}
+
+.codepunct
+{
+	color: var(--fragment-punct);
+}
+
+.const-kw
+{
+	color: var(--const-color);
+}
+
+/* mlabels row: right-aligned, gapped, wrapping so badges never overflow the proto */
+span.mlabels
+{
+	display: inline-flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 4px;
+	vertical-align: middle;
+}
+
+td.mlabels-right
+{
+	text-align: right;
+	vertical-align: middle;
+}
+
+/* Fallback container when a memproto has no span.mlabels (public-badge only); signature left, public badge right - matches normal mlabels row */
+.memproto-public-only
+{
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
+	gap: 4px;
+}
+
+/* Collapsible "Additional Inherited Members" heading (doxygen-style-revamped-inherited-toggle.js) */
+h2.groupheader.inherited-toggle
+{
+	cursor: pointer;
+	user-select: none;
+}
+
+h2.groupheader.inherited-toggle:focus-visible
+{
+	outline: 2px solid var(--theme-accent);
+	outline-offset: 2px;
+}
+
+/* Disclosure arrow before the heading text; rotates when expanded */
+h2.groupheader.inherited-toggle::before
+{
+	content: "\25B6";
+	display: inline-block;
+	margin-right: .5em;
+	font-size: .8em;
+	transition: transform .15s ease;
+}
+
+h2.groupheader.inherited-toggle.inherited-expanded::before
+{
+	transform: rotate(90deg);
+}
+
+/* Per-access member-proto banding (doxygen-style-revamped-colormembers.js); subtle tint + accent border from the mlabel palette */
+div.memproto.mp-public
+{
+	background: color-mix(in srgb, var(--public-mlabel-color) 12%, var(--theme-code-bg));
+	border-left: 3px solid var(--public-mlabel-color);
+}
+
+div.memproto.mp-protected
+{
+	background: color-mix(in srgb, var(--protected-mlabel-color) 15%, var(--theme-code-bg));
+	border-left: 3px solid var(--protected-mlabel-color);
+}
+
+div.memproto.mp-private
+{
+	background: color-mix(in srgb, var(--private-mlabel-color) 15%, var(--theme-code-bg));
+	border-left: 3px solid var(--private-mlabel-color);
+}
+
+div.memproto.mp-friend
+{
+	background: color-mix(in srgb, var(--friends-mlabel-color) 15%, var(--theme-code-bg));
+	border-left: 3px solid var(--friends-mlabel-color);
+}
+
+/* memname accent for kind (signal/slot/static), not access */
+div.memproto td.memname.mn-signal
+{
+	color: var(--signals-mlabel-color);
+}
+
+div.memproto td.memname.mn-slot
+{
+	color: var(--slots-mlabel-color);
+}
+
+div.memproto td.memname.mn-static
+{
+	color: var(--static-mlabel-color);
+}
+
+/* ============================================================ */
+/* Per-section member-decl table banding (cloned from qt6-template) */
+/* memItemLeft = access color, memItemRight = kind color; doxygen 1.17 emits */
+/* a#<section> anchors so :has(a#...) bands each table (id beats zebra/hover) */
+/* ============================================================ */
+table.memberdecls td.memItemLeft,
+table.memberdecls td.memItemRight
+{
+	border: 1px solid var(--theme-border);
+}
+
+table.memberdecls td.memItemRight
+{
+	background-color: var(--theme-memitem-bg);
+}
+
+/* memItemLeft (return-type column) tinted by access bucket */
+table.memberdecls:has(a#pub-types) td.memItemLeft,
+table.memberdecls:has(a#pub-slots) td.memItemLeft,
+table.memberdecls:has(a#pub-static-methods) td.memItemLeft,
+table.memberdecls:has(a#pub-methods) td.memItemLeft,
+table.memberdecls:has(a#func-members) td.memItemLeft,
+table.memberdecls:has(a#pub-static-attribs) td.memItemLeft,
+table.memberdecls:has(a#pub-attribs) td.memItemLeft,
+table.memberdecls:has(a#var-members) td.memItemLeft,
+table.memberdecls:has(a#signals) td.memItemLeft
+{
+	background-color: var(--public-color);
+}
+
+table.memberdecls:has(a#pro-types) td.memItemLeft,
+table.memberdecls:has(a#pro-slots) td.memItemLeft,
+table.memberdecls:has(a#pro-static-methods) td.memItemLeft,
+table.memberdecls:has(a#pro-methods) td.memItemLeft,
+table.memberdecls:has(a#pro-static-attribs) td.memItemLeft,
+table.memberdecls:has(a#pro-attribs) td.memItemLeft
+{
+	background-color: var(--protected-color);
+}
+
+table.memberdecls:has(a#pri-types) td.memItemLeft,
+table.memberdecls:has(a#pri-slots) td.memItemLeft,
+table.memberdecls:has(a#pri-static-methods) td.memItemLeft,
+table.memberdecls:has(a#pri-methods) td.memItemLeft,
+table.memberdecls:has(a#pri-static-attribs) td.memItemLeft,
+table.memberdecls:has(a#pri-attribs) td.memItemLeft
+{
+	background-color: var(--private-color);
+}
+
+table.memberdecls:has(a#friends) td.memItemLeft
+{
+	background-color: var(--indifferent-color);
+}
+
+/* memItemRight (signature column) tinted by member kind */
+table.memberdecls:has(a#pub-types) td.memItemRight,
+table.memberdecls:has(a#pro-types) td.memItemRight,
+table.memberdecls:has(a#pri-types) td.memItemRight
+{
+	background-color: var(--types-color);
+}
+
+table.memberdecls:has(a#pub-slots) td.memItemRight,
+table.memberdecls:has(a#pro-slots) td.memItemRight,
+table.memberdecls:has(a#pri-slots) td.memItemRight
+{
+	background-color: var(--slots-color);
+}
+
+table.memberdecls:has(a#signals) td.memItemRight
+{
+	background-color: var(--signals-color);
+}
+
+table.memberdecls:has(a#pub-static-methods) td.memItemRight,
+table.memberdecls:has(a#pro-static-methods) td.memItemRight,
+table.memberdecls:has(a#pri-static-methods) td.memItemRight
+{
+	background-color: var(--static-methods-color);
+}
+
+table.memberdecls:has(a#pub-methods) td.memItemRight,
+table.memberdecls:has(a#func-members) td.memItemRight,
+table.memberdecls:has(a#pro-methods) td.memItemRight,
+table.memberdecls:has(a#pri-methods) td.memItemRight
+{
+	background-color: var(--methods-color);
+}
+
+table.memberdecls:has(a#pub-static-attribs) td.memItemRight,
+table.memberdecls:has(a#pro-static-attribs) td.memItemRight,
+table.memberdecls:has(a#pri-static-attribs) td.memItemRight
+{
+	background-color: var(--static-attribs-color);
+}
+
+table.memberdecls:has(a#pub-attribs) td.memItemRight,
+table.memberdecls:has(a#var-members) td.memItemRight,
+table.memberdecls:has(a#pro-attribs) td.memItemRight,
+table.memberdecls:has(a#pri-attribs) td.memItemRight
+{
+	background-color: var(--attribs-color);
+}
+
+table.memberdecls:has(a#friends) td.memItemRight
+{
+	background-color: var(--friends-color);
+}

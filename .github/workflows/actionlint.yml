@@ -1,0 +1,32 @@
+name: Actionlint
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run actionlint
+        env:
+          ALVER: 1.7.7
+        run: |
+          curl -sSfL --retry 3 -o actionlint.tar.gz "https://github.com/rhysd/actionlint/releases/download/v${ALVER}/actionlint_${ALVER}_linux_amd64.tar.gz"
+          tar -xzf actionlint.tar.gz actionlint
+          # -shellcheck= (empty = disabled): ubuntu-latest preinstalls shellcheck and the
+          # current tree trips SC2086/SC2035 in lines that include frozen deploy steps this
+          # repo must not touch; shell-quoting hardening is future work (see FC03.1).
+          ./actionlint -shellcheck= .github/workflows/*.yml

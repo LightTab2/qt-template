@@ -5,9 +5,7 @@
 
 #include "Exceptions/Exceptions.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), 
-      ui{ new Ui::MainWindow }
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui{new Ui::MainWindow}
 {
     boost::multiprecision::int1024_t bigInt;
     ui->setupUi(this);

@@ -3,6 +3,11 @@ cmake_minimum_required(VERSION 3.21)
 project("qt6-template"
         LANGUAGES CXX)
 
+# Conan generates Debug/Release imported targets only; map the extra configs onto Release
+# so RelWithDebInfo / MinSizeRel builds find the imported locations.
+set(CMAKE_MAP_IMPORTED_CONFIG_RELWITHDEBINFO "Release;")
+set(CMAKE_MAP_IMPORTED_CONFIG_MINSIZEREL     "Release;")
+
 # Conan generates per-config imported targets (e.g. CONAN_LIB::zlib_z_RELEASE)
 # Single config generators (Ninja) display warnings about missing locations for other configurations that are invalid targets, so it's okay to ignore
 # If you wish to silence them uncomment following line
@@ -26,6 +31,8 @@ foreach(boost_component IN LISTS BOOST_COMPONENTS)
     find_package(Boost CONFIG COMPONENTS ${boost_component} REQUIRED)
 endforeach()
 
+find_package(Microsoft.GSL CONFIG REQUIRED)
+
 # If you have had silenced CMP0111, you can re-enable it with the following line
 # cmake_policy(SET CMP0111 NEW)
 
@@ -44,7 +51,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-qt_standard_project_setup()
+qt6_standard_project_setup()
 
 # Model project dependencies
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
@@ -119,6 +126,9 @@ endif()
 # Set the project standard and warnings
 include(cmake/CompilerWarnings.cmake)
 set_project_warnings(${PROJECT_NAME})
+if(${PROJECT_NAME}_BUILD_EXECUTABLE)
+    set_project_warnings(${PROJECT_NAME}_LIB)
+endif()
 
 # Allow usage of header files in the `src` directory, but only for utilities
 target_include_directories(${PROJECT_NAME}
@@ -146,28 +156,11 @@ if(${PROJECT_NAME}_BUILD_EXECUTABLE)
                             ${CMAKE_LIBRARY_PATH})
 endif()
 
-# Link libraries
-foreach(library IN LISTS MODULES)
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${library})
-    if(${PROJECT_NAME}_BUILD_EXECUTABLE)
-        target_link_libraries(${PROJECT_NAME}_LIB PRIVATE ${library})
-    endif()
-endforeach()
-
-# Link Qt libraries
-foreach(library IN LISTS QT_COMPONENTS)
-    target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::${library})
-    if(${PROJECT_NAME}_BUILD_EXECUTABLE)
-        target_link_libraries(${PROJECT_NAME}_LIB PRIVATE Qt6::${library})
-    endif()
-endforeach()
-
-foreach(library IN LISTS BOOST_COMPONENTS)
-    target_link_libraries(${PROJECT_NAME} PRIVATE Boost::${library})
-    if(${PROJECT_NAME}_BUILD_EXECUTABLE)
-        target_link_libraries(${PROJECT_NAME}_LIB PRIVATE Boost::${library})
-    endif()
-endforeach()
+# Link libraries (single recipe - see cmake/Modules.cmake)
+project_link_dependencies(${PROJECT_NAME})
+if(${PROJECT_NAME}_BUILD_EXECUTABLE)
+    project_link_dependencies(${PROJECT_NAME}_LIB)
+endif()
 
 # Resources
 include(cmake/Resources.cmake)

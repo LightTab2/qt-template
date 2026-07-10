@@ -1,0 +1,49 @@
+name: Ubuntu Debug
+
+on:
+  pull_request:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read   # Debug PR check only; no publish
+
+jobs:
+  build_and_test_debug:
+    runs-on: ubuntu-latest
+    if: >-
+      !contains(github.event.pull_request.title, '[skip ci]') &&
+      !contains(github.event.pull_request.title, '[ci skip]')
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Cache Conan
+        uses: actions/cache@v5
+        with:
+          path: ~/.conan2
+          key: conan2-${{ runner.os }}-${{ hashFiles('conan/conanfile.txt') }}
+          restore-keys: conan2-${{ runner.os }}-
+      - name: Conan install (Debug)
+        run: |
+          conan profile detect --force
+          conan install conan/ --build=missing -s build_type=Debug
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.11.*'
+          aqtversion: '==3.2.*'   # C8: recent aqt so 6.11 resolves; fall back to '6.8.*' if it does not
+          cache: 'true'
+          cache-key-prefix: 'install-qt-action-${{ runner.os }}'
+      - name: Configure
+        run: cmake -Bbuild -DCMAKE_TOOLCHAIN_FILE="conan/conan_toolchain.cmake" -DCMAKE_BUILD_TYPE=Debug
+      - name: Build
+        run: cmake --build build --config Debug -j4
+      - name: Test
+        run: cd build && QT_QPA_PLATFORM=offscreen ctest -C Debug -VV
+      - name: Smoke test
+        run: QT_QPA_PLATFORM=offscreen timeout 15 ./build/qt6-template --self-test

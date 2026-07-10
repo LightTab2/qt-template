@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmake --preset:*)",
+      "Bash(cmake . -G Ninja -B build:*)",
+      "Bash(cmake --build build:*)",
+      "Bash(ctest:*)",
+      "Bash(cd build && ctest:*)",
+      "Bash(conan install conan/:*)",
+      "Bash(conan profile detect:*)",
+      "Bash(make:*)",
+      "Bash(bash scripts/run_doxygen.sh:*)",
+      "Bash(QT_QPA_PLATFORM=offscreen ctest:*)"
+    ]
+  }
+}

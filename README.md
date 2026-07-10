@@ -1,7 +1,8 @@
-[![Actions Status](https://github.com/lighttab2/qt-template/workflows/macOS/badge.svg)](https://github.com/lighttab2/qt-template/actions/workflows/macos.yml)
-[![Actions Status](https://github.com/lighttab2/qt-template/workflows/Windows/badge.svg)](https://github.com/lighttab2/qt-template/actions/workflows/windows.yml)
-[![Actions Status](https://github.com/lighttab2/qt-template/workflows/Ubuntu/badge.svg)](https://github.com/lighttab2/qt-template/actions/workflows/ubuntu.yml)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/lighttab2/qt-template)](https://github.com/lighttab2/qt-template/releases)
+[![Actions Status](https://github.com/lighttab2/qt6-template/workflows/macOS/badge.svg)](https://github.com/lighttab2/qt6-template/actions/workflows/macos.yml)
+[![Actions Status](https://github.com/lighttab2/qt6-template/workflows/Windows/badge.svg)](https://github.com/lighttab2/qt6-template/actions/workflows/windows.yml)
+[![Actions Status](https://github.com/lighttab2/qt6-template/workflows/Ubuntu/badge.svg)](https://github.com/lighttab2/qt6-template/actions/workflows/ubuntu.yml)
+[![Actions Status](https://github.com/lighttab2/qt6-template/workflows/Ubuntu%20Debug/badge.svg)](https://github.com/lighttab2/qt6-template/actions/workflows/ubuntu-debug.yml)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/lighttab2/qt6-template)](https://github.com/lighttab2/qt6-template/releases)
 
 # [Project name]
 [Project logo]
@@ -27,7 +28,7 @@
 
 * **[Qt 6](https://www.qt.io/)**
 
-* **C++ compiler that can compile Qt6** &ndash; needs to support the **C++17** standard. Lists of viable compilers:
+* **C++ compiler that can compile Qt6** - needs to support the **C++17** standard. Lists of viable compilers:
     * [Linux](https://doc.qt.io/qt-6/linux.html)
     * [Windows](https://doc.qt.io/qt-6/windows.html)
     * [macOS](https://doc.qt.io/qt-6/macos.html)
@@ -44,6 +45,8 @@ Run `conanLibrariesInstall.sh` or `conanLibrariesInstall.ps1`, or execute these 
 conan install conan/ --build=missing --settings=build_type=Debug
 conan install conan/ --build=missing --settings=build_type=Release
 ```
+
+The default template's *Conan* requirements (listed in `conan/conanfile.txt`) are `boost/1.91.0` and `ms-gsl/4.2.2`; *Qt 6* is resolved through `find_package`.
 
 ### [Simply run *CMake*:](https://cmake.org/runningcmake/)
 
@@ -100,8 +103,60 @@ Example:
 cmake --build build --config release -j4
 ```
 
+Once built, you can run a quick headless smoke test that constructs and shows the main window, pumps one event-loop pass, and exits `0` (offscreen-safe, finishes in well under 15 seconds):
+
+```bash
+QT_QPA_PLATFORM=offscreen ./build/qt6-template --self-test
+```
+
+CI runs this same check wrapped in `timeout 15`.
+
+<details><summary>Using the <b>Makefile</b></summary>
+
+A top-level `Makefile` wraps the commands above so you do not have to remember the flags. The quick path is:
+
+```bash
+make conan       # install dependencies with Conan (Debug + Release)
+make configure   # configure the CMake build with the Conan toolchain
+make build       # build the project
+make test        # run the test suite headless (QT_QPA_PLATFORM=offscreen)
+make docs        # build the Doxygen documentation into docs/html
+```
+
+Run `make conan` first: `make configure` fails fast when the Conan toolchain is missing, printing `error: conan toolchain not found at conan/conan_toolchain.cmake; run 'make conan' first`.
+
+`make docs-serve` builds the docs if they are missing and serves them over HTTP; it honors a `PORT` variable, so `PORT=9000 make docs-serve` serves on port 9000 (default 8000).
+
+Run `make help` to list every target (it also provides `run`, `docs-clean`, `format`, `tidy`, and `clean`).
+
+<hr>
+</details>
+
 ## Features
 [List of features]
+
+## AI-assisted development
+
+This template ships an **optional toolkit** for coding with [Claude Code](https://www.anthropic.com/claude-code). You can ignore or delete them.
+
+These skills assume you have [Caveman](https://github.com/juliusbrussee/caveman) and [Token Saviour](https://github.com/mibayy/token-savior) installed.
+
+<details><summary>Provided <b>skills</b> in <code>.claude/skills/</code></summary>
+
+Each **skill** is invoked as a **slash command** in *Claude Code*. They should be used in this order and they will guide you telling what the **next step** is anyways:
+
+* **`/codebase-summary`** - **maps** the repository for an accurate **summary** of the repository written in `./summary`
+* **`/parallel-plan`** - turn **your prompt** or `./NextThingsToDo.md` (if exists) into a `plan/` folder filled with **markdown feature descriptions** on a&nbsp;`plan-integration` branch
+* **`/review-plan`** and **`/fix-plan`** - **gap-check** the **plan** and fix the holes before any code is written. **Can be run multiple times**
+* **`/execute-plan`** - **build** the planned **feature** via a&nbsp;swarm of agents
+* `/review-implementation` and `/fix-implementation` - **audit** the built **code** and **fix** what the review finds. **Can be run multiple times**
+* `/ship` - implement just **one prompted feature** more token-efficently. Should be worse quality than proper planning most of the times, but often good enough
+* `/handoff` - instead of compacting, you can save tokens by getting a quick summary and rerunning the task with it
+
+Most planning and execution skills also have an `-opus` variant (for example `/parallel-plan-opus`), otherwise **Fable 5** use is assumed.
+
+<hr>
+</details>
 
 ## Troubleshooting
 
@@ -289,11 +344,11 @@ By default, the file starts with:
 ```cmake
 cmake_minimum_required(VERSION 3.21)
 
-project("qt-template"
+project("qt6-template"
         LANGUAGES CXX)
 ```
 
-Change `"qt-template"` to the name of your project.
+Change `"qt6-template"` to the name of your project.
         
 Example:
 
@@ -334,7 +389,7 @@ Change these entries:
 
 ```ini
 Name=Qt Template
-Exec=qt-template
+Exec=qt6-template
 ```
 
 Example:
@@ -478,29 +533,16 @@ sudo apt install icnsutils
 
 <details><summary>Docs shouldn't contain <b>private</b> members and <b>source code</b></summary>
 
-If your project is a library, you might not want to add the **private** and **protected** members to your documentation. Editing one line in `.github/workflows/doxygen.yml` can change this behaviour. Find this step:
+Documentation is generated locally by `bash scripts/run_doxygen.sh` (or `make docs`). The script pins **Doxygen 1.17.0**, fetches the Qt tag files, renders with the vendored `doxygen-style-revamped` theme, and copies the webfonts into `docs/html/fonts/`.
 
-```yaml
-- name: Generate documents and deploy
-    uses: DenverCoder1/doxygen-github-pages-action@v1.3.0
-    with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: docs
-        config_file: doxygen/Doxyfile_dev
-```
+Which members appear is decided by the *Doxyfile* the script uses:
 
-And change it to:
+* `doxygen/Doxyfile` documents the **public API only**.
+* `doxygen/Doxyfile_dev` `@INCLUDE`s the base config and flips `EXTRACT_PRIVATE=YES` to also pull in **private and internal** members.
 
-```yaml
-- name: Generate documents and deploy
-    uses: DenverCoder1/doxygen-github-pages-action@v1.3.0
-    with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: docs
-        config_file: doxygen/Doxyfile
-```
+To include or exclude private and protected members, point the `CONFIG=` variable in `scripts/run_doxygen.sh` at the corresponding *Doxyfile* (for a library's published docs, select `doxygen/Doxyfile` to keep internals out).
 
- If you want to further customize output and its display, all files related to documentation are stored in `/doxygen` folder. 
+If you want to further customize the output and its display, all files related to documentation are stored in the `/doxygen` folder.
 
 <hr>
 </details>
@@ -538,7 +580,7 @@ On *Ubuntu* you can install it by:
 sudo apt install dos2unix
 ```
 
-And then simply run (assuming you are at `qt-template/`):
+And then simply run (assuming you are at `qt6-template/`):
 
 ```bash
 dos2unix ./icon/UnixScripts/*.sh
@@ -633,6 +675,8 @@ source_group("birds" FILES "src/flamingo.ui" "src/Birds/crow.h")
 ## Contributing
 
 This project follows these [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines), and it would be fun if you followed them too. If you don't, someone will correct your code. An ugly contribution is better than no contribution. **Thanks**!
+
+Pull requests run CI gates before review: the workflow files are validated with [actionlint](https://github.com/rhysd/actionlint), and a `clang-format` check enforces the code style. The single-config CI jobs (Ubuntu, Ubuntu Debug, macOS) configure with an explicit `-DCMAKE_BUILD_TYPE` matching the job's `ctest -C` config, while Windows keeps its multi-config build (`--config Release`).
 
 ## License
 

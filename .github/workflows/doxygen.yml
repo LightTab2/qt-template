@@ -2,37 +2,31 @@ name: Doxygen
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
-  contents: write
+  contents: write   # pushes the generated docs branch
 
 jobs:
   create_docs:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-
-      - name: Install Doxygen and Graphviz
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y doxygen graphviz
-
-      - name: Add Doxygen Awesome CSS
-        run: git clone --depth 1 https://github.com/jothepro/doxygen-awesome-css.git
-
-      - name: Generate docs
-        run: doxygen doxygen/Doxyfile_dev
-
-      - name: Copy fonts alongside generated CSS
-        run: cp -r doxygen/font docs/html/font
-
-      - name: Deploy to docs branch
-        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: docs
-          folder: docs/html
-          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      - name: Install graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+      - name: Build docs (pinned Doxygen 1.17.0 + Qt tags + revamped theme)
+        run: bash scripts/run_doxygen.sh
+      - name: Deploy to docs branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/html
+          publish_branch: docs
+          force_orphan: true

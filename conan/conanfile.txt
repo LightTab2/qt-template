@@ -1,6 +1,6 @@
 [requires]
-boost/1.90.0
-ms-gsl/4.2.0
+boost/1.91.0
+ms-gsl/4.2.2
 
 [generators]
 CMakeDeps

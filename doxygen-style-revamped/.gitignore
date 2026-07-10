@@ -1,0 +1,13 @@
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*~
+.idea/
+.vscode/
+
+# JS test deps (if agents use jsdom)
+node_modules/
+package-lock.json
+
+# scratch verify output
+_verify/

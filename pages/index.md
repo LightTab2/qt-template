@@ -1,1 +1,1 @@
-Welcome to the Qt Template documentation.
+Welcome to the Qt6 Template documentation.

@@ -6,69 +6,75 @@
 
 #include <iostream>
 
-//QML
-//#include <QtQuick>
-//#define ERROR_MESSAGE(msg)
-//#ifdef WIN32
-//#define ERROR_MESSAGE(msg) MessageBoxA(NULL, msg, "Error", MB_OK | MB_ICONERROR)
-//#endif
+// QML
+// #include <QtQuick>
+// #define ERROR_MESSAGE(msg)
+// #ifdef WIN32
+// #define ERROR_MESSAGE(msg) MessageBoxA(NULL, msg, "Error", MB_OK | MB_ICONERROR)
+// #endif
 
-//Widgets
+// Widgets
 #define ERROR_MESSAGE(msg) showMessage()
 #include <QMessageBox>
 
 /// XXZZ: XX is category, ZZ is subcategory
 enum class ErrorType
 {
-	Invalid = 0000,
-	General = 0001
+    Invalid = 0,
+    General = 1
 };
 
 /// An exception class to distinguish between QExceptions thrown from Qt library and this project
 ///
 class AppException : public QException
 {
-public:
-	// Constructor
-	AppException(const char* msg, ErrorType errorType = ErrorType::General);
-	// Allow copy
-	AppException(const AppException&)            = default;
-	AppException& operator=(const AppException&) = default; //cpp20
-	// Allow move
-	AppException(AppException&&)            noexcept = default;
-	AppException& operator=(AppException&&) noexcept = default; //cpp20
-	// Destructor
-	virtual ~AppException() = default;
+  public:
+    // Constructor
+    AppException(const char* msg, ErrorType errorType = ErrorType::General);
+    // Allow copy
+    AppException(const AppException&) = default;
+    AppException& operator=(const AppException&) = default; // cpp20
+    // Allow move
+    AppException(AppException&&) noexcept = default;
+    AppException& operator=(AppException&&) noexcept = default; // cpp20
+    // Destructor
+    virtual ~AppException() = default;
 
-	void raise()          const override;
-	AppException* clone() const override;
-	const char* what()    const noexcept override;
+    void raise() const override;
+    AppException* clone() const override;
+    const char* what() const noexcept override;
 
-	//QML
-	//static QObject* exceptionMessage;
-	
-	const ErrorType errorType;
-private:
-	std::string msg_;
+    // QML
+    // static QObject* exceptionMessage;
+
+    const ErrorType errorType;
+
+  private:
+    std::string msg_;
 };
 
-
-/// Along with \ref errorMessageHandler(QtMsgType,const QMessageLogContext&,const QString&) allows to use exception system and/or logging system in a more transparent way.
-/// 
+/// Along with \ref errorMessageHandler(QtMsgType,const QMessageLogContext&,const QString&) allows
+/// to use exception system and/or logging system in a more transparent way.
+///
 /// Instead of throwing exceptions use:
-/// - `qDebug() << [ErrorType] << [message]` for information that should be written in a log only when debugging is enabled
+/// - `qDebug() << [ErrorType] << [message]` for information that should be written in a log only
+/// when debugging is enabled
 /// - `qInfo() << [ErrorType] << [message]` for information that should be written in a log
-/// - `qWarning() << [ErrorType] << [message]` for information that should be displayed as a warning to the user
+/// - `qWarning() << [ErrorType] << [message]` for information that should be displayed as a warning
+/// to the user
 /// - `qCritical() << [ErrorType] << [message]` for exceptions
 /// - `qFatal() << [ErrorType] << [message]` for exceptions that cannot be recovered from
 QDebug operator<<(QDebug logger, const ErrorType& errorType);
 
-/// Along with \ref operator<<(QDebug, const ErrorType&) allows to use exception system and/or logging system in a more transparent way.
-/// 
+/// Along with \ref operator<<(QDebug, const ErrorType&) allows to use exception system and/or
+/// logging system in a more transparent way.
+///
 /// Instead of throwing exceptions use:
-/// - `qDebug() << [ErrorType] << [message]` for information that should be written in a log only when debugging is enabled
+/// - `qDebug() << [ErrorType] << [message]` for information that should be written in a log only
+/// when debugging is enabled
 /// - `qInfo() << [ErrorType] << [message]` for information that should be written in a log
-/// - `qWarning() << [ErrorType] << [message]` for information that should be displayed as a warning to the user
+/// - `qWarning() << [ErrorType] << [message]` for information that should be displayed as a warning
+/// to the user
 /// - `qCritical() << [ErrorType] << [message]` for exceptions
 /// - `qFatal() << [ErrorType] << [message]` for exceptions that cannot be recovered from
 void errorMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg);

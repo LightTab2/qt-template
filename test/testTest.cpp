@@ -1,14 +1,17 @@
 #include <QTest>
-#include "mainwindow.h"
+
 #include <boost/filesystem.hpp>
+
+#include "mainwindow.h"
 
 class TestQString : public QObject
 {
     Q_OBJECT
-private slots:
+  private slots:
     void toUpper();
-private:
-    MainWindow *mainwindow;
+
+  private:
+    MainWindow* mainwindow;
 };
 
 void TestQString::toUpper()
@@ -21,4 +24,5 @@ void TestQString::toUpper()
 }
 
 QTEST_MAIN(TestQString)
+
 #include "testTest.moc"

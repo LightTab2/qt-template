@@ -1,151 +1,215 @@
 [TOC]
-# [Project name]
-## Prerequisites
 
-* **CMake v3.21+** &ndash; found at [https://cmake.org/](https://cmake.org/)
+# Doxygen Capability Test Page {#test_page}
 
-* **Python 3** &ndash; found at [https://www.python.org/](https://www.python.org/)
-    * **Conan** &ndash; `pip install conan`
+This page exercises the Doxygen feature surface so the theme, MathJax/formula
+pipeline, Graphviz (`HAVE_DOT`), and Markdown extensions can all be verified in
+one render. If something breaks, it breaks visibly here.
 
-* **Qt 6** &ndash; found at [https://www.qt.io/](https://www.qt.io/)
+@note This is a `\page` (anchor `test_page`). It shows up in the tree because
+`GENERATE_TREEVIEW = YES`. Headings up to level 5 populate the `[TOC]` block
+(`TOC_INCLUDE_HEADINGS = 5`).
 
-* **C++ compiler that can compile Qt** &ndash; needs to support the **C++17** standard:
-    * [Linux](https://doc.qt.io/qt-6/linux.html)
-    * [Windows](https://doc.qt.io/qt-6/windows.html)
-    * [macOS](https://doc.qt.io/qt-6/macos.html)
+---
 
-## Install
+## 1. Text formatting
 
-### Install packages using 
+*Italic*, **bold**, ***bold italic***, `inline code`, ~~strikethrough~~,
+H<sub>2</sub>O, E = mc<sup>2</sup>, and a hard line break follows here\
+this sits on the next line.
+
+Special command spellings still work: @a italic, @b bold, @c typewriter.
+
+> Block quote, first level.
+>
+> > Nested block quote, second level, with `code` inside.
+
+---
+
+## 2. Lists
+
+### 2.1 Unordered, nested
+
+- Level one item
+  - Level two item
+    - Level three item with **bold**
+- Back to level one
+
+### 2.2 Ordered
+
+1. First
+2. Second
+   1. Nested first
+   2. Nested second
+3. Third
+
+### 2.3 Task list (checkbox extension)
+
+- [x] Render this page
+- [x] Exercise Graphviz
+- [ ] Find a rendering bug
+- [ ] File it upstream
+
+### 2.4 Definition list
+
+Qt6
+: Cross-platform C++ framework used by this template.
+
+Conan
+: The dependency manager providing Boost and ms-gsl.
+
+---
+
+## 3. Tables
+
+| Feature            | Command / Syntax        | Requires    | Status |
+| :----------------- | :---------------------- | :---------: | -----: |
+| Formula            | `@f$ ... @f$`           | LaTeX       |   left |
+| Call graph         | `@dot` / `HAVE_DOT`     | Graphviz    | center |
+| Sequence chart     | `@msc`                  | mscgen      |  right |
+| Cross reference    | `#Symbol` / `@ref`      | index       |    yes |
+
+Column alignment above is set by the `:` markers in the separator row.
+
+---
+
+## 4. Code blocks
+
+### 4.1 Fenced with language (C++)
+
+```cpp
+#include <gsl/gsl>
+#include <QApplication>
+
+/// Entry point kept minimal for the doc render test.
+int main(int argc, char* argv[]) {
+    gsl::span<char*> args{argv, gsl::narrow_cast<std::size_t>(argc)};
+    QApplication app(argc, argv);
+    return app.exec();
+}
+```
+
+### 4.2 Doxygen `@code` block
+
+@code{.cpp}
+auto x = std::make_unique<int>(42);
+@endcode
+
+### 4.3 Shell
 
 ```bash
-conan install conan/ --build=missing
+cmake . -G Ninja -B build -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake
+cmake --build build --config Release
 ```
 
-```bash
-cmake . -G [generator] -T [toolset] --build [PathToBuiltProject]
-```
+---
 
-Example:
+## 5. Formulas (LaTeX)
 
-```bash
-cmake . -G "Visual Studio 16 2019" -T v143 -Bbuild
-```
+Inline: the mass-energy relation @f$ E = mc^2 @f$ sits in running text.
 
-### Build the project
+Block:
 
-You can use your local *IDE* or *CMake* again:
+@f[
+    \int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
+@f]
 
-```bash
-cmake --build [pathToBuiltProject] --config [configuration] -j4 -DCMAKE_TOOLCHAIN_FILE=[pathToConanToolchainFile]
-```
+Matrix environment:
 
-Example:
+@f[
+    A =
+    \begin{pmatrix}
+        a_{11} & a_{12} \\
+        a_{21} & a_{22}
+    \end{pmatrix}
+@f]
 
-```bash
-cmake --build build --config release -j4 -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake
-```
-# Second
+@warning Formulas depend on the LaTeX toolchain (`HTML_FORMULA_FORMAT = png`,
+`USE_MATHJAX = NO`). Missing `latex`/`dvips`/`gs` makes these render as broken
+image placeholders - a good canary for the docs environment.
 
-## Features
-[List of features]
+---
 
-## Troubleshooting
+## 6. Graphviz diagrams (`HAVE_DOT = YES`)
 
-If this is not a *Qt* library, modify _conan/conanfile.txt_:
+### 6.1 Inline `@dot` graph
 
-```ini
-[requires]
-{...Other libraries...}
-{Your Library Name Here Taken From https://conan.io/center/}
+@dot "Build target dependency"
+digraph targets {
+    rankdir=LR;
+    node [shape=box, style=rounded];
+    sources   -> "qt6-template"       [label="app"];
+    sources   -> "qt6-template_LIB"   [label="lib"];
+    "qt6-template_LIB" -> tests        [label="linked by"];
+    Conan     -> sources               [label="boost, ms-gsl"];
+    Qt6       -> sources               [label="find_package"];
+}
+@enddot
 
-[generators]
-CMakeDeps
-CMakeToolchain
-```
+### 6.2 Message sequence chart (`@msc`)
 
-Example:
+@msc
+    App, Library, Test;
+    Test  => Library [label="call API"];
+    Library => App   [label="emit signal"];
+    App -> Test      [label="assert result"];
+@endmsc
 
-```ini
-[requires]
-zlib/1.2.11
-libcurl
+---
 
-[generators]
-CMakeDeps
-CMakeToolchain
-```
+## 7. Cross references and links
 
-Remember to run *Conan* after the changes:
+- External link: [Qt documentation](https://doc.qt.io/qt-6/).
+- Autolink: <https://www.doxygen.nl/>.
+- Section reference: jump to @ref test_page "the top of this page".
+- Symbol reference (resolves if the class is documented): #QException.
 
-```bash
-conan install conan/ --build=missing -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake
-```
+@see The project @ref index "main page" for the overview.
 
-Now they are available but not added to the *CMake* project itself. To do that, **modify** _cmake/Modules.cmake_:
+---
 
-```cmake
-set(Modules {Libraries From Conan})
-set(QtModules {Qt Modules})
-```
+## 8. Admonitions and paragraph commands
 
-Example:
+@note A note callout.
+@tip Prefer `make build` over raw cmake for local work.
+@warning A warning callout.
+@attention An attention callout.
+@remark A side remark.
+@todo A tracked to-do item (aggregates on the Todo list page).
+@bug A known bug entry (aggregates on the Bug list page).
+@deprecated Marks something on its way out.
 
-```cmake
-set(Modules ZLIB libcurl)
-set(QtModules Widgets Network)
-```
+---
 
-If your library cannot be found on *ConanCenter*, you could try going for [Artifactory](https://docs.conan.io/2/), but this requires some effort. You can always use plain *CMake* and modify `CMakeLists.txt`, preferably including another *CMake* file in `cmake` directory.
+## 9. Images
 
+The `IMAGE_PATH` is `pages`, so bare filenames resolve:
 
-Ensure that these **environment variables** are set properly:
+![CMake configure output](cmake.png)
 
-* **Qt6_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6`<br/>example: `C:/Qt/6.5.1/msvc2019_64/lib/cmake/Qt6`
+@image html doxygen_dark.png "Dark-mode theme via @image html" width=480px
 
-* **Qt6GuiTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6GuiTools`<br/>example: `/usr/lib/x86_64-linux-gnu/6.5.1/clang_64/lib/cmake/Qt6GuiTools`
+---
 
-* **Qt6CoreTools_DIR** - `[path_to_Qt]/[version]/[compiler]/lib/cmake/Qt6CoreTools`<br/>example: `D:/Qt/6.3/msvc2019_64/lib/cmake/Qt6CoreTools`
+## 10. Footnotes and horizontal rules
 
-Ensure `conan/conanfile.txt` has listed all the needed libraries under `[requires]` section.
-Run:
+Doxygen supports footnotes[^note] in Markdown.
 
-```bash
-conan install conan/ --build=missing
-```
+[^note]: This is the footnote body; it renders at the bottom of the page.
 
-In case of a **wrong architecture** of the libraries and other possible **profile errors**, read: [https://docs.conan.io/2.0/reference/config_files/profiles.html](https://docs.conan.io/2.0/reference/config_files/profiles.html)<br/>
-If you don't have a profile, create one:
+Three consecutive ways to draw a rule (`---`, `***`, `___`):
 
-```bash
-conan profile new default --detect
-```
+***
 
-By default, the file starts with:
+## 11. Emoji and entities
 
-The `Exec` option should contain the **project's executable/library name** (it is **CMake project name**, unless you tinkered with `CMakeLists.txt`), while the `Name` is up to your choice. 
+Emoji shortcodes: :rocket: :warning: :white_check_mark: :bug:
 
-Change these entries:
+HTML entities: &copy; &mdash; &rarr; &alpha; &beta; &le; &ge; &ne;
 
-```ini
-Name=Qt Template
-Exec=qt-template
-```
+---
 
-Example:
-
-```ini
-Name=Parrots That Sing
-Exec=birds-and-stuff
-```
-
-
-## Contributing
-
-This project follows these [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines), and it would be fun if you followed them too. If you don't, someone will correct your code. An ugly contribution is better than no contribution. **Thanks**!
-
-## License
-
-This project is licensed under the [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/); see the
-[LICENSE](LICENSE) file for details.
-It also uses the [Qt](https://www.qt.io/) library and possibly some of its additional modules that are licensed under the [LGPL](https://www.gnu.org/licenses/lgpl-3.0.en.html), but **none** of its code is present in this repository. Also note that *Qt* itself uses [other third-party libraries](https://doc.qt.io/qt-6/licenses-used-in-qt.html) under **different** license terms.
+@par Final note
+If every section above renders correctly - typography, tables, syntax-highlighted
+code, PNG formulas, Graphviz SVG (`DOT_IMAGE_FORMAT = svg`), the sequence chart,
+callouts, images, and footnotes - the Doxygen pipeline and theme are healthy.

@@ -28,14 +28,14 @@ When adding dependencies: modify `conan/conanfile.txt` for external libraries or
 
 ## Exception Handling Pattern
 The template enforces exception safety at multiple levels:
-1. **main.cpp** catches and logs three exception categories (AppException, QException, std::exception) before showing MessageBox
+1. **main.cpp** catches and logs four exception tiers (AppException, QException, std::exception, and a catch-all) before showing MessageBox, then returns EXIT_FAILURE
 2. **Custom exceptions** defined in `src/Exceptions/Exceptions.h` inherit from `QException`
-3. Each exception has an `ErrorType` enum mapping to string constants for consistent error messages
+3. Each exception carries an `ErrorType` enum value; its human-readable string comes from the `QDebug operator<<(QDebug, const ErrorType&)` switch in `src/Exceptions/Exceptions.cpp`
 
-When adding new exceptions, extend `ErrorType` enum and `ErrorTypeStr` array together.
+When adding a new error category, add an `ErrorType` enum value AND a matching `case` to that switch. `ErrorType` values are XXZZ decimal - never use leading-zero literals, which are octal.
 
 ## Qt-Specific Conventions
-- **AUTOMOC/AUTOUIC enabled**: CMake automatically handles MOC preprocessing and UI file compilation—declare `Q_OBJECT` in header files
+- **AUTOMOC/AUTOUIC enabled**: CMake automatically handles MOC preprocessing and UI file compilation - declare `Q_OBJECT` in header files
 - **Doxygen comments**: Use `/// \brief` and `/// \param` style documentation (visible in `src/mainwindow.h`)
 
 ## Testing Pattern
@@ -45,7 +45,6 @@ Tests are executable-based, not linked into the app. Each test file becomes an i
 
 - **C++ Standard**: C++17 enforced globally (`CMAKE_CXX_STANDARD = 17`)
 - **Debug macro**: On Unix, `_DEBUG` is set for Debug builds (mirrors MSVC behavior for consistency)
-- **MSVC runtime**: Windows uses multithreaded DLL runtime (`MultiThreadedDLL` for Release, `MultiThreadedDebugDLL` for Debug)
 
 ## External Dependencies
 - **Qt6**

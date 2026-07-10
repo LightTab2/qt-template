@@ -1,0 +1,11 @@
+/* Body font face - paths relative to docs root where build copies fonts/ */
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('fonts/NotoSans-Regular.eot'); /* IE 9 Compatibility Mode */
+  src: url('fonts/NotoSans-Regular.eot?#iefix') format('embedded-opentype'), /* IE < 9 */
+       url('fonts/NotoSans-Regular.woff2') format('woff2'),
+       url('fonts/NotoSans-Regular.woff') format('woff'), /* modern browsers */
+       url('fonts/NotoSans-Regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('fonts/NotoSans-Regular.svg#NotoSans-Regular') format('svg'); /* legacy */
+  font-display: swap;
+}

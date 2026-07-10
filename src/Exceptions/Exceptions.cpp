@@ -1,22 +1,18 @@
 #include "Exceptions.h"
 
-//QML
-//QObject* AppException::exceptionMessage = nullptr;
+// QML
+// QObject* AppException::exceptionMessage = nullptr;
 
-AppException::AppException(const char* msg, ErrorType errorType)
-	: errorType(errorType),
-      msg_(msg)
-{
-}
+AppException::AppException(const char* msg, ErrorType type) : errorType(type), msg_(msg) {}
 
 void AppException::raise() const
 {
-	throw *this;
+    throw *this;
 }
 
 AppException* AppException::clone() const
 {
-	return new AppException(*this);
+    return new AppException(*this);
 }
 
 const char* AppException::what() const noexcept
@@ -35,7 +31,7 @@ QDebug operator<<(QDebug logger, const ErrorType& errorType)
         logger << "[Unknown Error: " << static_cast<int>(errorType) << "] ";
         break;
     }
-	return logger;
+    return logger;
 }
 
 void errorMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
@@ -60,9 +56,10 @@ void errorMessageHandler(QtMsgType type, const QMessageLogContext& context, cons
         category = QStringLiteral("Fatal");
         break;
     }
-    QString file{ context.file };
+    QString file{context.file};
     file = file.mid(qMax(file.lastIndexOf('/'), file.lastIndexOf('\\')) + 1);
-    const QString messageContent = '[' + file + ':' + std::to_string(context.line).c_str() + "][" + context.function + "]\n" + msg;
+    const QString messageContent = '[' + file + ':' + std::to_string(context.line).c_str() + "][" +
+                                   context.function + "]\n" + msg;
 
     const QString messageWithCategory = '[' + category + "] " + messageContent;
 #ifdef _DEBUG
@@ -71,18 +68,17 @@ void errorMessageHandler(QtMsgType type, const QMessageLogContext& context, cons
     if (category != QStringLiteral("Debug"))
         std::cerr << messageWithCategory.toLocal8Bit().data() << std::endl;
 #endif
-    auto showMessage = [&type, &category, &messageContent]()
-    {
-        //QML
+    auto showMessage = [&type, &category, &messageContent]() {
+        // QML
         /* {
             if (AppException::exceptionMessage && !QMetaObject::invokeMethod(AppException::exceptionMessage, "showMessage", Q_ARG(QString, message)))
             {
                 constexpr const char* msg = "[Critical] Could not display the exception message in QML: failed to invoke Dialog's \"showMessage\" method (missing? wrong signature?). Possibly corrupt \"Main.qml\" file";
                 ERROR_MESSAGE(msg);
-                throw AppException(ErrorType::General, msg);
+                throw AppException(msg, ErrorType::General);
             }
         }*/
-        //Widgets
+        // Widgets
         {
             switch (type)
             {
@@ -107,15 +103,16 @@ void errorMessageHandler(QtMsgType type, const QMessageLogContext& context, cons
     {
     case QtInfoMsg:
     case QtWarningMsg:
-        //QMessageBoxes won't display when used with Qt Quick, so you can remove this line, if you use it
+        // QMessageBoxes won't display when used with Qt Quick, so you can remove this line, if you
+        // use it
         showMessage();
-    break;
+        break;
 
     case QtCriticalMsg:
     case QtFatalMsg:
         ERROR_MESSAGE(messageWithCategory.toLocal8Bit().data());
         throw AppException(messageWithCategory.toLocal8Bit().data());
-    break;
+        break;
 
     case QtDebugMsg:
     default:

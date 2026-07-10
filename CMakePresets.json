@@ -1,0 +1,35 @@
+{
+  "version": 4,
+  "cmakeMinimumRequired": { "major": 3, "minor": 23, "patch": 0 },
+  "include": ["conan/CMakePresets.json"],
+  "configurePresets": [
+    {
+      "name": "ninja-release",
+      "displayName": "Ninja Release (Conan toolchain)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "toolchainFile": "${sourceDir}/conan/conan_toolchain.cmake",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "ninja-debug",
+      "inherits": "ninja-release",
+      "displayName": "Ninja Debug (Conan toolchain)",
+      "binaryDir": "${sourceDir}/build-debug",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "release", "configurePreset": "ninja-release", "configuration": "Release" },
+    { "name": "debug",   "configurePreset": "ninja-debug",   "configuration": "Debug" }
+  ],
+  "testPresets": [
+    {
+      "name": "release",
+      "configurePreset": "ninja-release",
+      "configuration": "Release",
+      "output": { "outputOnFailure": true },
+      "environment": { "QT_QPA_PLATFORM": "offscreen" }
+    }
+  ]
+}

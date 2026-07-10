@@ -1,0 +1,1141 @@
+/* doxygen-style-revamped-theme.css - Qt 6 docs aesthetic for doxygen 1.17 */
+/* Chrome only: layout, typography, palette, sidebar, breadcrumb, member tables, code blocks */
+/* Badges + mlabel colors styled by doxygen-style-revamped-badges.css (WS2), which consumes the vars below */
+
+/* ============================================================ */
+/* F3 palette - single source of truth */
+/* ============================================================ */
+:root {
+	/* chrome palette cloned from qt6-template (doxygen-awesome primary + styleOverride) */
+	--theme-accent: #1779c4;
+	--theme-accent-strong: #335c80;
+	--theme-link: #1779c4;
+	--theme-link-hover: #335c80;
+	--theme-bg: #ffffff;
+	--theme-fg: #000000;
+	--theme-muted: #797979;
+	--theme-border: #49566f;
+	--theme-sidebar-bg: #e6e6e6;
+	--theme-code-bg: #dcdcdc;
+	--theme-table-head-bg: #ebebeb;
+	--theme-table-row-alt: #f0f0f0;
+	--theme-memitem-bg: #f0f0f0;
+	/* badge (mlabel) colors - consumed by WS2 */
+	--public-mlabel-color: #009600;
+	--const-mlabel-color: #979720;
+	--static-mlabel-color: #2eabb4;
+	--protected-mlabel-color: #f7980a;
+	--private-mlabel-color: #850707;
+	--signals-mlabel-color: #0aab2b;
+	--slots-mlabel-color: #933010;
+	--noexcept-mlabel-color: #555555;
+	--friends-mlabel-color: #b66c00;
+	--const-color: #4e4e0d;
+	--fragment-punct: #797979;
+	--charliteral: #008080;                 /* char-literal token, legible on light --theme-bg #ffffff (~4.8:1) */
+	/* per-section member-table band colors (decl tables) - target values */
+	--public-color: #00ff00;
+	--protected-color: #9b5e03;
+	--private-color: #d30000;
+	--types-color: #c73ac7;
+	--slots-color: #00cc29;
+	--signals-color: #a10d0d;
+	--static-methods-color: #4efdbd;
+	--methods-color: #75bb80;
+	--static-attribs-color: #a4b0e7;
+	--attribs-color: #afb3c9;
+	--friends-color: #d19167;
+	--indifferent-color: var(--theme-code-bg);
+	/* derived layout tokens */
+	--theme-sidebar-width: 300px;
+	--theme-font-body: 'Noto Sans', -apple-system, 'Segoe UI', Roboto, sans-serif;
+	--theme-font-mono: 'Fantasque Sans Mono', 'Consolas', 'Courier New', monospace;
+}
+
+html.dark-mode {
+	/* dark palette cloned from qt6-template @media (prefers-color-scheme: dark) */
+	--theme-accent: #1982d2;
+	--theme-accent-strong: #86a9c4;
+	--theme-link: #1982d2;
+	--theme-link-hover: #86a9c4;
+	--theme-bg: #060606;
+	--theme-fg: #dddddd;
+	--theme-muted: #9c9c9c;
+	--theme-border: #49566f;
+	--theme-sidebar-bg: #171717;
+	--theme-code-bg: #1c1c1c;
+	--theme-table-head-bg: #121212;
+	--theme-table-row-alt: #06071e;
+	--theme-memitem-bg: #0c0c0c;
+	/* badge (mlabel) colors - dark target values */
+	--public-mlabel-color: #52d964;
+	--const-mlabel-color: #979720;
+	--static-mlabel-color: #2eabb4;
+	--protected-mlabel-color: #816a52;
+	--private-mlabel-color: #a51717;
+	--signals-mlabel-color: #0aab2b;
+	--slots-mlabel-color: #fa3c00;
+	--noexcept-mlabel-color: #555555;
+	--friends-mlabel-color: #b66c00;
+	--const-color: #dddd1b;
+	--fragment-punct: #6f767c;
+	--charliteral: #4ec9b0;                 /* char-literal token, legible on dark --theme-bg #060606 (~9.9:1, clears 4.5:1) */
+	/* per-section member-table band colors - dark target values */
+	--public-color: #0b2f0b;
+	--protected-color: #412b0b;
+	--private-color: #3f0b0b;
+	--types-color: #0f070f;
+	--slots-color: #09180c;
+	--signals-color: #1c0808;
+	--static-methods-color: #0c1411;
+	--methods-color: #060d07;
+	--static-attribs-color: #0f1220;
+	--attribs-color: #080a14;
+	--friends-color: #100a06;
+	--indifferent-color: var(--theme-code-bg);
+}
+
+/* ============================================================ */
+/* Base + typography */
+/* ============================================================ */
+html, body {
+	margin: 0;
+	padding: 0;
+	background: var(--theme-bg);
+	color: var(--theme-fg);
+}
+
+body {
+	font-family: var(--theme-font-body);
+	font-size: 13px;
+	line-height: 1.45;
+}
+
+/* doc body text selectable; chrome keeps native behavior */
+#doc-content, .contents, .textblock, .memdoc {
+	-webkit-user-select: text;
+	user-select: text;
+}
+
+a {
+	color: var(--theme-link);
+	/* inherit weight so links inside **bold** render bold (base doxygen.css forces normal) */
+	font-weight: inherit;
+	text-decoration: none;
+}
+
+a:hover {
+	color: var(--theme-link-hover);
+	text-decoration: underline;
+}
+
+/* internal symbol + code-snippet links + all visited links use theme link color; base doxygen.css hardcodes #004789/#00376A, too dark in dark mode */
+a.el,
+a.code,
+a.line,
+a.codeRef,
+a.lineRef,
+a:visited,
+.contents a:visited,
+a.el:visited,
+a.elRef:visited,
+a.code:visited,
+a.line:visited,
+a.codeRef:visited,
+a.lineRef:visited {
+	color: var(--theme-link);
+}
+
+a.el:hover,
+a.code:hover,
+a.line:hover,
+a.codeRef:hover,
+a.lineRef:hover {
+	color: var(--theme-link-hover);
+}
+
+/* page section headings - clean, slightly tighter */
+h1, h2, h3, h4 {
+	color: var(--theme-fg);
+	font-weight: 600;
+	line-height: 1.25;
+	margin-top: 0.85em;
+	margin-bottom: 0.4em;
+}
+
+h1.doxsection, h1.title {
+	font-size: 1.9em;
+	font-weight: 600;
+}
+
+h2 {
+	font-size: 1.4em;
+}
+
+h3 {
+	font-size: 1.15em;
+}
+
+/* page main title block */
+div.header {
+	background: transparent;
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+div.headertitle .title {
+	font-size: 1.9em;
+	font-weight: 600;
+	color: var(--theme-fg);
+	padding: 12px 0 4px;
+}
+
+/* ============================================================ */
+/* Layout - sidebar left, doc content right */
+/* #side-nav wraps #top (header) + #nav-tree; doxygen 1.17 navtree.js owns its */
+/* position/width/height + the grid; theme only paints it (so resize works) */
+/* ============================================================ */
+#side-nav {
+	background: var(--theme-sidebar-bg);
+	border-right: 1px solid var(--theme-border);
+	min-width: 140px; /* floor matches doxygen-style-revamped-resize.js MIN_PX so a drag can never collapse it */
+}
+
+/* #container is doxygen's native grid (doc-content | page-nav); only paint it */
+#container {
+	background: var(--theme-bg);
+}
+
+/* native navtree.js sets height + overflow:auto for inner scroll (target look); */
+/* never override with !important or the page-nav grid math snaps */
+#doc-content {
+	background: var(--theme-bg);
+	padding: 0 18px 26px;
+	box-sizing: border-box;
+}
+
+/* match the target: content block indented 1em, target line-height */
+.contents {
+	margin: 0 0 0 1em;
+}
+
+div.contents p,
+div.contents li {
+	line-height: 19px;
+}
+
+/* ============================================================ */
+/* FIX title-overlap bug */
+/* Header block = project row + search row, opaque, defined height, own rows */
+/* #top holds #titlearea; it must NOT be position:absolute over the nav tree */
+/* ============================================================ */
+#top {
+	position: static;
+	flex: 0 0 auto;
+	background: var(--theme-sidebar-bg);
+	border-bottom: 1px solid var(--theme-border);
+	box-shadow: none;
+}
+
+#titlearea {
+	position: relative; /* positioning context for the dark-mode toggle */
+	background: var(--theme-sidebar-bg);
+	padding: 14px 16px 10px;
+	margin: 0;
+	border: none;
+	box-sizing: border-box;
+}
+
+#titlearea table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+/* #projectrow/#darkmode-cell/#projectlogo/#projectalign are Doxygen-1.17.0 + theme-specific (header template + darkmode-toggle JS) */
+#projectrow {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+/* project name on its own row */
+#projectname {
+	font-family: var(--theme-font-body);
+	font-size: 1.15em;
+	font-weight: 600;
+	color: var(--theme-fg);
+	line-height: 1.2;
+	padding: 0;
+}
+
+#projectbrief {
+	font-size: 0.8em;
+	color: var(--theme-muted);
+	line-height: 1.3;
+	padding-top: 2px;
+}
+
+#projectlogo {
+	padding-right: 10px;
+	vertical-align: middle;
+}
+
+#projectlogo img {
+	max-height: 36px;
+	width: auto;
+}
+
+/* search box on its own row below the project name */
+#MSearchBox {
+	position: static;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	margin: 10px 0 2px;
+	padding: 2px 6px;
+	background: var(--theme-bg);
+	border: 1px solid var(--theme-border);
+	border-radius: 4px;
+	box-shadow: none;
+	box-sizing: border-box;
+}
+
+#MSearchBox .left {
+	display: flex;
+	align-items: center;
+	flex: 1 1 auto;
+}
+
+#MSearchBox .right {
+	flex: 0 0 auto;
+}
+
+#MSearchField {
+	font-family: var(--theme-font-body);
+	font-size: 0.9em;
+	color: var(--theme-fg);
+	background: transparent;
+	border: none;
+	outline: none;
+	width: 100%;
+	height: 24px;
+	margin: 0;
+	padding: 0 4px;
+}
+
+#MSearchField::placeholder {
+	color: var(--theme-muted);
+}
+
+/* Dark-mode search text fix. Doxygen 1.17.0 couples the active search box to
+   the .MSearchBoxActive class + #MSearchField id (stock search.css), whose
+   rule .MSearchBoxActive #MSearchField { color: black } renders black-on-black
+   against dark --theme-bg. This 1-id + 2-class + 1-element override wins over
+   the stock 1-id + 1-class rule regardless of stylesheet load order, and
+   covers both the idle and active states. */
+html.dark-mode #MSearchField,
+html.dark-mode .MSearchBoxActive #MSearchField {
+	color: var(--theme-fg);
+}
+
+#MSearchSelect {
+	color: var(--theme-muted);
+}
+
+/* ============================================================ */
+/* Sidebar nav tree - Qt compact list */
+/* ============================================================ */
+#nav-tree {
+	background: var(--theme-sidebar-bg);
+	border: none;
+	overflow-x: hidden;
+	box-sizing: border-box;
+	scrollbar-width: none; /* Firefox: keep vertical scroll, hide the bar entirely */
+	-ms-overflow-style: none; /* legacy Edge */
+}
+
+/* WebKit/Blink: collapse the scrollbar so the nav tree shows none at all */
+#nav-tree::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+	display: none;
+}
+
+#nav-tree-contents {
+	margin: 6px 0;
+	color: var(--theme-fg);
+}
+
+#nav-tree .item {
+	color: var(--theme-fg);
+	font-size: 0.9em;
+	line-height: 1.55;
+	white-space: nowrap;
+}
+
+#nav-tree a {
+	color: var(--theme-fg);
+	display: inline-block;
+}
+
+#nav-tree a:hover {
+	color: var(--theme-link);
+	text-decoration: none;
+}
+
+#nav-tree .selected {
+	background: transparent;
+	border-left: 3px solid var(--theme-accent);
+	box-shadow: none;
+	text-shadow: none;
+}
+
+#nav-tree .selected a {
+	color: var(--theme-accent-strong);
+	font-weight: 600;
+}
+
+/* row hover highlight across the whole sidebar */
+#nav-tree div.item:hover {
+	background: rgba(23, 121, 196, 0.08);
+}
+
+/* splitbar - native left resize handle (navtree.js adds .ui-resizable-e); stock */
+/* navtree.css keeps it opacity:0 until hover so it reads as "no handle"; force it */
+/* always-visible + col-resize cursor + a themed grip so the side-nav is draggable */
+.ui-resizable-e {
+	background-color: var(--theme-border);
+	opacity: 1;
+	width: 6px;
+	cursor: col-resize;
+}
+
+.ui-resizable-e:after {
+	border-left: 1px solid var(--theme-bg);
+	border-right: 1px solid var(--theme-bg);
+	opacity: 1;
+}
+
+.ui-resizable-e:hover {
+	background-color: var(--theme-accent);
+	opacity: 1;
+}
+
+/* page-nav (right "On this page" rail) - native paints it light blue; */
+/* repaint to the theme + restyle its native resize handle (drag = no snap */
+/* now that #container keeps its native grid geometry) */
+#page-nav {
+	background: var(--theme-sidebar-bg);
+	border-left: 1px solid var(--theme-border);
+}
+
+#page-nav-resize-handle {
+	background-color: var(--theme-border);
+}
+
+#page-nav-resize-handle:after {
+	border-left: 1px solid var(--theme-muted);
+	border-right: 1px solid var(--theme-muted);
+}
+
+ul.page-outline div.item {
+	font-family: var(--theme-font-body);
+	color: var(--theme-fg);
+}
+
+ul.page-outline li.vis {
+	background-color: rgba(23, 121, 196, 0.12);
+}
+
+#page-nav a {
+	color: var(--theme-fg);
+}
+
+#page-nav a:hover {
+	color: var(--theme-link);
+}
+
+/* nav-sync: user wants the tree to never sync - hide the toggle entirely */
+/* (matches the qt6-template target, which also hides #nav-sync) */
+#nav-sync {
+	display: none !important;
+}
+
+/* ============================================================ */
+/* Breadcrumb - #nav-path, Qt-like small muted with > separators */
+/* ============================================================ */
+/* native navtree.js sets margin-left inline to track the resized sidebar */
+#nav-path {
+	display: none; /* hide the breadcrumb bar entirely (navtree.js sets only inline margin-left, no inline display to fight) */
+	background: var(--theme-sidebar-bg);
+	border: none;
+	border-top: 1px solid var(--theme-border);
+	font-size: 0.8em;
+}
+
+#nav-path ul {
+	list-style: none;
+	margin: 0;
+	padding: 5px 18px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+#nav-path li.navelem {
+	color: var(--theme-muted);
+	background: none;
+	padding: 0;
+	margin: 0;
+}
+
+#nav-path li.navelem a {
+	color: var(--theme-link);
+	background: none;
+	padding: 0 2px;
+}
+
+#nav-path li.navelem::after {
+	content: "›";
+	color: var(--theme-muted);
+	padding: 0 6px;
+}
+
+#nav-path li.navelem:last-of-type::after,
+#nav-path li.footer::after {
+	content: "";
+	padding: 0;
+}
+
+#nav-path li.footer {
+	color: var(--theme-muted);
+	margin-left: auto;
+}
+
+#nav-path img.footer {
+	vertical-align: middle;
+	opacity: 0.7;
+}
+
+/* ============================================================ */
+/* Member decl tables - two columns, zebra, green section underline */
+/* ============================================================ */
+table.memberdecls {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 12px;
+}
+
+/* section heading h2.groupheader with accent underline; override base doxygen white box-shadow smears with dim light-blue band (theme-neutral via rgba) */
+table.memberdecls tr.heading h2.groupheader {
+	font-size: 1.2em;
+	font-weight: 600;
+	color: var(--theme-fg);
+	border-bottom: 2px solid var(--theme-accent);
+	padding-left: 2px;
+	box-shadow: 12px 0 rgba(25, 130, 210, 0.8), -12px 0 rgba(25, 130, 210, 0.8);
+	margin: 14px 0 6px;
+	padding-bottom: 4px;
+}
+
+/* detail-section headers (Description, Member Function Documentation, etc.) - base doxygen.css paints these dark navy + white box-shadow smears, broken in dark mode; match decl-heading style */
+h2.groupheader {
+	box-shadow: none;
+	color: var(--theme-fg);
+	border-bottom: 2px solid var(--theme-accent);
+	font-size: 1.4em;
+	font-weight: 600;
+	margin-top: 1.4em;
+	padding-bottom: 4px;
+	width: auto;
+}
+
+table.memberdecls td.memItemLeft,
+table.memberdecls td.memItemRight,
+table.memberdecls td.mdescLeft,
+table.memberdecls td.mdescRight {
+	background: transparent;
+	border: none;
+	padding: 2px 8px;
+	vertical-align: top;
+}
+
+table.memberdecls td.memItemLeft,
+table.memberdecls td.mdescLeft {
+	color: var(--theme-muted);
+	font-family: var(--theme-font-mono);
+	font-size: 0.9em;
+	white-space: nowrap;
+	width: 1%;
+	text-align: right;
+}
+
+table.memberdecls td.memItemRight {
+	font-family: var(--theme-font-mono);
+	font-size: 0.9em;
+}
+
+/* function names blue */
+table.memberdecls td.memItemRight a.el {
+	color: var(--theme-link);
+}
+
+table.memberdecls td.mdescRight {
+	color: var(--theme-muted);
+	font-size: 0.9em;
+	font-family: var(--theme-font-body);
+	padding-top: 0;
+	padding-bottom: 10px;
+}
+
+/* zebra on declaration rows */
+table.memberdecls tr.memitem:nth-of-type(even) td {
+	background: var(--theme-table-row-alt);
+}
+
+table.memberdecls tr.memitem:hover td {
+	background: rgba(23, 121, 196, 0.06);
+}
+
+.memSeparator {
+	border-bottom: 1px solid var(--theme-border);
+	line-height: 1px;
+	height: 1px;
+}
+
+/* inherited-member subheadings */
+tr.inherit_header {
+	color: var(--theme-muted);
+	font-style: italic;
+	cursor: pointer;
+}
+
+/* ============================================================ */
+/* Member detail - card; memtitle hidden, mlabels row laid out like the target */
+/* ============================================================ */
+/* doxygen emits an h2.memtitle before each memitem; the target theme hides it */
+h2.memtitle {
+	display: none;
+}
+
+div.memitem {
+	border: 1px solid var(--theme-border);
+	border-radius: 0;
+	margin: 6px 0 16px;
+	background: var(--theme-memitem-bg);
+	box-shadow: none;
+	overflow: hidden;
+	transition: none;
+}
+
+div.memproto {
+	background: var(--theme-code-bg);
+	border: none;
+	border-bottom: 1px solid var(--theme-border);
+	border-radius: 0;
+	color: var(--theme-fg);
+	font-family: var(--theme-font-mono);
+	padding: 2px 5px;
+	box-shadow: none;
+	text-shadow: none;
+}
+
+div.memproto table.memname {
+	font-family: var(--theme-font-mono);
+	color: var(--theme-fg);
+	text-shadow: none;
+}
+
+/* mlabels row -> flex so memname (left) and badge pills (right) share one line; */
+/* this is the target layout - the old table-based version cramped wide protos */
+table.mlabels,
+table.mlabels > tbody {
+	display: block;
+}
+
+table.mlabels > tbody > tr:first-child {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: nowrap;
+	align-items: center;
+}
+
+td.mlabels-left {
+	width: auto;
+	text-align: left;
+}
+
+td.mlabels-right {
+	margin-top: 3px;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.memname,
+.memitem span.mlabels {
+	margin: 0;
+}
+
+div.memproto td.memname {
+	color: var(--theme-fg);
+	font-weight: 600;
+	text-align: left;
+}
+
+/* permalink diamond relocated from the hidden h2.memtitle into the memname gutter */
+/* (doxygen-style-revamped-permalink.js does the move; this styles it small + muted) */
+div.memproto td.memname span.permalink {
+	font-size: 0.8em;
+	font-weight: 400;
+}
+
+div.memproto td.memname span.permalink a {
+	color: var(--theme-muted);
+	text-decoration: none;
+}
+
+div.memproto td.memname span.permalink a:hover {
+	color: var(--theme-accent-strong);
+}
+
+div.memproto td.paramtype {
+	color: var(--theme-muted);
+}
+
+div.memproto td.paramname,
+div.memproto .paramname,
+div.memproto .paramname em {
+	color: var(--theme-accent-strong);
+	font-weight: 400;
+	font-style: normal;
+}
+
+div.memdoc {
+	background: var(--theme-memitem-bg);
+	color: var(--theme-fg);
+	padding: 4px 10px;
+	border: none;
+}
+
+/* param description table inside memdoc - clean */
+table.params,
+table.fieldtable {
+	border-collapse: collapse;
+	margin: 8px 0;
+	border: 1px solid var(--theme-border);
+}
+
+table.params td.paramname,
+table.fieldtable td.fieldname {
+	color: var(--theme-link);
+	font-family: var(--theme-font-mono);
+	font-weight: 600;
+	padding: 4px 8px;
+	vertical-align: top;
+}
+
+table.params td,
+table.fieldtable td {
+	padding: 4px 8px;
+	border: none;
+}
+
+table.fieldtable th {
+	background: var(--theme-table-head-bg);
+	color: var(--theme-fg);
+	border-bottom: 1px solid var(--theme-border);
+	padding: 6px 8px;
+}
+
+dl.section dt {
+	color: var(--theme-fg);
+	font-weight: 600;
+}
+
+/* return/note/warning callouts keep doxygen colors but soften */
+dl.note, dl.warning, dl.attention, dl.return, dl.see {
+	border-radius: 4px;
+}
+
+/* ============================================================ */
+/* Code blocks + inline code */
+/* ============================================================ */
+code, tt, .tt, span.tt {
+	font-family: var(--theme-font-mono);
+	font-size: 0.92em;
+	background: var(--theme-code-bg);
+	border: 1px solid var(--theme-border);
+	border-radius: 3px;
+	padding: 1px 4px;
+	color: var(--theme-fg);
+}
+
+div.fragment, pre.fragment {
+	font-family: var(--theme-font-mono);
+	font-size: 0.9em;
+	background: var(--theme-code-bg);
+	border: 1px solid var(--theme-border);
+	border-radius: 6px;
+	padding: 12px 14px;
+	margin: 12px 0;
+	overflow-x: auto; /* scroll, do not wrap */
+	white-space: pre;
+	color: var(--theme-fg);
+	line-height: 1.5;
+}
+
+div.fragment .line {
+	white-space: pre;
+}
+
+/* inline code inside fragment should not double-box */
+div.fragment code,
+pre.fragment code,
+div.fragment span.tt {
+	background: transparent;
+	border: none;
+	padding: 0;
+}
+
+/* inline #member refs in prose: box them like inline code (matches the false/nullptr <code> pill); color inherited from the a.el link rule above so :hover still wins */
+div.textblock a.el,
+div.textblock a.elRef,
+div.memdoc a.el,
+div.memdoc a.elRef,
+dl.params a.el,
+dl.params a.elRef {
+	font-family: var(--theme-font-mono);
+	font-size: 0.92em;
+	background: var(--theme-code-bg);
+	border: 1px solid var(--theme-border);
+	border-radius: 3px;
+	padding: 1px 4px;
+}
+
+/* member refs inside code fragments stay flat (mirror the inline-code reset) */
+div.fragment a.el,
+div.fragment a.elRef,
+pre.fragment a.el,
+pre.fragment a.elRef {
+	background: transparent;
+	border: none;
+	padding: 0;
+	font-size: inherit;
+}
+
+/* doxygen syntax token colors - readable on both themes */
+span.keyword, span.keywordtype, span.keywordflow {
+	color: var(--theme-accent-strong);
+}
+
+span.comment {
+	color: var(--theme-muted);
+	font-style: italic;
+}
+
+span.stringliteral {
+	color: #c0392b;
+}
+
+html.dark-mode span.stringliteral {
+	color: #e6a07a;
+}
+
+/* ------------------------------------------------------------ */
+/* Code-view overrides (R22/R23/R24) - neutralize stock doxygen.css. */
+/* doxygen.css is layered UNDER this theme (HTML_STYLESHEET empty), so its */
+/* span.lineno / span.lineno a / span.charliteral / div.line / div.line:after */
+/* rules apply unless overridden here. Coupled to the frozen Doxygen 1.17.0 */
+/* code-view DOM: div.fragment > div.line > span.lineno (+ optional */
+/* span.lineno > a); token spans span.keyword|keywordtype|keywordflow|comment| */
+/* preprocessor|stringliteral|charliteral; code links a.code. Style only, */
+/* the DOM shape is not changed. Applies to inline fragments and *_source.html. */
+/* R22 - line numbers, links, and char literals legible in both themes */
+/* (stock: black on #E8E8E8 with a #00FF00 border; a on #0057A9/#D8D8D8). */
+span.lineno { color: var(--theme-muted); background: transparent; border-right: 1px solid var(--theme-border); }
+span.lineno a, span.lineno a:visited, span.lineno a:hover { color: var(--theme-muted); background: transparent; }
+span.charliteral { color: var(--charliteral); }
+/* R23/R24 - single tight line box; neutralize the div.line:after "\000A" */
+/* newline artifact and the stock 62px/-62px left gutter (min-height:13px; */
+/* text-indent:-62px; padding-left:62px). */
+div.fragment div.line { line-height: 1.35; min-height: 0; text-indent: 0; padding-left: 0; }
+div.fragment div.line:after { content: none; }
+
+span.preprocessor {
+	color: var(--static-mlabel-color);
+}
+
+/* ============================================================ */
+/* Right-side / native content tables + lists */
+/* ============================================================ */
+table.markdownTable,
+table.doxtable {
+	border-collapse: collapse;
+	margin: 14px 0;
+	border: 1px solid var(--theme-border);
+}
+
+table.markdownTable th,
+table.doxtable th {
+	background: var(--theme-table-head-bg);
+	color: var(--theme-fg);
+	border: 1px solid var(--theme-border);
+	padding: 8px 12px;
+	text-align: left;
+}
+
+table.markdownTable td,
+table.doxtable td {
+	border: 1px solid var(--theme-border);
+	padding: 7px 12px;
+}
+
+table.markdownTable tr:nth-child(even) td {
+	background: var(--theme-table-row-alt);
+}
+
+blockquote.doxtable {
+	border-left: 3px solid var(--theme-accent);
+	background: var(--theme-code-bg);
+	color: var(--theme-fg);
+	margin: 14px 0;
+	padding: 8px 14px;
+	border-radius: 0 4px 4px 0;
+}
+
+/* ============================================================ */
+/* Dark-mode toggle button (rendered by doxygen-style-revamped-darkmode-toggle.js) */
+/* ============================================================ */
+/* darkmode-toggle-toggle.js inserts this cell before #projectlogo; vertical-align middle */
+/* centers the button to the project-row (logo) height, small right padding = gap to logo */
+#darkmode-cell {
+	vertical-align: middle;
+	padding: 0 8px 0 0;
+	width: 1%;
+	white-space: nowrap;
+}
+
+#darkmode-toggle {
+	display: inline-block;
+	z-index: 20;
+	background: var(--theme-bg);
+	border: 1px solid var(--theme-border);
+	color: var(--theme-fg);
+	font-size: 15px;
+	line-height: 1;
+	cursor: pointer;
+	padding: 4px 8px;
+	border-radius: 4px;
+}
+
+#darkmode-toggle:hover {
+	background: rgba(23, 121, 196, 0.15);
+	color: var(--theme-accent-strong);
+}
+
+#darkmode-toggle:focus-visible {
+	outline: 2px solid var(--theme-accent);
+	outline-offset: 1px;
+}
+
+/* ============================================================ */
+/* Search results popup - keep readable on theme bg */
+/* ============================================================ */
+#MSearchResultsWindow {
+	background: var(--theme-bg);
+	border: 1px solid var(--theme-border);
+	border-radius: 4px;
+}
+
+#MSearchSelectWindow {
+	background: var(--theme-bg);
+	border: 1px solid var(--theme-border);
+	color: var(--theme-fg);
+}
+
+/* ============================================================ */
+/* Search result rows as Qt-style cards. Doxygen 1.17.0 emits this exact DOM */
+/* (style only, do not change): #MSearchResultsWindow > #SRResults > */
+/* div.SRResult > div.SREntry > a.SRSymbol[href] + span.SRScope. The */
+/* SREntry / SRSymbol / SRScope class names are coupled to that Doxygen */
+/* version. All colors come from theme vars so both modes flip automatically. */
+/* ============================================================ */
+#SRResults,
+div.SRResult {
+	background: var(--theme-bg);
+}
+
+/* card container - relative so the URL sub-line can pin to the card bottom, */
+/* with room reserved by padding-bottom (see a.SRSymbol::after below) */
+div.SREntry {
+	position: relative;
+	display: block;
+	margin: 0;
+	padding: 8px 12px 24px;
+	border-bottom: 1px solid var(--theme-border);
+	background: var(--theme-bg);
+}
+
+/* title line - bold and prominent; theme-fg overrides stock search.css */
+/* .SRSymbol #004F99 (specificity 0,2,1 beats the stock 0,1,0) */
+div.SREntry a.SRSymbol {
+	display: block;
+	font-family: var(--theme-font-body);
+	font-weight: 700;
+	font-size: 1em;
+	line-height: 1.3;
+	color: var(--theme-fg);
+	text-decoration: none;
+}
+
+/* excerpt line - span.SRScope carries the class brief injected by feature 01; */
+/* muted body text (theme-muted overrides stock a.SRScope #004F99) */
+div.SREntry span.SRScope,
+div.SREntry a.SRScope {
+	display: block;
+	margin-top: 3px;
+	font-family: var(--theme-font-body);
+	font-size: 0.85em;
+	line-height: 1.3;
+	color: var(--theme-muted);
+	text-decoration: none;
+}
+
+/* collapse the excerpt with NO dangling blank line when a class has no brief */
+/* (empty span.SRScope) - the card stays a valid, intentional-looking card (C3). */
+/* :empty needs a truly empty node; feature 01 injects '' (never whitespace) for a */
+/* briefless class (C3), so :empty matches - a stray space would leave a 3px sliver, */
+/* not a blank line (no fixed excerpt height), so degradation stays graceful. */
+div.SREntry span.SRScope:empty {
+	display: none;
+}
+
+/* URL sub-line rendered purely from the anchor href (no search.js edit). */
+/* a.SRSymbol::after is a pseudo-element INSIDE the anchor while span.SRScope */
+/* is a following SIBLING of the anchor, so a flex order: cannot move the URL */
+/* below the excerpt; pin it to the card bottom with absolute positioning so */
+/* the visual order is title (top) / excerpt (middle) / URL (bottom) (C5). */
+div.SREntry a.SRSymbol::after {
+	content: attr(href);
+	position: absolute;
+	left: 12px;
+	right: 12px;
+	bottom: 6px;
+	font-family: var(--theme-font-body);
+	font-weight: 400;
+	font-size: 0.8em;
+	line-height: 1.3;
+	color: var(--theme-muted);
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+/* Bound the URL sub-line to real page paths (C5). The anchor href is NOT always a page URL: */
+/* Doxygen 1.17.0 sets href='javascript:searchResults.Toggle("SR_<id>")' on MULTI-TARGET entries */
+/* (a symbol resolving to several pages, search.js:648) - rendering attr(href) there would show a */
+/* raw JS toggle string as the "URL". Suppress it so no javascript: text ever shows; the card then */
+/* renders title + excerpt only. Single-target cards keep the attr(href) path above (search.js:635). */
+div.SREntry a.SRSymbol[href^="javascript:"]::after {
+	content: none;
+}
+
+/* hover / keyboard-focus highlight - stock search.css gives dropdown results */
+/* no background highlight, so create one from theme vars, legible in both modes */
+div.SREntry:hover,
+div.SREntry:focus-within {
+	background: var(--theme-code-bg);
+}
+
+/* ============================================================ */
+/* Dark-mode leftovers - doxygen hardcodes light bg on the directory/index */
+/* tables (topics/files/namespaces) + the right "On this page" nav rail + */
+/* footer; override to theme vars so dark mode has no light bands */
+/* ============================================================ */
+html.dark-mode table.directory tr.even,
+html.dark-mode table.directory tr.even td,
+html.dark-mode table.directory tr.odd td {
+	background: transparent;
+}
+
+html.dark-mode table.directory tr.odd {
+	background: var(--theme-table-row-alt);
+}
+
+html.dark-mode table.directory td {
+	color: var(--theme-fg);
+	border-color: var(--theme-border);
+}
+
+html.dark-mode table.directory tr:hover td {
+	background: rgba(23, 121, 196, 0.08);
+}
+
+html.dark-mode #page-nav,
+html.dark-mode .page-nav-panel {
+	background: var(--theme-sidebar-bg);
+	border-color: var(--theme-border);
+	color: var(--theme-fg);
+}
+
+html.dark-mode #page-nav ul,
+html.dark-mode #page-nav li,
+html.dark-mode #page-nav .vis {
+	background: transparent;
+	color: var(--theme-fg);
+}
+
+html.dark-mode #page-nav a {
+	color: var(--theme-fg);
+}
+
+html.dark-mode #page-nav a:hover {
+	color: var(--theme-link);
+}
+
+/* footer band (doxygen address.footer / navpath) - no white strip in dark */
+html.dark-mode .contents + ul,
+html.dark-mode address.footer,
+html.dark-mode .navpath ul,
+html.dark-mode #nav-path ul {
+	background: var(--theme-sidebar-bg);
+	color: var(--theme-muted);
+}
+
+/* ============================================================ */
+/* Responsive - collapse sidebar under 768px */
+/* ============================================================ */
+@media (max-width: 768px) {
+	#side-nav {
+		position: static;
+		width: 100%;
+		height: auto;
+		max-height: 60vh;
+		border-right: none;
+		border-bottom: 1px solid var(--theme-border);
+	}
+	#nav-tree {
+		max-height: 40vh;
+	}
+	#container {
+		margin-left: 0;
+	}
+	#doc-content {
+		padding: 0 16px 32px;
+		max-width: 100%;
+	}
+	#nav-path {
+		margin-left: 0;
+	}
+	#nav-path ul {
+		padding: 6px 16px;
+	}
+	table.memberdecls td.memItemLeft,
+	table.memberdecls td.memItemRight {
+		display: block;
+		width: auto;
+		text-align: left;
+		white-space: normal;
+	}
+}
